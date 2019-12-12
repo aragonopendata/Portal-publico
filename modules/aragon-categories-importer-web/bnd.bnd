@@ -1,0 +1,12 @@
+Bundle-Name: Aragon Categories Importer Web
+Bundle-SymbolicName: es.aragon.base.categories_importer
+Bundle-Version: 1.8.0
+Export-Package: es.aragon.base.categories_importer.constants
+Import-Package: !com.sun.jdmk.comm,*
+-includeresource:\
+	@poi-[0-9]*.jar
+    lib/httpcore.jar=httpcore-*.jar,\
+    lib/httpclient.jar=httpclient-*.jar,\
+    lib/avalon-framework-api.jar=avalon-framework-api-*.jar,\
+    lib/commons-logging.jar=commons-logging-*.jar,\    
+    lib/commons-io.jar=commons-io-*.jar,\

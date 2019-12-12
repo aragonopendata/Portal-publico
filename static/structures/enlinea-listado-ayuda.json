@@ -1,0 +1,151 @@
+{
+    "availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "Titulo de la seccion"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "sectionTitle",
+            "readOnly": false,
+            "repeatable": true,
+            "required": true,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Subtitulo de la seccion"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "sectionSubtitle",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "URL del titulo"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": "Si la seccion contiene enlaces este campo no se utilizara"
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "sectionTitleURL",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Imagen de la seccion"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "image",
+                    "fieldNamespace": "ddm",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "sectionImage",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-image"
+                },
+                {
+                    "label": {
+                        "es_ES": "Titulo del enlace"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "linkTitle",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "URL del enlace"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "linkURL",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

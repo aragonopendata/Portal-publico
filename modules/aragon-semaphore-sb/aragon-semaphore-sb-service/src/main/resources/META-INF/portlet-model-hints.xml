@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="es.aragon.base.semaphore.model.Semaphore">
+		<field name="uuid" type="String" />
+		<field name="semaphoreId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="serviceName" type="String" />
+		<field name="maxUsers" type="long" />
+		<field name="currentUsers" type="long" />
+	</model>
+</model-hints>

@@ -1,0 +1,10 @@
+Bundle-Name: Content Ratings SB API
+Bundle-SymbolicName: es.aragon.base.content_ratings.api
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.content_ratings.exception,\
+	es.aragon.base.content_ratings.model,\
+	es.aragon.base.content_ratings.service,\
+	es.aragon.base.content_ratings.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../content-ratings-sb-service/service.xml

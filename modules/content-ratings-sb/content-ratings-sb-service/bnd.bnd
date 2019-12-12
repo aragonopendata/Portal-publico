@@ -1,0 +1,5 @@
+Bundle-Name: Content Ratings SB Service
+Bundle-SymbolicName: es.aragon.base.content_ratings.service
+Bundle-Version: 1.8.0
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true

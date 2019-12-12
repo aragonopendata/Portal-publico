@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="es.aragon.base.aragon_most_visited_pages.service.impl.MostVisitedPageLocalServiceImpl" id="es.aragon.base.aragon_most_visited_pages.service.MostVisitedPageLocalService" />
+	<bean class="es.aragon.base.aragon_most_visited_pages.service.impl.MostVisitedPageServiceImpl" id="es.aragon.base.aragon_most_visited_pages.service.MostVisitedPageService" />
+	<bean class="es.aragon.base.aragon_most_visited_pages.service.persistence.impl.MostVisitedPagePersistenceImpl" id="es.aragon.base.aragon_most_visited_pages.service.persistence.MostVisitedPagePersistence" parent="basePersistence" />
+</beans>

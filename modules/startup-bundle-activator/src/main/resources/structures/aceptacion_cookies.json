@@ -1,0 +1,35 @@
+{
+	"Structure Name": {"es_ES":"Aceptación de Cookies"},
+	"Structure Description": {"es_ES":"Popup de aceptación de cookies"},
+	"Structure Key": "ACEPTACION_COOKIES",
+    "availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "Texto de aceptación de cookies"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "textoAceptacion",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        }
+    ]
+}

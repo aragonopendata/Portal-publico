@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="es.aragon.base.content_ratings.model.Rating">
+		<field name="uuid" type="String" />
+		<field name="ratingId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="companyId" type="long" />
+		<field name="classNameId" type="long" />
+		<field name="classPK" type="long" />
+		<field name="score" type="double" />
+		<field name="comment" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
+</model-hints>

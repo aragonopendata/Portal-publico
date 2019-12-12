@@ -1,0 +1,12 @@
+dependencies {
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender.api"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly project(":modules:content-ratings-sb:content-ratings-sb-api")
+}
+
+buildService {
+	apiDir = "../content-ratings-sb-api/src/main/java"
+}
+
+group = "es.aragon.base.content_ratings"

@@ -1,0 +1,10 @@
+Bundle-Name: Aragon Most Visited Pages SB API
+Bundle-SymbolicName: es.aragon.base.aragon_most_visited_pages.api
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.aragon_most_visited_pages.exception,\
+	es.aragon.base.aragon_most_visited_pages.model,\
+	es.aragon.base.aragon_most_visited_pages.service,\
+	es.aragon.base.aragon_most_visited_pages.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../aragon-most-visited-pages-sb-service/service.xml

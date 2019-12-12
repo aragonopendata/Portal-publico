@@ -1,0 +1,108 @@
+.dga-view{
+    .map-container{
+        iframe,
+        .map-iframe{
+            width: 100%;
+            height: 30rem;
+        }
+        .data-place{
+            background: $dga_white;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border: .1rem solid $dga_grayBorder;
+            font-family: $openSansSemiBold;
+            @include font-size(16);
+            word-break: break-word;
+            position: relative;
+            &::before {
+                content: '';
+                position: absolute;
+                bottom: -.5rem;
+                left: 0;
+                height: .4rem;
+                width: 100%;
+                border-bottom: 0.4rem solid $dga_amarillo;
+            }
+            &__name{
+                @include font-size(18);            
+                margin-bottom: 2rem;
+                position: relative;
+                &::after{
+                    content: '';
+                    border-bottom: .2rem solid $dga_rojo;
+                    position: absolute;
+                    bottom: -.5rem;
+                    height: .4rem;
+                    width: 100%;
+                    left: 0;
+                }
+            }
+            &__direction{
+                margin-bottom: 2rem;
+            }
+            &__tfno{
+                text-decoration: underline;
+            }
+            &__tfno,
+            &__mail{
+                margin-bottom: 2rem;
+                color: $dga_darkblue;
+                display: block;
+            }
+            &__horario{
+                .list-actividad{
+                    padding-left: 0;
+                    list-style: none;
+                    .item{
+                        margin-bottom: 1rem;
+                        &:last-child{
+                            margin-bottom: 0;
+                        }
+                        .icon{
+                            width: 2.6rem;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+@media (min-width:$screen-lg){
+    .dga-view{
+        .map-container{
+            position: relative;
+            height: 46rem;
+            overflow: hidden;
+            .container{
+                position: relative;
+                height: 100%;
+            }
+            iframe,
+            .map-iframe{
+                position: absolute;
+                top:0;
+                left: 0;
+                height: 100%;
+                z-index: 0;
+            }
+            .data-place{
+                padding: 1.5rem;
+                overflow-y: auto;
+                position: absolute;
+                margin-top: 0;
+                top:1rem;
+                right: 1rem;
+                width: 45%;
+                max-width: 30rem;
+                height: auto;
+                max-height: calc(100% - 2rem);
+                z-index: 2;
+                &::before{
+                    display: none;
+                }
+            }
+        }
+    }
+}

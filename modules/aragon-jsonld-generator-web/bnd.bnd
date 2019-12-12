@@ -1,0 +1,6 @@
+Bundle-Name: JSON LD Generator Web
+Bundle-SymbolicName: es.aragon.base.jsonld_generator
+Bundle-Version: 1.8.0
+Export-Package: \
+	es.aragon.base.jsonld_generator.api,\
+	es.aragon.base.jsonld_generator.impl

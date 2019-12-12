@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="es.aragon.base.crawler.service.impl.PageLocalServiceImpl" id="es.aragon.base.crawler.service.PageLocalService" />
+	<bean class="es.aragon.base.crawler.service.impl.PageServiceImpl" id="es.aragon.base.crawler.service.PageService" />
+	<bean class="es.aragon.base.crawler.service.persistence.impl.PagePersistenceImpl" id="es.aragon.base.crawler.service.persistence.PagePersistence" parent="basePersistence" />
+	<bean class="es.aragon.base.crawler.service.impl.RootPageLocalServiceImpl" id="es.aragon.base.crawler.service.RootPageLocalService" />
+	<bean class="es.aragon.base.crawler.service.impl.RootPageServiceImpl" id="es.aragon.base.crawler.service.RootPageService" />
+	<bean class="es.aragon.base.crawler.service.persistence.impl.RootPagePersistenceImpl" id="es.aragon.base.crawler.service.persistence.RootPagePersistence" parent="basePersistence" />
+</beans>

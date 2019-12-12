@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="es.aragon.base.migration.model.Area" />
+	<import class="es.aragon.base.migration.model.Content" />
+	<import class="es.aragon.base.migration.model.ContentImage" />
+	<import class="es.aragon.base.migration.model.ContentMetadata" />
+	<import class="es.aragon.base.migration.model.ContentRelated" />
+	<import class="es.aragon.base.migration.model.ContentUrl" />
+	<import class="es.aragon.base.migration.model.Rule" />
+	<import class="es.aragon.base.migration.model.Template" />
+	<class name="es.aragon.base.migration.model.impl.AreaImpl" table="EAB_MG_Area">
+		<id name="areaId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="es.aragon.base.migration.model.impl.ContentImpl" table="EAB_MG_Content">
+		<id name="contentId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contentType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="shortExcerpt" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="excerpt" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="originalBodyHash" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="originalBody" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="areaId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="actionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="templateId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="tags" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="lastModifiedUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="assignedUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="journalFolderId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="dateCreated" type="org.hibernate.type.TimestampType" />
+		<property name="dateModified" type="org.hibernate.type.TimestampType" />
+		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="visibility" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="es.aragon.base.migration.model.impl.ContentImageImpl" table="EAB_MG_ContentImage">
+		<id name="contentImageId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contentOriginId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="es.aragon.base.migration.model.impl.ContentMetadataImpl" table="EAB_MG_ContentMetadata">
+		<id name="contentMetadataId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="primaryBody" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="primaryImage" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="primaryVideo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="secondaryBody" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imagesGalleryTitle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imagesGalleryImages" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="linksListTitle" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="linksListLinks" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="es.aragon.base.migration.model.impl.ContentRelatedImpl" table="EAB_MG_ContentRelated">
+		<id name="contentRelatedId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contentParentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="contentLinkedId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="es.aragon.base.migration.model.impl.ContentUrlImpl" table="EAB_MG_ContentUrl">
+		<id name="contentUrlId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contentOriginId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="contentDestinationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="urlOrigin" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="urlDestination" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="className" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="es.aragon.base.migration.model.impl.RuleImpl" table="EAB_MG_Rule">
+		<id name="ruleId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="typeId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="userGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="journalFolderId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="assignedUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="tags" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="actionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="availableUserGroupId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="es.aragon.base.migration.model.impl.TemplateImpl" table="EAB_MG_Template">
+		<id name="templateId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>

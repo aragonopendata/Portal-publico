@@ -1,0 +1,16 @@
+dependencies {
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "com.liferay", name: "com.liferay.asset.category.property.api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.configuration.metatype", version:"2.0.0"
+	compileOnly group: "com.liferay", name: "com.liferay.layout.page.template.api"
+	
+	compile project(':modules:categories-custom-properties-sb:categories-custom-properties-sb-api')
+	compile project(':modules:aragon-utilities')
+	compile project(':modules:freemarker-utilities')
+}

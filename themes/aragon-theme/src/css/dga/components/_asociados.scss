@@ -1,0 +1,131 @@
+.dga-view{
+    //barras grises
+    .asociados{
+        background-color: $dga_grayLines;
+        position: relative;
+        height: auto;
+        &.active{
+            height: auto!important;
+        }
+
+        ul{
+            padding: 3rem 0 0;
+            list-style: none;
+            margin-bottom: 0;
+        }
+        &__listado{
+            display: flex;
+            flex-wrap: wrap;
+            .item{  
+                margin-bottom: 4rem;
+                padding: 0;
+                .title{
+                    color: $dga_black;
+                    font-family: $signikaSemiBold;
+                    margin-bottom: 2rem;
+                    border-bottom: .2rem solid $dga_amarillo;
+                    display: inline-block;
+                    padding-right: 1rem;
+                    text-decoration: none;
+                    @include font-size(20);
+                }
+                .submenu-listado{
+                    padding:0;
+                    &__item{
+                        padding-bottom: 1.75rem;
+                    }
+                }
+                .link,
+                a{
+                    @include font-size(18);
+                    font-family: $openSansSemiBold; 
+                    margin:.5rem 0;
+                    text-decoration: none;
+                    border-bottom: .2rem solid transparent;
+                    color: $dga_black;
+                    display: inline;
+                    &:hover,
+                    &:focus{
+                        border-bottom: .2rem solid $dga_rojo;
+                    }
+                    
+                }
+            }
+        }
+        &__ver-menos{
+            display: none;
+            button{
+                background: transparent;
+                border: none;
+            }
+        }
+    }
+    .asociados--autoheight{
+        @extend .asociados ;
+    }
+}
+
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .asociados{
+            overflow: hidden;
+            &__listado{
+                .item{  
+                    padding: 0 1.5rem;
+                    &:first-child{
+                        padding-left: 0;
+                    }
+                    &:last-child{
+                        padding-right: 0;
+                    }
+                }
+            }
+            &__ver-menos{
+                display: block;
+                background-color: $dga_black;
+                width: 100%;
+                cursor: pointer;
+                display: none;
+                &.active{
+                    display: block;
+                }
+                .link{
+                    padding: 1rem 0;
+                    display: block;
+                    text-align: center;
+                    .text{
+                        display: inline-block;
+                        font-family: $openSansSemiBold;
+                        @include font-size(16);
+                        color: $dga_white;
+                        position: relative;
+                        &::after{
+                            content: '\f107';
+                            font-family: 'fontawesome-alloy';
+                            position: absolute;
+                            top: 0;
+                            right: -2.5rem;
+                            @include font-size(30);
+                            line-height: 2.2rem;
+                            transform: rotate(0deg);
+                            transition: all 300ms linear;
+                        }
+                    }
+                    &.active{
+                        .text{
+                            &::after{
+                                transform: rotate(180deg);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+

@@ -1,0 +1,864 @@
+.zoom-in{
+    #heading,
+    .navigation{
+        margin: auto;
+    }
+    &.interior{
+        .dga-view{
+            .navbar{
+                margin-bottom: 13rem;
+                .search-module{
+                    border-bottom: 1px solid white;
+                    max-width: 100%;
+                    background: $dga_grayLines;
+                    width: 100%;
+                    left: 0;
+                    top: 12rem;
+                    bottom: auto;
+                    //height: 8.8rem;
+                    transform: none;
+                    padding: 2rem 0;
+                    position: absolute;
+                    .input-group{
+                        width: 90%;
+                    }
+                }
+            }
+            .breadcrumb{
+                padding-top: 2rem;
+            }
+        }
+        
+    }
+
+    .zoom{
+       
+        li {
+            width: 4.4rem!important;
+            height: 4.4rem!important;
+        }
+    }
+    .dga-view{
+        .fast-access-module{
+            &__listado{
+                &__item{
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                    .link{
+                        .name{
+                            @include font-size(16);
+                        }
+                    }
+                }
+            }
+        }
+        header{
+            nav .navbar-collapse .navbar-nav{
+                padding-top: 9rem;
+            }
+            .navbar-collapse .navbar-nav{
+                padding-top: 12rem;
+                .nav-item .nav-link.dropdown-toggle span,
+                .nav-item .nav-link.solo{
+                    width: 90%;
+                    padding: 1rem 2rem 1rem 0;
+                }
+            }
+            .language {
+                top: 7rem;
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .navbar-toggler{
+                margin: 0 0 0 0.5rem;
+                width: 5rem;
+            }
+            
+            .navbar{
+                padding: .85rem .5rem 1.15rem;
+            }
+            .navigation .zoom{
+                padding: 0;
+                border-left: none;
+                border-right: none;
+                li {
+                    width: 4.4rem;
+                    height: 4.4rem;
+                }
+            }
+            .navbar-menu-icon.close{
+                top: 3rem;
+            }
+        }
+        .list-news-module .listado__item{
+            .link{
+                @include font-size(16);
+                padding: 3rem 3rem 2rem;
+                &.download,
+                &.estadisticas{
+                    .title{
+                        width: 100%!important;
+                    }
+                    .icon{
+                        float: none!important;
+                        margin-top: 3rem;
+                        left: 50%;
+                        top: 0;
+                        transform: translateX(-50%);
+                    }
+                }
+            }
+        }
+        .top-bar__labels{
+            .pull-right{
+                display: none;
+            }
+        }
+        .filtrado-tema{
+            .listado{
+                &__item{
+                    .link{
+                        left: 2rem;
+                        .name{
+                            padding-left: 0;
+                        }
+                    }
+                }
+            }
+        }
+        .footer__rrss-contact .row .european-flag .sub-claim{
+            position: relative;
+        }
+        .search-module{
+            .input-group{
+                width: 100%;
+                .search-input-container{
+                    width: calc(100% - 4.8rem);
+                }
+            }
+        }
+        .detail-news-module{
+            &__h1{
+                @include font-size(16);
+            }
+            &__intro{
+                padding-left: 1rem;
+                @include font-size(16);
+                &::before{
+                    display: none;
+                }
+            }
+            &__body-news{
+                &__description{
+                    @include font-size(16);
+                    h2,h3,h4,p,blockquote,li{
+                        @include font-size(16);
+                    }
+                }
+            }
+            &__image-acc-description{
+                &__text,
+                &__label{
+                    @include font-size(16);
+                }
+            }
+            &__anchor{
+                .listado{
+                    &__item{
+                        .link{
+                            @include font-size(16);
+                        }
+                    }
+                }
+                .anchor-txt-container{
+                    &__title,
+                    &__txt{
+                        @include font-size(16);
+                    }
+                }
+            }
+        }
+        .last-news-module__listado .item{
+            border:none;
+            .head-news .title{
+                @include font-size(16);
+            }
+        }
+        .asociados__listado .item{
+            .title,
+            .link{
+                @include font-size(16);
+            }
+        }
+        .valoration-module{
+            .labelVal{
+                @include font-size(16);
+            }
+        }
+    }
+    .portlet-bgblue-title h2,
+    .h1-interior{
+        .container{
+            @include font-size(16);
+        }
+    }
+    .portlet-bgwhite-title{
+        h2{
+            @include font-size(16);
+            a{
+                width: 80%;
+            }
+        }
+    }
+}
+
+/* 480px */
+@media screen and (min-width:$screen-xs){
+    .zoom-in{
+        .dga-view{
+            .fast-access-module{
+                &__listado{
+                    &__item{
+                        flex: 0 0 50%;
+                        max-width: 50%;
+                    }
+                }
+            }
+            .asociados__listado .item{
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            header{
+                .navigation .zoom{
+                    padding: 0 2rem;
+                }
+                .navbar{
+                    padding: .85rem .75rem 1.15rem;
+                }
+            }
+        }
+    }
+        
+}
+
+/* 576px */
+@media screen and (min-width:$screen-s){
+    .zoom-in{
+        .dga-view{
+            .filtrado-tema{
+                .listado{
+                    display: initial;
+                    &__item{
+                        flex: initial;
+                        max-width: 100%;
+                        margin:0 0 2rem!important;
+                        .link{
+                            left: 0;
+                        }
+                        &::after{
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 693px */
+@media screen and (min-width:693px){
+    .zoom-in{
+        &.interior{
+            .dga-view{
+                .navbar{
+                    margin-bottom: 9rem;
+                    .search-module{
+                        top: 9rem;
+                        .input-group{
+                            .search-input-container{
+                                width: calc(100% - 4.8rem);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .zoom-in{
+        &.interior{
+            .dga-view{
+                .navbar{
+                    .search-module{
+                        top: 15.5rem;
+                    }
+                }
+            }
+        }
+        .dga-view{
+            .fast-access-module{
+                &__listado{
+                    margin: 0;
+                    &__item{
+                        flex: 0 0 33.33%;
+                        max-width: 33.33%;
+                    }
+                }
+            }
+            .last-news-module__listado{
+                display: inherit;
+                .item{
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                }
+            }
+            .list-news-module .listado__item{
+                .link.download .title{
+                    width: calc(100% - 5rem);
+                }
+            }
+            header{
+                #heading{
+                    width: 100%;
+                    text-align: center;
+                }
+                .navigation{
+                    margin: auto;
+                }
+                .site-title{
+                    float: none;
+                    display: inline-block;
+                    padding-top: 1rem;
+                    .logo-dga {
+                        width: 27rem;
+                    }
+                }
+                //overflow: hidden;
+                nav .navbar-collapse .navbar-nav{
+                    padding: 0.7rem 0;
+                }
+                .navbar-collapse{
+                    top: 15.5rem;
+                    .navbar-nav{
+                        flex-direction: column;
+                        padding-top: 7rem;
+                        .nav-item{
+                            .nav-link.solo{
+                                margin: 0;
+                                padding: 1rem 0 1rem 3rem;
+                            }
+                        }
+                    }
+                }
+                nav{
+                    
+                    //display: inline-block;
+                    &.navbar{
+                        padding: 0;
+                    }
+                    .navbar-menu-icon.close {
+                        display: none;
+                    }
+                    .navbar-toggler{
+                        border: none;
+                        position: relative;
+                        margin: 0 0 0 1rem;
+                        width: 6rem;
+                        height: 6rem;
+                        display: inline-flex;
+                        float: left;
+                        padding-top: 2rem;
+                        overflow: hidden;
+                        &:focus{
+                            z-index: 1;
+                        }
+                        .navbar-menu-icon {
+                            width: 5rem;
+                            height: 3.2rem;
+                            transform: rotate(0deg);
+                            transition: all .5s ease-in-out;
+                            cursor: pointer;
+                            z-index: 1;
+                            position: absolute;
+                            top: 2.1rem;
+                            left: 0;
+                            span{
+                                display: block;
+                                position: absolute;
+                                height: 0.3rem;
+                                width: 3rem;
+                                background: $dga_white;
+                                border-radius: 2rem;
+                                opacity: 1;
+                                top: 0.5rem;
+                                left: 1rem;
+                                transform: rotate(0deg);
+                                transition: all .25s ease-in-out;
+                                &:first-of-type {
+                                    transform: rotate(45deg);
+                                    top: 0.3rem;
+                                    left: 1rem;
+                                }
+                                &:nth-of-type(2){
+                                    display: none;
+                                }
+                                &:last-of-type {
+                                    transform: rotate(-45deg);
+                                    top: 0.3rem;
+                                    left: 1rem;
+                                }
+                            }
+        
+                            strong{
+                                position: absolute;
+                                top: 2.2rem;
+                                left: 0;
+                                text-transform: uppercase;
+                                font-family: "open_sans-bold";
+                                @include font-size(16);
+                                color: $dga_white;
+                                width: 100%;
+                            }
+                            &.close{
+                                position: absolute;
+                                top: 6rem;
+                                right: initial;
+                                z-index: initial;
+                                opacity: 1;
+                                text-shadow: none;
+                                span{
+                                    background: $dga_white;
+                                    &:first-of-type {
+                                        transform: rotate(45deg);
+                                        top: 1.8rem;
+                                        left: 1.5rem;
+                                    }
+                                    &:nth-of-type(2){
+                                        display: none;
+                                    }
+                                    &:last-of-type {
+                                        transform: rotate(-45deg);
+                                        top: 1.8rem;
+                                        left: 1.5rem;
+                                    }
+                                }
+                                strong{
+                                    top: 1.2rem;
+                                    left: 5rem;
+                                    color: $dga_white;
+                                    text-transform: capitalize;
+                                    font-family: $openSans;
+                                }
+                                &.closeSec{
+                                    display: none;
+                                }
+                            }
+                        }
+                        &.collapsed{
+                            .navbar-menu-icon{
+                                span{
+                                    &:first-of-type {
+                                        top: -0.3rem;
+                                        transform: rotate(0deg);
+                                        left: 1rem;
+                                    }
+                                    &:nth-of-type(2){
+                                        display: block;
+                                    }
+                                    &:last-of-type {
+                                        top: 1.3rem;
+                                        transform: rotate(0deg);
+                                        left: 1rem;
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+        
+                    .navbar-collapse{
+                        position: fixed;
+                        top: 0;
+                        right: 0;
+                        background-color: $dga_lightblack;
+                        color: $dga_white;
+                        width: 100%;
+                        z-index: 2;
+                        padding: 4.4rem 0 2rem;
+                        overflow-y: scroll;
+                        height: 100%;
+                        &::before{
+                            content: '';
+                            width: 100%;
+                            position: relative;
+                            height: 4.4rem;
+                            @include bgGradientThree();
+                            position: absolute;
+                            top: 0;
+                        }
+                        .navbar-nav{
+                            padding-top: 7rem;
+                            flex-direction: column;
+                            .nav-item {
+                                text-align: left;
+                                
+                                &:last-child{
+                                    border-bottom: none;
+                                }
+                                &.show{
+                                    // left: -50rem;
+                                    transition: all 300ms linear;
+                                    //background-color: $dga_grayLines;
+                                    // border-right: 0.2rem solid $dga_white;
+                                    // height: 100%;
+                                    .nav-link{
+                                        &.dropdown-toggle{
+                                            transition: all 300ms linear;
+                                            span{
+                                                border-bottom: none;
+                                                &::after{
+                                                    transition: all 300ms linear;
+                                                    transform: rotate(180deg);
+                                                    color: $dga_white;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                .nav-link{
+                                    color: $dga_white;
+                                    display: block;
+                                    position: relative;
+                                    padding: 0;
+                                    &.solo{
+                                        //min-width: 20rem;
+                                        margin: auto;
+                                        display: block;
+                                        padding: 1rem 2rem;
+                                        font-family: $openSansBold;
+                                        width: 80%;
+                                        border-bottom: 0.1rem solid $dga_underlineMenu;
+                                        @include font-size(18);
+                                    }
+                                    
+                                    &.dropdown-toggle{
+                                        span{
+                                            text-align: left;
+                                            width: 80%;
+                                            position: relative;
+                                            margin: auto;
+                                            display: block;
+                                            padding: 1rem 2rem;
+                                            font-family: $openSansBold;
+                                            border-bottom: 0.1rem solid $dga_underlineMenu;
+                                            &::after{
+                                                content: '\f107';
+                                                font-family: fontawesome-alloy;
+                                                position: absolute;
+                                                right: 0;
+                                                top: 1rem;
+                                                transition: all 300ms linear;
+                                                font-weight: 100;
+                                                @include font-size(28);
+                                                transform: rotate(0deg);
+                                            }
+                                        }
+                                    }
+                                }
+                                &:last-child{
+                                    .nav-link.solo{
+                                        border-bottom: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .dropdown{
+                        position: initial;
+                        > .dropdown-menu {
+                            color: $dga_black;
+                            position: relative;
+                            max-width: initial;
+                            transition: all 300ms linear;
+                            background-color: $dga_lightblack;
+                            // border-left: 0.2rem solid $dga_rojo;
+                            // border-top: 0.2rem solid $dga_rojo;
+                            // border-bottom: 0.2rem solid $dga_rojo;
+                            border-right: none;
+                            border-radius: 0;
+                            min-height: 100%;
+                            width: 80%;
+                            margin: auto;
+                            top: 0;
+                            .dropdown-item{
+                                
+                                border-left: none;
+                                &:hover,
+                                &:focus{
+                                    background-color: transparent;
+                                    color: $dga_white;
+                                    border-bottom: 0.1rem solid $dga_rojo;
+                                    text-decoration: underline;
+                                }
+                                &:last-child{
+                                    border-bottom: none;
+                                }
+                            }
+                        }
+                    }
+                    .dropdown-item,
+                    .dropdown-menu > li > a,
+                    .dropdown-menu .link-list > li > a{
+                        color: $dga_black;
+                    }
+                    /* access-links custom para header */
+                    .access-links{
+                        &__list{
+                            padding: 2rem 5rem;
+                            &__items{
+                                border-right: 0.1rem solid $dga_white;
+                                padding: 2.5rem 1rem;
+                                a{
+                                    color: $dga_white;
+                                    text-decoration: none;
+                                }
+                                &:first-child,
+                                &:nth-child(2),
+                                &:nth-child(3){
+                                    border-bottom: 0.1rem solid $dga_white;
+                                }
+                                &:nth-child(3),
+                                &:last-child{
+                                    border-right: none;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .language{
+                    display: none;
+                    position: absolute;
+                    top: .5rem;
+                    right: 2rem;
+                    z-index: 10;
+                    border-right: none;
+                    &.show{
+                        display: block;
+                    }
+                    &.active{
+                        .language__select{
+                            &::after{
+                                transform: rotate(180deg);
+                                transition: all 300ms linear;
+                            }
+                        }
+                    }
+                    .language__select{
+                        padding: 1.3rem 2rem 1.3rem 0;
+                        position: relative;
+                        text-transform: capitalize;
+                        cursor: pointer;
+                        &::after{
+                            content: '\f107';
+                            font-family: fontawesome-alloy;
+                            @include font-size(28);
+                            position: absolute;
+                            right: -0.5rem;
+                            top: 1.4rem;
+                        }
+                    }
+                    &__list{
+                        position: absolute;
+                        top: 4.5rem;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        z-index: 3;
+                        padding: .75rem;
+                        background: $dga_white;
+                        color: $dga_black;
+                        display: none;
+                        width: 15rem;
+                        li{
+                            display: block;
+                            padding-bottom: 0.7rem;
+                            text-transform: capitalize;
+                            a{
+                                color: $dga_black;
+                            }
+                        }
+                    }
+                    .portlet{
+                        position: initial;
+                    }
+                }
+                .navigation .zoom{
+                    display: block;
+                }
+            }
+            
+            .footer{
+                .access-links{
+                    &__list{
+                        &__items{
+                            flex: 0 0 33.33%;
+                            max-width: 33.33%;
+                        }
+                    }
+                }   
+                &__policies{
+                    padding: 0 0 2rem;
+                    overflow: hidden;
+                    border-bottom: 0.1rem solid $dga_lightblack;
+                    &__listado{
+                        list-style: none;
+                        padding-left: 0;
+                        padding-right: 0;
+                        overflow: hidden;
+                        width: 100%;
+                        display: initial;
+                        justify-content: initial;
+                        text-align: center;
+                        li{
+                            padding: 0 2rem;
+                            position: relative;
+                            text-align: left;
+                            width: 100%;
+                            float: none;
+                            height: 5rem;
+                            display: block;
+                            &.logo{
+                                overflow: hidden;
+                            }
+                            &.link{
+                                margin-right: 0;
+                                text-align: center;
+                            }
+                            &.cta{
+                                float: right;
+                                margin-right: 1rem;
+                                overflow: hidden;
+                                
+                            }
+                            
+                        }
+                    }
+                }
+                &__links{
+                    &__list{
+                        display: flex;
+                        flex-wrap: wrap;
+                        text-align: center;
+                        >li{
+                            border-bottom: none;
+                            flex: 0 0 100%;
+                            max-width: 100%;
+                        }
+                    }
+                }
+                &__rrss-contact{
+                    .row{
+                        .european-flag{
+                            strong{
+                                position: relative;
+                                top: initial;
+                                left: initial;
+                            }
+                            .claim{
+                                position: relative;
+                                bottom: initial;
+                                left: initial;
+                            }
+                        }
+                    }
+                }
+            }
+            .menu-tema{
+                .listado__item .link-1{
+                    &::after{
+                        right: 0;
+                    }
+                    span{
+                        @include font-size(12);
+                        width: calc(100% - 5rem);
+                    }
+                }
+                .nav-menu-tema {
+                    padding-right: 0;
+                    
+                }
+            }
+            .detail-news-module__anchor .listado__item .link{
+                @include font-size(16);
+                padding: 4rem 0 2rem 5rem;
+            }
+        }
+    }
+}
+
+/* 1200px */
+@media screen and (min-width:$screen-lg){
+    .zoom-in{
+        &.interior{
+            .dga-view{
+                nav{
+                    &.navbar{
+                        //margin-bottom: 0;
+                        position: relative;
+                    }
+                }
+                header{
+                    .search-module{
+                        //top: 15.5rem;
+                        height: auto;
+                    }
+                }
+                
+            }
+        }
+    }
+    .zoom-out{
+        .dga-view{
+            header{
+                .search-module{
+                    position: absolute;
+                    top: 2.5rem;
+                    left: 25rem;
+                    max-width: 30rem;
+                }
+            }
+        }
+    }
+}
+
+/* 1300px */
+@media screen and (min-width:1300px){
+    .zoom-in{
+        &.interior{
+            .dga-view{
+                header{
+                    .search-module{
+                        //top: 15.5rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width:1500px){
+    .zoom-out{
+        .dga-view{
+            header{
+                .search-module{
+                    max-width: 40rem;
+                }
+            }
+        }
+    }
+}

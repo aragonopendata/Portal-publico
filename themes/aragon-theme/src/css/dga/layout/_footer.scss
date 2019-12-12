@@ -1,0 +1,479 @@
+@import "../helpers/variables";
+@import "../common/global";
+
+.dga-view{
+    .footer{
+        background-color: $dga_black;
+        color: $dga_white;
+        width: 100%;
+        padding-bottom: 1rem;
+        &::after{
+            content: '';
+            width: 100%;
+            position: relative;
+            height: 1rem;
+            @include bgGradientThree();
+            position: absolute;
+            bottom: 0;
+        }
+        a{
+            color: $dga_white;
+            &.u-btn-red{
+                color: $dga_black;
+            }
+        }
+        /* access-links custom para footer */
+        .access-links{
+            &__list{
+                list-style: none;
+                padding: 0;
+                margin-bottom: 0;
+            }
+        }
+        &__policies{
+            padding: 2rem 0;
+            border-bottom: 0.1rem solid $dga_lightblack;
+            &__listado{
+                list-style: none;
+                padding-left: 0;
+                padding-right: 0;
+                overflow: hidden;
+                width: 100%;
+                text-align: center;
+                li{
+                    padding: 2rem 1rem 0rem;
+                    position: relative;
+                    text-align: left;
+                    // width: 50%;
+                    display: inline-block;
+                    
+                    &.link{
+                        margin-right: 0;
+                        text-align: center;
+                        &.logo{
+                            width: 100%;
+                            border-bottom: 0.1rem solid $dga_lightblack;
+                            padding: 2rem 1rem;
+                            height: auto;
+                            text-align: center;
+                            a.u-btn-red{
+                                display: inline-block;
+                            }
+                        }
+                        &.logo-eu{
+                            width: 100%;
+                            padding: 2rem 1rem;
+                        }
+
+                        a{
+                            @include font-size(16);
+                            font-family: $openSansSemiBold;
+                            text-decoration: none;
+                            line-height: 2.2rem;
+                            &.u-btn-red{
+                                display: block;
+                                margin-bottom: 20px;
+                            }
+                            &:hover,
+                            &:focus{
+                                text-decoration: underline;
+                            }
+                            p{
+                                strong{
+                                    @include font-size(9);
+                                    line-height: initial;
+                                    left: 6.5rem;
+                                }
+                            }
+                            .claim{
+                                span{
+                                    @include font-size(10);
+                                    line-height: 1.1rem;
+                                }
+                            }
+                            .sub-claim{
+                                @include font-size(10);
+                                line-height: 1.1rem;
+                                margin: 0;
+                        		font-style: italic;
+                            }
+                        }
+                    }
+                    &.cta{
+                        float: right;
+                        margin-right: 1rem;
+                        a{
+                            font-family: $signikaSemiBold;
+                            line-height: initial;
+                            color: $dga_darkblack;
+                        }
+                    }
+                    .icon-dga{
+                        height: 5rem;
+                        //width: 100%;
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        // background-image: url('../images/dga/icons/icon-dga.svg');
+                        // background-image: url('../images/dga/dga_logo_negative_equidim.svg');
+                        display: block;
+                        width: 16rem;
+                        margin-left: auto;
+                        margin-right: auto;
+                        padding-top: 0;
+                        img{
+                            width: 100%;
+                        }
+                    }
+                    .european-flag{
+                        display: inline-block;
+                        color: $dga_white;
+                        @include font-size(9);
+                        position: relative;
+                        line-height: 1rem;
+                        text-align: center;
+                        font-family: 'arial', sans-serif;
+                        background-image: url('../images/dga/european-union-logo-b-w.png');
+                        background-size: 7rem;
+                        background-repeat: no-repeat;
+                        background-position: center top;
+                        display: inline-block;
+                        img{
+                            width: 7rem;
+                        }
+                        strong{
+                            font-weight: 700;
+                            letter-spacing: 1.35px;
+                            display: block;
+                            margin-top: 3px;
+                            @include font-size(9);
+
+                        }
+                        .claim{
+	                        @include font-size(10);
+	    					line-height: 1.1rem;
+                            margin-top: 10px;
+                            margin-bottom: 2px;
+                            span{
+                                display: block;
+                            }
+                        }
+                        .sub-claim{
+                            @include font-size(10);
+    						line-height: 1.1rem;
+                            margin: 0;
+                            font-style: italic;
+                        }
+            
+                    }
+                }
+            }
+        }
+        &__links{
+            border-bottom: none;
+            
+            &__list{
+                font-family: $openSansSemiBold;
+                padding: 0;
+                list-style: none;
+                width: 100%;
+                > li{
+                    border-bottom: 0.1rem solid $dga_lightblack;
+                    padding: 1rem;
+                    .title{
+                        @include font-size(22);
+                        position: relative;
+                        cursor: default;
+                        font-family: $signikaBold;
+                        display: block;
+                        overflow: hidden;
+                        &::after{
+                            content: '\f107';
+                            color: $dga_white;
+                            font-family: fontawesome-alloy;
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            @include font-size(30);
+                            line-height: 3rem;
+                            transform: rotate(0deg);
+                            transition: all 300ms linear;
+                        }
+                        &[aria-expanded=true]{
+                            &::after{
+                                transform: rotate(180deg);
+                                transition: all 300ms linear;
+                            }
+                        }
+                    }
+                    .sec-list{
+                        padding: 0;
+                        list-style: none;
+                        li{
+                            padding-left: 0;
+                            position: relative;
+                            @include font-size(16);
+                            a{
+                                text-decoration: none;
+                                padding: 1rem 0;
+                                display: block;
+                                line-height: 1.5em;
+                                &:hover,
+                                &:focus{
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &__rrss-contact{
+            padding: 2.5rem 0;
+            @include font-size(16);
+            border-bottom: none;
+            text-align: center;
+            .row{
+                margin-left: 0;
+                margin-right: 0;
+                line-height: 1.5em;
+                a{
+                    text-decoration: underline;
+                }
+                > span{
+                    margin-bottom: 2rem;
+                }
+                .european-flag{
+                    padding: 0;
+                    color: $dga_white;
+                    @include font-size(9);
+                    position: relative;
+                    text-align: center;
+                    line-height: 1rem;
+                    font-family: 'arial', sans-serif;
+                    background-image: url('../images/dga/european-union-logo-b-w.png');
+                    background-size: 7rem;
+                    background-repeat: no-repeat;
+                    background-position: center top;
+                    text-decoration: none;
+                    display: block;
+                    img{
+                        width: 7rem;
+                        //border: .1rem solid $dga_white;
+                    }
+                    strong{
+                        font-weight: 700;
+                        letter-spacing: 1.35px;
+                        display: block;
+                        margin-top: 3px;
+                    }
+                    .claim{
+                    	@include font-size(10);
+    					line-height: 1.1rem;
+                        margin-top: 10px;
+                        margin-bottom: 2px;
+                        span{
+                            display: block;
+                        }
+                    }
+                    .sub-claim{
+                        @include font-size(10);
+    					line-height: 1.1rem;
+                        margin: 0;
+                        font-style: italic;
+                    }
+        
+                }
+            }
+            .name{
+                display: block;
+                padding: 2rem 0;
+            }
+        }
+    }
+}
+
+/* 414px */
+@media screen and (min-width:$screen-ip-plus){
+    .dga-view{
+        .footer{
+            &__policies{
+                &__listado{
+                    li{
+                        &.link a.u-btn-red{
+                            display: inline-block;
+                        }
+                        &.link{
+                            &.logo{
+                                .icon-dga{
+                                    float: left;
+                                }
+                                .european-flag{
+                                    float: right;
+                                    padding-top: .5rem;
+                                    strong{
+                                        top: .4rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .footer{
+            &__links{
+                padding: 2rem 0;
+                &__list{
+                    display: flex;
+                    flex-wrap: wrap;
+                    padding: 0 1.5rem;
+                    >li{
+                        border-bottom: none;
+                        .title{
+                            text-decoration: none;
+                            overflow: initial;
+                            cursor: default;
+                            &::after{
+                                display: none;
+                            }
+                            
+                        }
+                        .sec-list{
+                            display: block;
+                        }
+                    }
+                }
+            }
+            &__policies{
+                &__listado{
+                    li.link{
+                        &.logo{
+                            text-align: center;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+            &__rrss-contact{
+                text-align: left;
+                padding: 2.5rem 1.5rem;
+                .name{
+                    display: inline-block;
+                    padding: 0 2rem 0 0;
+                }
+            }
+        }
+    }
+}
+
+/* 992px */
+@media screen and (min-width:$screen-md){
+    .dga-view{
+        .footer{
+            .access-links{
+                &__list{
+                    padding: 1rem 0;
+                    &__items{
+                        flex: 1;
+                    }
+                }
+            }
+            &__policies{
+                &__listado{
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 3rem 0 3rem;
+                    margin: 0 auto;
+                    li{
+                        width: 14.285%;
+                        text-align: center;
+                       
+                        &.link{
+                            float: none;
+                            &.logo{
+                                width: 14.285%;
+                                border-bottom: none;
+                                // padding-top: .8rem;
+                                // padding-bottom: 0;
+                            }
+                            a{
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translateX(-50%) translateY(-50%);
+                            }
+                        }
+                        &.cta{
+                            width: 20%;
+                        }
+                        .european-flag{
+                            margin-right: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 769px a 991px */
+@media screen and (min-width:769px) and (max-width:991px){
+    .dga-view{
+        .footer{
+            &__policies{
+                &__listado{
+                    max-width: 100%;
+                    padding: 0;
+                    li{
+                        //padding: 0 1rem 0 3rem;
+                        &.cta{
+                            width: 100%;
+                            text-align: center;
+                        }
+                        .icon-dga{
+                            margin-left: 1.5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/* 992px */
+@media screen and (min-width:$screen-lg){
+    .dga-view{
+        .footer{
+            .access-links{
+                &__list{
+                    max-width: 114rem;
+                }
+            }
+        }
+    }
+}
+   
+/* 992px */
+@media screen and (min-width:1500px){
+    .dga-view{
+        .footer{
+            .access-links{
+                &__list{
+                    max-width: 144rem;
+                }
+            }
+        }
+    }
+}
+            
+

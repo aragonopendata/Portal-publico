@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="es.aragon.base.crawler">
+	<namespace>EAB_CRAWLER</namespace>
+	<entity local-service="true" name="RootPage" remote-service="true" uuid="true">
+	
+		<column name="rootPageId" primary="true" type="long" />
+		
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		
+		<column name="crawledDate" type="Date" />
+		<column name="alias" type="String" />
+		<column name="inclusionRules" type="String" />
+		<column name="pageId" type="long" />
+		<column name="scheduledCrawl" type="boolean" />
+        <column name="depth" type="int"></column>
+				
+		<order by="asc">
+			<order-column name="rootPageId" />
+		</order>
+		
+		<finder name="RootPageId" return-type="Collection">
+			<finder-column name="rootPageId" />
+		</finder>
+		
+		<reference package-path="es.aragon.base.crawler" entity="Page" />
+	</entity>
+	
+	<entity local-service="true" name="Page" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="pageId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="title" type="String" />
+		<column name="contentType" type="String" />
+		<column name="metaDescription" type="String" />
+		<column name="metaKeywords" type="String" />
+		<column name="content" type="String" />
+		<column name="url" type="String" />
+		<column name="categoryIds" type="String" />
+		
+		<!-- origin parent page -->
+		<column name="rootPageId" type="long" />
+		<column name="parentPageId" type="long" />
+		
+		<column name="status" type="long" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="pageId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="RootPageId" return-type="Collection">
+			<finder-column name="rootPageId" />
+		</finder>
+		
+		<reference package-path="es.aragon.base.crawler" entity="RootPage" />
+		<reference package-path="com.liferay.portlet.asset" entity="AssetCategory" />
+	</entity>
+</service-builder>

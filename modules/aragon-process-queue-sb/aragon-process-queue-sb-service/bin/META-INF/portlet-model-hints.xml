@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="es.aragon.base.process.queue.model.QueuedProcess">
+		<field name="uuid" type="String" />
+		<field name="queuedProcessId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="executionStartedDate" type="Date" />
+		<field name="executionFinishedDate" type="Date" />
+		<field name="processName" type="String" />
+		<field name="jsonParameters" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="status" type="int" />
+	</model>
+</model-hints>

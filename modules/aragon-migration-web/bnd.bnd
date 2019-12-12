@@ -1,0 +1,6 @@
+Bundle-Name: Aragon Migration Web
+Bundle-SymbolicName: es.aragon.base.migration
+Bundle-Version: 1.8.0
+Export-Package: es.aragon.base.migration.constant
+-includeresource:\
+	@poi-[0-9]*.jar

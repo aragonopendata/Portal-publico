@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 7.0.0//EN" "http://www.liferay.com/dtd/liferay-friendly-url-routes_7_0_0.dtd">
+
+<routes>
+	<route>
+		<pattern>/type/{searchType}/portal/{selectedPortalsToSearch}/filter/{selectedCategories}/date/{selectedDateRange}/page/{currentPage}/q/{searchText}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/filter/{selectedCategories}/date/{selectedDateRange}/page/{currentPage}/q/{searchText}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/portal/{selectedPortalsToSearch}/date/{selectedDateRange}/page/{currentPage}/q/{searchText}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/date/{selectedDateRange}/page/{currentPage}/q/{searchText}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/portal/{selectedPortalsToSearch}/filter/{selectedCategories}/page/{currentPage}/q/{searchText}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/filter/{selectedCategories}/page/{currentPage}/q/{searchText}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/portal/{selectedPortalsToSearch}/filter/{selectedCategories}/date/{selectedDateRange}/page/{currentPage}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/filter/{selectedCategories}/date/{selectedDateRange}/page/{currentPage}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/portal/{selectedPortalsToSearch}/page/{currentPage}/q/{searchText}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/page/{currentPage}/q/{searchText}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/portal/{selectedPortalsToSearch}/date/{selectedDateRange}/page/{currentPage}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/date/{selectedDateRange}/page/{currentPage}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/portal/{selectedPortalsToSearch}/filter/{selectedCategories}/page/{currentPage}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/filter/{selectedCategories}/page/{currentPage}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/portal/{selectedPortalsToSearch}/page/{currentPage}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/type/{searchType}/page/{currentPage}</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+	
+	<route>
+		<pattern>/</pattern>
+		<implicit-parameter name="p_p_id">es_aragon_base_search_web_SearchWebPortlet</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+		<implicit-parameter name="p_p_mode">view</implicit-parameter>
+	</route>
+</routes>

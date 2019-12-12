@@ -1,0 +1,10 @@
+Bundle-Name: Aragon Migration SB API
+Bundle-SymbolicName: es.aragon.base.migration.api
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.migration.exception,\
+	es.aragon.base.migration.model,\
+	es.aragon.base.migration.service,\
+	es.aragon.base.migration.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../aragon-migration-sb-service/service.xml

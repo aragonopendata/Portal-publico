@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="es.aragon.base.categories_custom_properties.service.impl.CustomCategoryPropertyLocalServiceImpl" id="es.aragon.base.categories_custom_properties.service.CustomCategoryPropertyLocalService" />
+	<bean class="es.aragon.base.categories_custom_properties.service.impl.CustomCategoryPropertyServiceImpl" id="es.aragon.base.categories_custom_properties.service.CustomCategoryPropertyService" />
+	<bean class="es.aragon.base.categories_custom_properties.service.persistence.impl.CustomCategoryPropertyPersistenceImpl" id="es.aragon.base.categories_custom_properties.service.persistence.CustomCategoryPropertyPersistence" parent="basePersistence" />
+</beans>

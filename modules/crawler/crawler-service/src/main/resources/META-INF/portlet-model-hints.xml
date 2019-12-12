@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="es.aragon.base.crawler.model.Page">
+		<field name="uuid" type="String" />
+		<field name="pageId" type="long" />
+		<field name="title" type="String">
+			<hint name="max-length">1000</hint>
+		</field>
+		<field name="contentType" type="String">
+			<hint name="max-length">1000</hint>
+		</field>
+		<field name="metaDescription" type="String">
+			<hint name="max-length">1000</hint>
+		</field>
+		<field name="metaKeywords" type="String">
+			<hint name="max-length">1000</hint>
+		</field>
+		<field name="content" type="String">
+			<hint name="max-length">10000</hint>
+		</field>
+		<field name="url" type="String">
+			<hint name="max-length">1000</hint>
+		</field>
+		<field name="categoryIds" type="String">
+			<hint name="max-length">1000</hint>
+		</field>
+		<field name="rootPageId" type="long" />
+		<field name="parentPageId" type="long" />
+		<field name="status" type="long" />
+	</model>
+	<model name="es.aragon.base.crawler.model.RootPage">
+		<field name="uuid" type="String" />
+		<field name="rootPageId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="crawledDate" type="Date" />
+		<field name="alias" type="String" />
+		<field name="inclusionRules" type="String" />
+		<field name="pageId" type="long" />
+		<field name="scheduledCrawl" type="boolean" />
+		<field name="depth" type="int" />
+	</model>
+</model-hints>

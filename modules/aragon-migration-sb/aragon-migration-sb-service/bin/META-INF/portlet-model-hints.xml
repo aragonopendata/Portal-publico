@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="es.aragon.base.migration.model.Area">
+		<field name="uuid" type="String" />
+		<field name="areaId" type="long" />
+		<field name="name" type="String" />
+	</model>
+	<model name="es.aragon.base.migration.model.Content">
+		<field name="uuid" type="String" />
+		<field name="contentId" type="long" />
+		<field name="title" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="url" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="contentType" type="String" />
+		<field name="shortExcerpt" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="excerpt" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="originalBodyHash" type="String" />
+		<field name="originalBody" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="areaId" type="long" />
+		<field name="actionId" type="long" />
+		<field name="statusId" type="long" />
+		<field name="templateId" type="long" />
+		<field name="tags" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="lastModifiedUserId" type="long" />
+		<field name="assignedUserId" type="long" />
+		<field name="userGroupId" type="long" />
+		<field name="journalFolderId" type="long" />
+		<field name="dateCreated" type="Date" />
+		<field name="dateModified" type="Date" />
+		<field name="comments" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="visibility" type="int" />
+	</model>
+	<model name="es.aragon.base.migration.model.ContentImage">
+		<field name="uuid" type="String" />
+		<field name="contentImageId" type="long" />
+		<field name="contentOriginId" type="long" />
+		<field name="url" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
+	<model name="es.aragon.base.migration.model.ContentMetadata">
+		<field name="uuid" type="String" />
+		<field name="contentMetadataId" type="long" />
+		<field name="contentId" type="long" />
+		<field name="primaryBody" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="primaryImage" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="primaryVideo" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="secondaryBody" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="imagesGalleryTitle" type="String" />
+		<field name="imagesGalleryImages" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="linksListTitle" type="String" />
+		<field name="linksListLinks" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
+	<model name="es.aragon.base.migration.model.ContentRelated">
+		<field name="uuid" type="String" />
+		<field name="contentRelatedId" type="long" />
+		<field name="contentParentId" type="long" />
+		<field name="contentLinkedId" type="long" />
+		<field name="url" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+	</model>
+	<model name="es.aragon.base.migration.model.ContentUrl">
+		<field name="uuid" type="String" />
+		<field name="contentUrlId" type="long" />
+		<field name="contentOriginId" type="long" />
+		<field name="contentDestinationId" type="long" />
+		<field name="urlOrigin" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="urlDestination" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="className" type="String" />
+	</model>
+	<model name="es.aragon.base.migration.model.Rule">
+		<field name="uuid" type="String" />
+		<field name="ruleId" type="long" />
+		<field name="typeId" type="int" />
+		<field name="userGroupId" type="long" />
+		<field name="journalFolderId" type="long" />
+		<field name="assignedUserId" type="long" />
+		<field name="url" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="tags" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="actionId" type="long" />
+		<field name="availableUserGroupId" type="String" />
+		<field name="userId" type="long" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="es.aragon.base.migration.model.Template">
+		<field name="uuid" type="String" />
+		<field name="templateId" type="long" />
+		<field name="name" type="String" />
+	</model>
+</model-hints>

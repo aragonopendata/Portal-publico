@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="es.aragon.base.migration">
+	<namespace>EAB_MG</namespace>
+	<entity name="Rule" local-service="true" uuid="true">
+		<column name="ruleId" primary="true" type="long" />
+		<column name="typeId" type="int" />
+		<column name="userGroupId" type="long" />
+		<column name="journalFolderId" type="long" />
+		<column name="assignedUserId" type="long" />
+		<column name="url" type="String" />
+		<column name="tags" type="String" />
+		<column name="actionId" type="long" />
+		<column name="availableUserGroupId" type="String" />
+		<column name="userId" type="long" />
+		<column name="modifiedDate" type="Date" />
+		<finder name="TypeId" return-type="Collection">
+			<finder-column name="typeId" />
+		</finder>
+	</entity>
+	<entity name="Content" local-service="true" uuid="true">
+		<column name="contentId" primary="true" type="long" />
+		<column name="title" type="String" />
+		<column name="url" type="String" />
+		<column name="contentType" type="String" />
+		<column name="shortExcerpt" type="String" />
+		<column name="excerpt" type="String" />
+		<column name="originalBodyHash" type="String" />
+		<column name="originalBody" type="String" />
+		<column name="areaId" type="long" />
+		<column name="actionId" type="long" />
+		<column name="statusId" type="long" />
+		<column name="templateId" type="long" />
+		<column name="tags" type="String" />
+		<column name="lastModifiedUserId" type="long" />
+		<column name="assignedUserId" type="long" />
+		<column name="userGroupId" type="long" />
+		<column name="journalFolderId" type="long" />
+		<column name="dateCreated" type="Date" />
+		<column name="dateModified" type="Date" />
+		<column name="comments" type="String" />
+		<column name="visibility" type="int" />
+		<finder name="AssignedUserId" return-type="Collection">
+			<finder-column name="assignedUserId" />
+		</finder>
+		<finder name="LastModifiedUserId" return-type="Collection">
+			<finder-column name="lastModifiedUserId" />
+		</finder>
+		<finder name="AreaId" return-type="Collection">
+			<finder-column name="areaId" />
+		</finder>
+		<finder name="Url" return-type="Collection">
+			<finder-column name="url" />
+		</finder>
+	</entity>
+	<entity name="ContentRelated" local-service="true" uuid="true">
+		<column name="contentRelatedId" primary="true" type="long" />
+		<column name="contentParentId" type="long" />
+		<column name="contentLinkedId" type="long" />
+		<column name="url" type="String" />
+		<finder name="ContentParentId" return-type="Collection">
+			<finder-column name="contentParentId" />
+		</finder>
+	</entity>
+	<entity name="ContentMetadata" local-service="true" uuid="true">
+		<column name="contentMetadataId" primary="true" type="long"></column>
+		<column name="contentId" type="long"/>
+		<column name="primaryBody" type="String" />
+		<column name="primaryImage" type="String" />
+		<column name="primaryVideo" type="String" />
+		<column name="secondaryBody" type="String" />
+		<column name="imagesGalleryTitle" type="String" />
+		<column name="imagesGalleryImages" type="String" />
+		<column name="linksListTitle" type="String" />
+		<column name="linksListLinks" type="String" />
+		<finder name="ContentId" return-type="ContentMetadata" unique="true">
+			<finder-column name="contentId" />
+		</finder>
+	</entity>
+	<entity name="ContentUrl" local-service="true" uuid="true">
+		<column name="contentUrlId" primary="true" type="long" />
+		<column name="contentOriginId" type="long" />
+		<column name="contentDestinationId" type="long" />
+		<column name="urlOrigin" type="String" />
+		<column name="urlDestination" type="String" />
+		<column name="className" type="String" />
+		<finder name="ContentOriginId" return-type="ContentUrl">
+			<finder-column name="contentOriginId" />
+		</finder>
+	</entity>
+	<entity name="ContentImage" local-service="true" uuid="true">
+		<column name="contentImageId" primary="true" type="long" />
+		<column name="contentOriginId" type="long" />
+		<column name="url" type="String" />
+		<finder name="ContentOriginId" return-type="Collection">
+			<finder-column name="contentOriginId" />
+		</finder>
+	</entity>
+	<entity name="Area" local-service="true" uuid="true">
+		<column name="areaId" primary="true" type="long" />
+		<column name="name" type="String" />
+	</entity>
+	<entity name="Template" local-service="true" uuid="true">
+		<column name="templateId" primary="true" type="long" />
+		<column name="name" type="String" />
+	</entity>
+	<exceptions>
+		<exception>ContentTitle</exception>
+		<exception>RuleUrl</exception>
+	</exceptions>
+</service-builder>

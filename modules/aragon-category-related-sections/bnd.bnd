@@ -1,0 +1,5 @@
+Bundle-Name: Aragon Category Related Sections
+Bundle-SymbolicName: es.aragon.base.category_related_sections
+Bundle-Version: 1.8.0
+Export-Package: es.aragon.base.category_related_sections.constants
+-metatype: *

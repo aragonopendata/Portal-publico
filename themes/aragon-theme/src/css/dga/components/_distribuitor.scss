@@ -1,0 +1,56 @@
+.dga-view{
+    .distribuitor{
+        &__listado{
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        .item{
+            @include font-size(18);
+            padding: 3rem 1rem 0;
+            &__link{
+                padding: 1.5rem;
+                display: block;
+                text-decoration: none;
+                color: $dga_black;
+                &:hover,
+                &:focus{
+                    background-color: $dga_lightGray;
+                    transition: all 300ms linear; 
+                    .title{
+                        display: inline-block;
+                        border-bottom: .2rem solid $dga_rojo;
+                        padding-right: 1rem;
+                    }
+                }
+                .title{
+                    @include font-size(20);
+                    font-family: $openSansSemiBold;
+                    border-bottom: .2rem solid $dga_amarillo;
+                    padding-bottom: 1.5rem;
+                }
+                .intro{
+                    line-height: 3.6rem;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width:$screen-sm){
+    .dga-view{
+        .distribuitor{
+            &__listado{
+                margin-left: -1rem;
+                margin-right: -1rem;
+            }
+            .item{
+                &__link{
+                    padding: 3rem;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+.dga-view{
+    .filtrado-tema{
+        .listado{
+            list-style:none;
+            padding-left:0;
+            display:flex;
+            &__item{
+                text-align:center;
+                border:.1rem solid $dga_black;
+                border-bottom: .4rem solid $dga_amarillo;
+                padding:1rem;
+                .link{
+                    display:inline-block;
+                    color:$dga_black;
+                }
+            }
+        }
+    }
+}
+
+/* 576px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .filtrado-tema{
+            .listado{
+                &__item{
+                    flex: 0 0 32%;
+                    max-width: 32%;
+                    margin-right:2%;
+                    &:last-child{
+                        margin-right:0;
+                    }
+                }
+            }
+        }
+    }
+}

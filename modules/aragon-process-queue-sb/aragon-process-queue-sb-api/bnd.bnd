@@ -1,0 +1,9 @@
+Bundle-Name: Aragon Process Queue SB API
+Bundle-SymbolicName: es.aragon.base.process.queue.api
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.process.queue.exception,\
+	es.aragon.base.process.queue.model,\
+	es.aragon.base.process.queue.service,\
+	es.aragon.base.process.queue.service.persistence
+-includeresource: META-INF/service.xml=../aragon-process-queue-sb-service/service.xml

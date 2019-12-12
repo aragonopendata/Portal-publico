@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-Activator: es.aragon.base.startup_bundle_activator.StartupBundl
+ eActivator
+Bundle-ManifestVersion: 2
+Bundle-Name: Startup Bundle Activator
+Bundle-SymbolicName: es.aragon.base.startup_bundle_activator
+Bundle-Version: 1.8.0
+Created-By: 1.8.0_181 (Oracle Corporation)
+Import-Package: com.liferay.dynamic.data.mapping.kernel;version="[1.2,
+ 2)",com.liferay.dynamic.data.mapping.model;version="[1.7,2)",com.life
+ ray.dynamic.data.mapping.service;version="[1.2,2)",com.liferay.dynami
+ c.data.mapping.storage;version="[1.0,2)",com.liferay.dynamic.data.map
+ ping.util;version="[1.6,2)",com.liferay.expando.kernel.model;version=
+ "[1.1,2)",com.liferay.expando.kernel.service;version="[1.1,2)",com.li
+ feray.journal.model;version="[2.0,3)",com.liferay.portal.kernel.confi
+ guration;version="[6.2,7)",com.liferay.portal.kernel.exception;versio
+ n="[7.2,8)",com.liferay.portal.kernel.json;version="[7.0,8)",com.life
+ ray.portal.kernel.log;version="[7.0,8)",com.liferay.portal.kernel.mod
+ el;version="[2.0,3)",com.liferay.portal.kernel.service;version="[1.30
+ ,2)",com.liferay.portal.kernel.util;version="[8.0,9)",org.osgi.framew
+ ork;version="[1.8,2)"
+Javac-Debug: on
+Javac-Deprecation: off
+Javac-Encoding: Cp1252
+Private-Package: adts,es.aragon.base.startup_bundle_activator,es.arago
+ n.base.startup_bundle_activator.constants,es.aragon.base.startup_bund
+ le_activator.util,structures,templates
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Tool: Bnd-3.5.0.201709291849

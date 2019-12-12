@@ -1,0 +1,101 @@
+.dga-view{
+    /* Módulo valoración */ 
+    .valoration-module{
+        overflow: hidden;
+        padding: 2rem 1.5rem;
+        border-top: 1px solid $dga_grayLines;
+        border-bottom: 1px solid $dga_grayLines;
+        color: $dga_marrongray;
+        .container{
+            padding: 0;
+            text-align: center;
+        }
+        &__box{
+            display: inline-block;
+        }
+        .labelVal,
+        ul{
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+        .labelVal{
+            font-family: $openSansSemiBold;
+            @include font-size(22);
+        }
+        .listado-stars{
+            margin:0 0 0 2rem;
+            list-style: none;
+            padding: 0;
+            &__star{
+                margin-right: 1rem;
+                float: left;
+                .link{
+                    text-decoration: none;
+                    // background-image: url("../images/dga/icons/icon-star-empty.svg");
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    height: 4rem;
+                    width: 4rem;
+                    display: block;
+                    img{
+                        width: 100%;
+                    }
+                }
+                img{
+                    height: 4rem;
+                    width: 4rem;
+                }
+                &.active{
+                    .link{
+                        background-image: none;
+                    }
+                    &:hover,
+                    &:focus{
+                        .link{
+                            background-image: none;
+                        }
+                    }
+                }
+                &:hover,
+                &:focus{
+                    .link{
+                        background-image: url("../images/dga/icons/icon-star.svg");
+                    }
+                }
+            }
+        }
+        &.disabled{
+            color: $dga_grayInactive;
+            cursor: not-allowed;
+            .listado-stars{
+                &__star{
+                    .link{
+                        pointer-events: none;
+                        img{
+                            filter: grayscale(100%);
+                        }
+                    }
+                    &:hover,
+                    &:focus{
+                        .link{
+                            background-image: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .valoration-module{
+            padding: 2rem 0;
+            .labelVal,
+            ul{
+                float: left;
+            }
+        }
+    }
+}

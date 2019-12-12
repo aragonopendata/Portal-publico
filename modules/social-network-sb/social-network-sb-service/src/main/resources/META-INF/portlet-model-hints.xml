@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="es.aragon.base.social_network.sb.model.SocialNetwork">
+		<field name="uuid" type="String" />
+		<field name="socialNetworkId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="url" type="String" />
+		<field name="imageId" type="long" />
+		<field name="extraParameters" type="String" />
+		<field name="alt" type="String" />
+	</model>
+</model-hints>

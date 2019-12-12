@@ -1,0 +1,111 @@
+<liferay-portlet:actionURL var="importAdtTemplatesURL">
+	<liferay-portlet:param name="javax.portlet.action" value="updateAdtTemplatesSelected" />
+</liferay-portlet:actionURL>
+
+<liferay-frontend:edit-form action="<%=importAdtTemplatesURL%>" method="post" name="fm">
+	<div class="closed container-fluid-1280 sidenav-container sidenav-right">
+		<div class="list-group-header"> 
+			<div class="list-group-header-title"><liferay-ui:message key="resources-importer.adt-templates-title" /></div> 
+			<label for="<portlet:namespace />selectAllAdtTemplates"> 
+				<input id="<portlet:namespace />selectAllAdtTemplates" name="<portlet:namespace />selectAllAdtTemplates" type="checkbox">
+				<liferay-ui:message key="resources-importer.select-all-button" /> 
+			</label>
+		</div>
+		<div>
+			<liferay-ui:search-container emptyResultsMessage="resources-importer.empty-adt-templates-results-message">
+				<liferay-ui:search-container-results results="${adtTemplatesList}"/>
+				<liferay-ui:search-container-row className="DDMTemplate" modelVar="curAdtTemplate" cssClass="entry-display-style">
+					
+					<liferay-ui:search-container-column-text>
+						<label>
+							<aui:input cssClass="rowAdtTemplates" label="" name="rowAdtTemplates" type="checkbox" value="<%=curAdtTemplate.getTemplateKey()%>" />
+						</label>
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text>
+						<liferay-ui:user-portrait userId="<%= curAdtTemplate.getUserId() %>" />
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text colspan="<%=3%>">
+						<%
+						Date createDate = curAdtTemplate.getModifiedDate();
+						if(Validator.isNotNull(createDate)){
+							String modifiedDateDescription = LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - createDate.getTime(), true);
+						%>
+							<h6><liferay-ui:message arguments="<%= new String[]{HtmlUtil.escape(curAdtTemplate.getUserName()), modifiedDateDescription} %>" key="x-modified-x-ago" /></h6>
+						<%
+						}
+						%>
+						<h5><%= HtmlUtil.escape(curAdtTemplate.getName(locale)) %></h5>
+						<div><%=HtmlUtil.escape(ResourceActionsUtil.getModelResource(locale, curAdtTemplate.getClassName())).toUpperCase()%></div>
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text>
+					<%
+						if(Validator.isNull(curAdtTemplate.getTemplateId())){
+						%>
+							<h6 style="color:#ba0000"><liferay-ui:message key="resources-importer.resource-not-imported-message" /></h6>
+						<%
+						}else if(Validator.isNotNull(curAdtTemplate.getTemplateId())){
+							boolean isUpdated = ApplicationDisplayTemplateUtil.isTemplateUpdated(curAdtTemplate.getTemplateId(), themeDisplay.getScopeGroupId());
+							if(isUpdated){
+						%>
+							<h6 style="color:#287d3d"><liferay-ui:message key="resources-importer.resource-updated-message" /></h6>
+						<%		
+							}else{
+								DDMTemplate ddmTemplate = _ddmTemplateLocalService.fetchDDMTemplate(curAdtTemplate.getTemplateId());
+								if(Validator.isNotNull(ddmTemplate)){
+						%>
+								<h6 style="color:#f68a00"><liferay-ui:message key="resources-importer.resource-not-updated-message" /></h6>
+								
+								<portlet:renderURL var="compareTemplatesURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+									<portlet:param name="mvcPath" value="/tabs/compare_contents.jsp" />
+									<portlet:param name="resourceId" value="<%=String.valueOf(curAdtTemplate.getTemplateId())%>" />
+									<portlet:param name="resourceType" value="<%=DDMTemplate.class.getName()%>" />
+									<portlet:param name="templateType" value="ADT" />
+								</portlet:renderURL>
+								
+								<div>
+									<aui:button cssClass="btn-default btn-template" href="<%=compareTemplatesURL%>" useDialog="true" value="resources-importer.compare-template-button" />
+								</div>
+						<%	
+								}
+							}
+						}
+						%>
+					</liferay-ui:search-container-column-text>
+				</liferay-ui:search-container-row>
+				<liferay-ui:search-iterator displayStyle="descriptive" markupView="lexicon"/>
+			</liferay-ui:search-container>
+		</div>
+		<liferay-frontend:edit-form-footer>		
+			<aui:button cssClass="btn-lg" type="submit" value="resources-importer.import-button"/>
+ 		</liferay-frontend:edit-form-footer>
+	</div>
+</liferay-frontend:edit-form>
+
+<script>
+
+	$().ready(function() {
+	    // Desmarcamos todos los checkbox al importar adts
+	    $("#<portlet:namespace />selectAllAdtTemplates").prop('checked', false);
+		$(".rowAdtTemplates").prop('checked', false);
+	});
+
+	// Seleccionamos todos los checkbox de los adts
+	$("#<portlet:namespace />selectAllAdtTemplates").change(function(){
+	    $(".rowAdtTemplates").prop('checked', $(this).prop("checked"));
+	});
+	
+	$('.rowAdtTemplates').change(function(){ 
+		// Si uno de los adts no esta seleccionado, el boton general queda desmarcado
+	    if(false == $(this).prop("checked")){
+	        $("#<portlet:namespace />selectAllAdtTemplates").prop('checked', false);
+	    }
+		// Si todos los adts estan seleccionados, el boton general queda marcado
+		if ($('.rowAdtTemplates:checked').length == $('.rowAdtTemplates').length ){
+			$("#<portlet:namespace />selectAllAdtTemplates").prop('checked', true);
+		}
+	});
+
+</script>

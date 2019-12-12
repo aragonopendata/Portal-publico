@@ -1,0 +1,3 @@
+Bundle-Name: Custom API Rest Services
+Bundle-SymbolicName: es.aragon.base.custom_api_rest_services
+Bundle-Version: 1.8.0

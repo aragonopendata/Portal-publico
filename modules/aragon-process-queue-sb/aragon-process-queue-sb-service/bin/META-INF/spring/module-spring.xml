@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="es.aragon.base.process.queue.service.impl.QueuedProcessLocalServiceImpl" id="es.aragon.base.process.queue.service.QueuedProcessLocalService" />
+	<bean class="es.aragon.base.process.queue.service.impl.QueuedProcessServiceImpl" id="es.aragon.base.process.queue.service.QueuedProcessService" />
+	<bean class="es.aragon.base.process.queue.service.persistence.impl.QueuedProcessPersistenceImpl" id="es.aragon.base.process.queue.service.persistence.QueuedProcessPersistence" parent="basePersistence" />
+</beans>

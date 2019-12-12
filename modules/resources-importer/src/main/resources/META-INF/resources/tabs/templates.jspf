@@ -1,0 +1,111 @@
+<liferay-portlet:actionURL var="importTemplatesURL">
+	<liferay-portlet:param name="javax.portlet.action" value="updateTemplatesSelected" />
+</liferay-portlet:actionURL>
+
+<liferay-frontend:edit-form action="<%=importTemplatesURL%>" method="post" name="fm">
+	<div class="closed container-fluid-1280 sidenav-container sidenav-right">
+		<div class="list-group-header"> 
+			<div class="list-group-header-title"><liferay-ui:message key="resources-importer.cms-templates-title" /></div> 
+			<label for="<portlet:namespace />selectAllTemplates"> 
+				<input id="<portlet:namespace />selectAllTemplates" name="<portlet:namespace />selectAllTemplates" type="checkbox">
+				<liferay-ui:message key="resources-importer.select-all-button" /> 
+			</label>
+		</div>
+		<div>
+			<liferay-ui:search-container emptyResultsMessage="resources-importer.empty-cms-templates-results-message">
+				<liferay-ui:search-container-results results="${templatesList}"/>
+				<liferay-ui:search-container-row className="DDMTemplate" modelVar="curTemplate" cssClass="entry-display-style">
+					
+					<liferay-ui:search-container-column-text>
+						<label>
+							<aui:input cssClass="rowTemplates" label="" name="rowTemplates" type="checkbox" value="<%=curTemplate.getTemplateKey()%>" />
+						</label>
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text>
+						<liferay-ui:user-portrait userId="<%= curTemplate.getUserId() %>" />
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text colspan="<%=5%>">
+						<%
+						Date createDate = curTemplate.getModifiedDate();
+						if(Validator.isNotNull(createDate)){
+							String modifiedDateDescription = LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - createDate.getTime(), true);
+						%>
+							<h6><liferay-ui:message arguments="<%= new String[]{HtmlUtil.escape(curTemplate.getUserName()), modifiedDateDescription} %>" key="x-modified-x-ago" /></h6>
+						<%
+						}
+						%>
+						<h5><%= HtmlUtil.escape(curTemplate.getName(locale)) %></h5>
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text align="right">
+						<%
+						boolean isUpdated = TemplateUtil.isTemplateUpdated(curTemplate.getTemplateId(), themeDisplay.getScopeGroupId());					
+						if(Validator.isNull(curTemplate.getTemplateId())){
+						%>
+							<h6 style="color:#ba0000"><liferay-ui:message key="resources-importer.resource-not-imported-message" /></h6>
+						<%
+						}else if(Validator.isNotNull(curTemplate.getTemplateId())){
+							if(isUpdated){
+						%>
+							<h6 style="color:#287d3d"><liferay-ui:message key="resources-importer.resource-updated-message" /></h6>
+						<%		
+							}else{
+								DDMTemplate ddmTemplate = _ddmTemplateLocalService.fetchDDMTemplate(curTemplate.getTemplateId());
+								if(Validator.isNotNull(ddmTemplate)){
+						%>
+								<h6 style="color:#f68a00"><liferay-ui:message key="resources-importer.resource-not-updated-message" /></h6>
+								
+								<portlet:renderURL var="compareTemplatesURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+									<portlet:param name="mvcPath" value="/tabs/compare_contents.jsp" />
+									<portlet:param name="resourceId" value="<%=String.valueOf(curTemplate.getTemplateId())%>" />
+									<portlet:param name="resourceType" value="<%=DDMTemplate.class.getName()%>" />
+									<portlet:param name="templateType" value="CMS" />
+								</portlet:renderURL>
+								
+								<div>
+									<aui:button cssClass="btn-default btn-template" href="<%=compareTemplatesURL%>" useDialog="true" value="resources-importer.compare-template-button" />
+								</div>
+						<%	
+								}
+							}
+						}
+						%>
+					</liferay-ui:search-container-column-text>
+					
+				</liferay-ui:search-container-row>
+				<liferay-ui:search-iterator displayStyle="descriptive" markupView="lexicon"/>
+			</liferay-ui:search-container>
+		</div>
+		<liferay-frontend:edit-form-footer>		
+			<aui:button cssClass="btn-lg" type="submit" value="resources-importer.import-button"/>
+ 		</liferay-frontend:edit-form-footer>
+	</div>
+</liferay-frontend:edit-form>
+
+<script>
+
+	$().ready(function() {
+	    // Desmarcamos todos los checkbox al importar plantillas
+	    $("#<portlet:namespace />selectAllTemplates").prop('checked', false);
+		$(".rowTemplates").prop('checked', false);
+	});
+
+	// Seleccionamos todos los checkbox de las plantillas
+	$("#<portlet:namespace />selectAllTemplates").change(function(){
+	    $(".rowTemplates").prop('checked', $(this).prop("checked"));
+	});
+	
+	$('.rowTemplates').change(function(){ 
+		// Si una de las plantillas no esta seleccionada, el boton general queda desmarcado
+	    if(false == $(this).prop("checked")){
+	        $("#<portlet:namespace />selectAllTemplates").prop('checked', false);
+	    }
+		// Si todas las plantillas estan seleccionadas, el boton general queda marcado
+		if ($('.rowTemplates:checked').length == $('.rowTemplates').length ){
+			$("#<portlet:namespace />selectAllTemplates").prop('checked', true);
+		}
+	});
+
+</script>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="es.aragon.base.categories_importer.service.impl.ImportCategoryRegistryLocalServiceImpl" id="es.aragon.base.categories_importer.service.ImportCategoryRegistryLocalService" />
+	<bean class="es.aragon.base.categories_importer.service.impl.ImportCategoryRegistryServiceImpl" id="es.aragon.base.categories_importer.service.ImportCategoryRegistryService" />
+	<bean class="es.aragon.base.categories_importer.service.persistence.impl.ImportCategoryRegistryPersistenceImpl" id="es.aragon.base.categories_importer.service.persistence.ImportCategoryRegistryPersistence" parent="basePersistence" />
+</beans>

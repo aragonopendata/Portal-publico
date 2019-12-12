@@ -1,0 +1,21 @@
+[
+	{
+		"name": "Normal",
+		"element": "p"
+	},
+    {
+		"name": "Título de nivel 2",
+		"element": "h2"
+	},
+    {
+		"name": "Título de nivel 3",
+		"element": "h3"
+	},
+    {
+		"name": "Párrafo destacado",
+		"element": "p",
+		"attributes": {
+			"class": "p-custom-class"
+		}
+	}
+]

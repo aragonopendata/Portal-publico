@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="es.aragon.base.social_network.sb.service.impl.SocialNetworkLocalServiceImpl" id="es.aragon.base.social_network.sb.service.SocialNetworkLocalService" />
+	<bean class="es.aragon.base.social_network.sb.service.impl.SocialNetworkServiceImpl" id="es.aragon.base.social_network.sb.service.SocialNetworkService" />
+	<bean class="es.aragon.base.social_network.sb.service.persistence.impl.SocialNetworkPersistenceImpl" id="es.aragon.base.social_network.sb.service.persistence.SocialNetworkPersistence" parent="basePersistence" />
+</beans>

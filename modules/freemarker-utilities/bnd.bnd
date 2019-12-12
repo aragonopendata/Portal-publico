@@ -1,0 +1,6 @@
+Bundle-Name: Freemarker Utilities
+Bundle-SymbolicName: es.aragon.base.freemarker_utilities
+Bundle-Version: 1.8.0
+Export-Package: \
+	es.aragon.base.freemarker_utilities.api,\
+	es.aragon.base.freemarker_utilities.impl

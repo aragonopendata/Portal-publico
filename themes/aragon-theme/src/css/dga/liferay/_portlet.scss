@@ -1,0 +1,96 @@
+.portlet-topper {
+	padding: 3px 12px 3px 24px !important;
+	background-color: $dga_grayBar !important;
+	font-size: 1.6rem;
+	.portlet-name-text {
+		font-size: 1.4rem;
+	}
+}
+.portlet-topper:before {
+	display: none;
+}
+
+.modal-full-screen .modal-content {
+	font-size: 3.2rem;
+    border-radius: 0.48rem;
+    border-top-left-radius: 0.48rem;
+    border-top-right-radius: 0.48rem;
+    border-bottom-right-radius: 0.48rem;
+    border-bottom-left-radius: 0.48rem;
+	
+	
+	.modal-header {
+		height: 6.4rem;
+		padding: 1.6rem;
+		border-top-left-radius: 0.48rem;
+		border-top-right-radius: 0.48rem;
+		
+		.modal-title {
+			font-size: 2rem;
+			font-weight: 700;
+		}
+		
+		.modal .close:last-child {
+			margin-right: -0.5rem;
+		}
+
+		.modal .close:first-child {
+			margin-left: -0.5rem;
+		}
+	}
+}
+.portlet-configuration .portlet-body {
+	font-size: 1.6rem;
+	.navigation-bar {
+		border-width: 0 0 0.1rem 0;
+		border-bottom-width: 0.1rem;
+		font-size: 1.4rem;
+		
+		.nav-item {
+			.nav-link {
+				padding-bottom: 1.15rem;
+				padding-left: 1.6rem;
+				padding-right: 1.6rem;
+				padding-top: 1.15rem;
+			}
+			.navbar-text-truncate {
+				max-width: 20rem;
+			}
+		}
+	}
+	.btn{
+		font-size: 1.6rem;
+	}
+	.dialog-footer .btn{
+		margin-left: 1.6rem;
+		padding: 0.6rem 1.2rem;
+		border-radius: 0.4rem;
+	}
+	.fieldset {
+		.field-wrapper {
+			font-size: 1.6rem;
+			margin-bottom: 1.6rem;
+		}
+	}
+	.control-label {
+		font-size: 1.4rem;
+		margin-bottom: 0.4rem;
+		font-weight: 600;
+	}
+	.form-control {
+		font-size: 1.6rem;
+		height: 4rem !important;
+		padding-bottom: 0.8rem;
+		padding-top: 0.8rem;
+		padding-left: 1.6rem;
+		padding-right: 1.6rem;
+		border-radius: 0.4rem;
+		border-color: $dga_grayLines;
+		border-style: solid;
+		$dga_lightGray: $dga_lightGray;
+	}
+}
+
+.yui3-widget-bd {
+	font-size: 1.4rem;
+}

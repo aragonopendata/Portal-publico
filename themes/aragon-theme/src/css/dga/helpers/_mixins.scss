@@ -1,0 +1,18 @@
+
+@mixin font-size($sizeValue) {
+    $remValue: ($sizeValue / 10);
+    $pxValue: $sizeValue;
+    font-size: $pxValue + px; 
+    font-size: $remValue + rem;
+    line-height: ($remValue*1.4) + rem;
+  }  
+
+@mixin bgGradientThree(){
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fdcb33+0,fdcb33+34,fa9902+34,fa9902+66,f05442+66,f05442+100,f1f1f1+100,f05442+100,f05442+100 */
+    background: rgb(253,203,51); /* Old browsers */
+    background: -moz-linear-gradient(left, rgba(253,203,51,1) 0%, rgba(253,203,51,1) 33%, rgba(250,153,2,1) 33%, rgba(250,153,2,1) 66%, rgba(240,84,66,1) 66%, rgba(240,84,66,1) 100%, rgba(241,241,241,1) 100%, rgba(240,84,66,1) 100%, rgba(240,84,66,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(253,203,51,1) 0%,rgba(253,203,51,1) 33%,rgba(250,153,2,1) 33%,rgba(250,153,2,1) 66%,rgba(240,84,66,1) 66%,rgba(240,84,66,1) 100%,rgba(241,241,241,1) 100%,rgba(240,84,66,1) 100%,rgba(240,84,66,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(253,203,51,1) 0%,rgba(253,203,51,1) 33%,rgba(250,153,2,1) 33%,rgba(250,153,2,1) 66%,rgba(240,84,66,1) 66%,rgba(240,84,66,1) 100%,rgba(241,241,241,1) 100%,rgba(240,84,66,1) 100%,rgba(240,84,66,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdcb33', endColorstr='#f05442',GradientType=1 ); /* IE6-9 */
+}
+

@@ -1,0 +1,11 @@
+Bundle-Name: Aragon Crawler API
+Bundle-SymbolicName: es.aragon.base.crawler.api
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.crawler.exception,\
+	es.aragon.base.crawler.model,\
+	es.aragon.base.crawler.service,\
+	es.aragon.base.crawler.service.persistence,\
+	es.aragon.base.crawler.service.permission,\
+	es.aragon.base.crawler.constants
+-includeresource: META-INF/service.xml=../crawler-service/service.xml

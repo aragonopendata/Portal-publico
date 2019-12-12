@@ -1,0 +1,45 @@
+.dga-view{
+    /* Módulo compartir */
+    .share-module{
+        overflow: hidden;
+        text-align: center;
+        .headerShare,
+        ul{
+            display: inline-block;
+            margin: 0.5rem 0;
+            color: $dga_marrongray;
+        }
+        .headerShare{
+            font-family: $openSansSemiBold;
+        }
+        &__box{
+            display: inline-block;
+        }
+        .rrss{
+            margin-left: 2rem;
+            li{
+                margin-right: 1rem;
+                .icon-rrss{
+                    width: 3.6rem;
+                    height: 3.6rem;
+                    img{
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .share-module{
+            text-align: left;
+            .headerShare,
+            ul{
+                float: left;
+            }
+        }
+    }
+}

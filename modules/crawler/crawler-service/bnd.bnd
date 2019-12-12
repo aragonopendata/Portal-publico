@@ -1,0 +1,7 @@
+Bundle-Name: Aragon Crawler Service
+Bundle-SymbolicName: es.aragon.base.crawler.service
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.crawler.service.util
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true

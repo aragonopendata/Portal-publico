@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="es.aragon.base.aragon_most_visited_pages.model.MostVisitedPage">
+		<field name="uuid" type="String" />
+		<field name="mostVisitedPageId" type="long" />
+		<field name="path" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="visits" type="int" />
+		<field name="title" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="position" type="int" />
+		<field name="visible" type="boolean" />
+	</model>
+</model-hints>

@@ -1,0 +1,9 @@
+Bundle-Name: Categories Custom Properties SB API
+Bundle-SymbolicName: es.aragon.base.categories_custom_properties.api
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.categories_custom_properties.exception,\
+	es.aragon.base.categories_custom_properties.model,\
+	es.aragon.base.categories_custom_properties.service,\
+	es.aragon.base.categories_custom_properties.service.persistence
+-includeresource: META-INF/service.xml=../categories-custom-properties-sb-service/service.xml

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="es.aragon.base.migration.service.impl.AreaLocalServiceImpl" id="es.aragon.base.migration.service.AreaLocalService" />
+	<bean class="es.aragon.base.migration.service.impl.AreaServiceImpl" id="es.aragon.base.migration.service.AreaService" />
+	<bean class="es.aragon.base.migration.service.persistence.impl.AreaPersistenceImpl" id="es.aragon.base.migration.service.persistence.AreaPersistence" parent="basePersistence" />
+	<bean class="es.aragon.base.migration.service.impl.ContentLocalServiceImpl" id="es.aragon.base.migration.service.ContentLocalService" />
+	<bean class="es.aragon.base.migration.service.impl.ContentServiceImpl" id="es.aragon.base.migration.service.ContentService" />
+	<bean class="es.aragon.base.migration.service.persistence.impl.ContentPersistenceImpl" id="es.aragon.base.migration.service.persistence.ContentPersistence" parent="basePersistence" />
+	<bean class="es.aragon.base.migration.service.impl.ContentImageLocalServiceImpl" id="es.aragon.base.migration.service.ContentImageLocalService" />
+	<bean class="es.aragon.base.migration.service.impl.ContentImageServiceImpl" id="es.aragon.base.migration.service.ContentImageService" />
+	<bean class="es.aragon.base.migration.service.persistence.impl.ContentImagePersistenceImpl" id="es.aragon.base.migration.service.persistence.ContentImagePersistence" parent="basePersistence" />
+	<bean class="es.aragon.base.migration.service.impl.ContentMetadataLocalServiceImpl" id="es.aragon.base.migration.service.ContentMetadataLocalService" />
+	<bean class="es.aragon.base.migration.service.impl.ContentMetadataServiceImpl" id="es.aragon.base.migration.service.ContentMetadataService" />
+	<bean class="es.aragon.base.migration.service.persistence.impl.ContentMetadataPersistenceImpl" id="es.aragon.base.migration.service.persistence.ContentMetadataPersistence" parent="basePersistence" />
+	<bean class="es.aragon.base.migration.service.impl.ContentRelatedLocalServiceImpl" id="es.aragon.base.migration.service.ContentRelatedLocalService" />
+	<bean class="es.aragon.base.migration.service.impl.ContentRelatedServiceImpl" id="es.aragon.base.migration.service.ContentRelatedService" />
+	<bean class="es.aragon.base.migration.service.persistence.impl.ContentRelatedPersistenceImpl" id="es.aragon.base.migration.service.persistence.ContentRelatedPersistence" parent="basePersistence" />
+	<bean class="es.aragon.base.migration.service.impl.ContentUrlLocalServiceImpl" id="es.aragon.base.migration.service.ContentUrlLocalService" />
+	<bean class="es.aragon.base.migration.service.impl.ContentUrlServiceImpl" id="es.aragon.base.migration.service.ContentUrlService" />
+	<bean class="es.aragon.base.migration.service.persistence.impl.ContentUrlPersistenceImpl" id="es.aragon.base.migration.service.persistence.ContentUrlPersistence" parent="basePersistence" />
+	<bean class="es.aragon.base.migration.service.impl.RuleLocalServiceImpl" id="es.aragon.base.migration.service.RuleLocalService" />
+	<bean class="es.aragon.base.migration.service.impl.RuleServiceImpl" id="es.aragon.base.migration.service.RuleService" />
+	<bean class="es.aragon.base.migration.service.persistence.impl.RulePersistenceImpl" id="es.aragon.base.migration.service.persistence.RulePersistence" parent="basePersistence" />
+	<bean class="es.aragon.base.migration.service.impl.TemplateLocalServiceImpl" id="es.aragon.base.migration.service.TemplateLocalService" />
+	<bean class="es.aragon.base.migration.service.impl.TemplateServiceImpl" id="es.aragon.base.migration.service.TemplateService" />
+	<bean class="es.aragon.base.migration.service.persistence.impl.TemplatePersistenceImpl" id="es.aragon.base.migration.service.persistence.TemplatePersistence" parent="basePersistence" />
+</beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="es.aragon.base.categories_importer">
+	<namespace>EAB_CI</namespace>
+	<entity local-service="true" name="ImportCategoryRegistry" remote-service="true" uuid="true">
+       	<!-- PK fields -->
+		<column name="importCategoryRegistryId" primary="true" type="long" />
+		<!-- Audit fields -->
+		<column name="vocabularyId" type="long" />
+		<column name="categoryId" type="long" />
+		<column name="importDate" type="Date" />
+		<column name="type" type="String" />
+		<column name="comment" type="String" />
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="importDate" />
+		</order>
+		<!-- Finder -->
+		<finder name="VocabularyId" return-type="Collection">
+		    <finder-column name="vocabularyId"></finder-column>
+		</finder>
+		<finder name="CategoryId" return-type="long">
+		    <finder-column name="categoryId"></finder-column>
+		</finder>
+		<finder name="Type" return-type="Collection">
+		    <finder-column name="type"></finder-column>
+		</finder>
+		<finder name="VocabularyIdType" return-type="Collection">
+		    <finder-column name="vocabularyId"></finder-column>
+		    <finder-column name="type"></finder-column>
+		</finder>
+	</entity>
+</service-builder>

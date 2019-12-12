@@ -1,0 +1,92 @@
+<section class="en-linea tramite-body u-padding-bottom-4 u-padding-bottom-sm-6">
+	<ol class="list">
+		<li class="list__item">
+			<p class="title">
+				<a href="javascript:void(0)" data-control-collapse="list-quien" aria-expanded="true">
+					<liferay-ui:message key="detail.applicant" />
+				</a>
+			</p>
+			<div class="info collapse show" data-content-collapse="list-quien" id="list-quien">
+				<div class="pt-5 pb-5">
+					<p>${procedure.getApplicant()}</p>
+				</div>
+			</div>
+		</li>
+		<li class="list__item">
+			<p class="title">
+				<a href="javascript:void(0)" data-control-collapse="list-observaciones" aria-expanded="false">
+					<liferay-ui:message key="detail.requirement-observations" />
+				</a>
+			</p>
+			<div class="info collapse" data-content-collapse="list-observaciones" id="list-observaciones">
+				<div class="pt-5 pb-5">
+					<p>${procedure.getRequirementsAndObservations()}</p>
+				</div>
+			</div>
+		</li>
+		<li class="list__item">
+			<p class="title">
+				<a href="javascript:void(0)" data-control-collapse="list-documentacion" aria-expanded="false">
+					<liferay-ui:message key="detail.documentation" />
+				</a>
+			</p>
+			<div class="info collapse" data-content-collapse="list-documentacion" id="list-documentacion">
+				<div class="pt-5 pb-5">
+					<p>${procedure.getDocumentation()}</p>
+				</div>
+			</div>
+		</li>
+		<li class="list__item">
+			<p class="title">
+				<a href="javascript:void(0)" data-control-collapse="list-lugar-online" aria-expanded="false">
+					<liferay-ui:message key="detail.presentation-place" />
+				</a>
+			</p>
+			<div class="info collapse" data-content-collapse="list-lugar-online" id="list-lugar-online">
+				<div class="pt-5 pb-5">
+					<c:choose>
+						<c:when test="${procedure.getInLevel() == 4}">
+							<%
+								Map<Locale, String> onlineMap = LocalizationUtil.getLocalizationMap(portletPreferences, "online");
+								String localizedOnline = "";
+								if(onlineMap.containsKey(themeDisplay.getLocale())) {
+									localizedOnline = onlineMap.get(themeDisplay.getLocale());
+								}
+								if(localizedOnline.isEmpty() && onlineMap.containsKey(LocaleUtil.getDefault())) {
+									localizedOnline = onlineMap.get(LocaleUtil.getDefault());
+								}
+							%>
+							<p><%= localizedOnline %></p>
+						</c:when>
+						<c:when test="${procedure.getInLevel() == 3}">
+							<%
+								Map<Locale, String> presentialAndOnlineMap = LocalizationUtil.getLocalizationMap(portletPreferences, "presentialAndOnline");
+								String localizedPresentialAndOnline = "";
+								if(presentialAndOnlineMap.containsKey(themeDisplay.getLocale())) {
+									localizedPresentialAndOnline = presentialAndOnlineMap.get(themeDisplay.getLocale());
+								}
+								if(localizedPresentialAndOnline.isEmpty() && presentialAndOnlineMap.containsKey(LocaleUtil.getDefault())) {
+									localizedPresentialAndOnline = presentialAndOnlineMap.get(LocaleUtil.getDefault());
+								}
+							%>
+							<p><%= localizedPresentialAndOnline %></p>
+						</c:when>
+						<c:otherwise>
+							<%
+								Map<Locale, String> presentialMap = LocalizationUtil.getLocalizationMap(portletPreferences, "presential");
+								String localizedPresential = "";
+								if(presentialMap.containsKey(themeDisplay.getLocale())) {
+									localizedPresential = presentialMap.get(themeDisplay.getLocale());
+								} 
+								if(localizedPresential.isEmpty() && presentialMap.containsKey(LocaleUtil.getDefault())) {
+									localizedPresential = presentialMap.get(LocaleUtil.getDefault());
+								}
+							%>
+							<p><%= localizedPresential %></p>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+		</li>
+	</ol>
+</section>

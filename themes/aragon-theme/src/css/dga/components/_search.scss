@@ -1,0 +1,81 @@
+.dga-view{
+    /* módulo búsqueda */
+    .search-module{
+        padding: 1.5rem 1rem;
+        .input-group{
+            display: flex;
+            justify-content: center;
+            .search-input-container{
+                width: calc(100% - 4.8rem);
+                position: relative;
+                &::after{
+                    content: '';
+                    height:0.1rem;
+                    width: calc(100% - 2.6rem);
+                    background-color: $dga_darkblack;
+                    position: absolute;
+                    bottom: 1rem;
+                    left: 1.3rem;
+                }
+                .search-input{
+                    padding: 1.3rem 1.9rem;
+                    @include font-size(14);
+                    line-height: 2.4rem;
+                    color: $dga_black;
+                    width: 100%;
+                    border:none;
+                    &::placeholder{
+                        color: $dga_darkblack;
+                    }
+                    &:focus{
+                        background-color:$dga_amarillo_focus;
+                    }
+                }
+                
+            }
+            .search-btn{
+                height: 4.8rem;
+                width: 4.8rem;
+                background-color: $dga_rojo;
+                float: left;
+                border:none;
+                cursor: pointer;
+                position: relative;
+                img{
+                    width: 3.6rem;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                }
+                .lupa-focus{
+                    display: none;
+                }
+                &:focus{
+                    background-color: $dga_black;
+                    .lupa{
+                        display: none;
+                    }
+                    .lupa-focus{
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width:$screen-sm){
+    .dga-view{
+        /* módulo búsqueda */
+        .search-module{
+            .input-group{
+                .search-input-container{
+                    .search-input{
+                        @include font-size(16);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.1.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_1_0.dtd">
+
+<look-and-feel>
+	<compatibility>
+		<version>7.1.0+</version>
+	</compatibility>
+	<theme id="control-panel-aragon-theme" name="Control Panel Aragon Theme">
+		<template-extension>ftl</template-extension>
+		<control-panel-theme>true</control-panel-theme>
+		<page-theme>false</page-theme>
+	</theme>
+</look-and-feel>

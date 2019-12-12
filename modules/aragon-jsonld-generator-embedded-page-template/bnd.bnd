@@ -1,0 +1,4 @@
+Bundle-Name: Aragon Jsonld Generator Embedded Page Template
+Bundle-SymbolicName: es.aragon.base.aragon_jsonld_generator_embedded_page_template
+Bundle-Version: 1.8.0
+Export-Package: es.aragon.base.aragon_jsonld_generator_embedded_page_template.constants

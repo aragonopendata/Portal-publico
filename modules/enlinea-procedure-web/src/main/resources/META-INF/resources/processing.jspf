@@ -1,0 +1,56 @@
+<div class="aside-block-module aside-block-module--detalle border-red">
+	<p class="info-label mb-0"><liferay-ui:message key="processing.processing-term" /></p>
+	<p>
+		<c:choose>
+			<c:when test="${procedure.isInTerm()}">
+				<liferay-ui:message key="processing.processing-term.in-term" />
+			</c:when>
+			<c:otherwise>
+				<liferay-ui:message key="processing.processing-term.not-in-term" />
+			</c:otherwise>
+		</c:choose>
+	</p>
+	<p class="info-label mb-0"><liferay-ui:message key="processing.resolution-term" /></p>
+	<p>${procedure.getResolutionTime()}</p>
+</div>
+<div class="text-center mt-4 mb-4">
+	<c:choose>
+		<c:when test="${procedure.getInLevel() >= 3}">
+			<a href="${procedure.getOnlineURL()}" class="u-btn u-btn-red d-inline-block btn-tramites">
+				<img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-iniciar-tramites.svg" alt="" class="hidden-md pr-3">
+				<liferay-ui:message key="processing.online" />
+			</a>
+		</c:when>
+		<c:otherwise>
+			<span class="u-btn u-btn-white d-inline-block btn-tramites border-red pt-4 pb-4">
+				<liferay-ui:message key="processing.presential" />
+			</span>
+		</c:otherwise>
+	</c:choose>
+</div>
+<c:if test="${not empty procedure.getDocuments()}">
+	<div class="aside-block-module  border-bottom-yellow border-gray pt-3 pb-3">
+		<p class="title-descarga d-flex align-items-center m-0">
+			<span class="icon-theme documents-red mr-3"></span>
+			<a href="javascript:void(0)" data-control-collapse="listado-descarga-aside" aria-expanded="false">
+				<liferay-ui:message key="processing.download-forms" />
+			</a>
+		</p>
+		<ol class="listado collapse p-0" data-content-collapse="listado-descarga-aside" id="listado-descarga-aside">
+			<c:forEach items="${procedure.getDocuments()}" var="document">
+				<li>
+					<div class="d-flex flex-wrap align-items-center">
+						<div class="col-xs-12 col-md mb-5 mb-md-0 pr-md-3">
+							${document.getName()}
+						</div>
+						<div class="col-xs-6 col-md-2 d-flex flex-column p-0">
+							<a href="${document.getUrl()}" class="icon d-block text-center">
+								<img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-download-red.svg" alt="#">
+							</a>
+						</div>
+					</div>
+				</li>
+			</c:forEach>
+		</ol>
+	</div>
+</c:if>

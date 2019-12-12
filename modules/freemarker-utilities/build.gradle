@@ -1,0 +1,17 @@
+dependencies {
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.service"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.search.web", version: "1.3.0"
+	compileInclude group: "org.jsoup", name: "jsoup", version: "1.8.3"
+	compile project(':modules:aragon-utilities')
+	compileOnly project(":modules:categories-custom-properties-sb:categories-custom-properties-sb-api")
+	compileOnly project(":modules:categories-custom-properties-sb:categories-custom-properties-sb-service")
+	
+}

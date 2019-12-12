@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="es.aragon.base.process.queue">
+	<namespace>EAB_PQ</namespace>
+	<entity local-service="true" name="QueuedProcess" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="queuedProcessId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="executionStartedDate" type="Date" />
+		<column name="executionFinishedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="processName" type="String" />
+		<column name="jsonParameters" type="String" />
+		<column name="status" type="int" />
+
+		<!-- Order -->
+
+		<order by="desc">
+			<order-column name="createDate" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder return-type="Collection" name="ProcessNameGroupId">
+			<finder-column name="groupId" />
+			<finder-column name="processName" />
+		</finder>
+		
+		<finder return-type="Collection" name="ProcessNameGroupIdStatus">
+			<finder-column name="groupId" />
+			<finder-column name="processName" />
+			<finder-column name="status" />
+		</finder>
+	</entity>
+</service-builder>

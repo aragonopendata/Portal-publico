@@ -1,0 +1,5 @@
+Bundle-Name: Aragon Most Visited Pages SB Service
+Bundle-SymbolicName: es.aragon.base.aragon_most_visited_pages.service
+Bundle-Version: 1.8.0
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true

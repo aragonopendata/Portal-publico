@@ -1,0 +1,8 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	
+	compile project(":modules:crawler:crawler-api")
+	compile project(":modules:crawler:crawler-service")
+	compile project(":modules:crawler:crawler-web")
+}

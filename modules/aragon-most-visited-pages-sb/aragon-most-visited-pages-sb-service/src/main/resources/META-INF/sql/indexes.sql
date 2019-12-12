@@ -1,0 +1,1 @@
+create index IX_FBA6CD98 on EAB_AMVP_MostVisitedPage (uuid_[$COLUMN_LENGTH:75$]);

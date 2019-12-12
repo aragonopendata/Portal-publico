@@ -1,0 +1,143 @@
+.dga-view{
+    /* Módulo accesos rápidos genérico */
+    .access-links{
+        background-color: $dga_lightblack;
+        &__list{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0;
+            width: 100%;
+            &__items{
+                flex-basis: 50%;
+                text-align: center;
+                padding: 2rem 0.3rem;
+                line-height: 2rem;
+                border-right: 0.1rem solid $dga_black;
+                border-bottom: 0.1rem solid $dga_black;
+                &:nth-child(2n),
+                &:last-child{
+                    border-right: none;
+                }
+                &:nth-last-child(1),
+                &:last-child{
+                    border-bottom: none;
+                }
+                a{
+                    overflow: hidden;
+                    display: block;
+                    &:hover,
+                    &:focus{
+                        text-decoration: none;
+                    }
+                }
+                .svg-container{
+                    height: 5rem;
+                    margin-bottom: 1.5rem;
+                    position: relative;
+                    > div{
+                        height: 5rem;
+                        width: 10rem;
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        position: absolute;
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
+                    .boa{
+                        background-image: url('../images/dga/icons/icon-boa.svg');
+                    }
+                    .sede{
+                        background-image: url('../images/dga/icons/icon-sede.svg');
+                    }
+                    .justicia{
+                        background-image: url('../images/dga/icons/icon-justice.svg');
+                    }
+                    .transparencia{
+                        background-image: url('../images/dga/icons/icon-transparencia.svg');
+                    }
+                    .gobierno{
+                        background-image: url('../images/dga/icons/icon-abierto.svg');
+                    }
+                    .turismo{
+                        background-image: url('../images/dga/icons/icon-turismo.svg');
+                    }
+                    // svg{
+                    //     position: absolute;
+                    //     top: 50%;
+                    //     left: 50%;
+                    //     transform: translateX(-50%) translateY(-50%);
+                    //     height: 100%;
+                    // }
+                }
+                .title{
+                    width: 100%;
+                    @include font-size(18);
+                    font-family: $signika;
+                    text-transform: uppercase;
+                    word-break: break-word;
+                    //line-height: 1.25em;
+                    &:focus,
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 576px */
+@media screen and (min-width:$screen-s){
+    .dga-view{
+        .access-links{
+            &__list{
+                &__items{
+                    flex-basis: 33.33%;
+                    &:nth-child(3){
+                        border-right: none;
+                    }
+                    &:nth-child(2),
+                    &:nth-child(4){
+                        border-right: 0.1rem solid $dga_black;
+                    }
+                    &:nth-child(4),
+                    &:nth-child(5){
+                        border-bottom: none;
+                    }
+                    &:last-child{
+                        border-right: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .access-links{
+            &__list{
+                max-width: 100%;
+            }
+        }
+    }
+}
+/* 992px */
+@media screen and (min-width:$screen-md){
+    .dga-view{
+        .access-links{
+            &__list{
+                &__items{
+                    border-bottom: none;
+                    &:nth-child(3){
+                        border-right: 0.1rem solid $dga_black;
+                    }
+                }
+            }
+        }
+    }
+}
+

@@ -1,0 +1,4 @@
+Bundle-Name: Social Network Web
+Bundle-SymbolicName: es.aragon.base.social_network.web.portlet
+Bundle-Version: 1.8.0
+Export-Package: es.aragon.base.social_network.web.portlet.constants

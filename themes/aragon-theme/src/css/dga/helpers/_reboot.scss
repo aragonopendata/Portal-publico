@@ -1,0 +1,64 @@
+
+
+#wrapper{
+    padding-top: 0;
+    margin: 0;
+}
+
+.dga-view{
+    /****************** RESET ESTILOS LIFERAY ******************/
+    padding: 0;
+    .portlet{
+        margin-bottom: 0;
+    }
+    .portlet-content{
+        padding: 0;
+    }
+    .portlet-column{
+        width: 100%;
+    }
+    .portlet-oculto{
+        text-indent: -9999rem;
+        display: block;
+        margin: 0;
+        height: 0;
+    }
+    .portlet-layout{
+        &.row{
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .col-md-6{
+            &.portlet-column-first{
+                padding-left: 0;
+            }
+            &.portlet-column-last{
+                padding-right: 0;
+            }
+        }
+    }
+
+    .portlet-title-text{
+        text-overflow:initial;
+    }
+
+    
+
+    /****************** RESET ESTILOS BOOTSTRAP ******************/
+
+    .dropdown-menu {
+        max-height: initial;
+    }
+}
+
+/* Accesibilidad */
+.quick-access-nav{
+    a{
+        border: none;
+        outline: initial;
+        &:focus{
+            outline: -webkit-focus-ring-color auto 5px;
+            text-decoration: underline
+        }
+    }
+}

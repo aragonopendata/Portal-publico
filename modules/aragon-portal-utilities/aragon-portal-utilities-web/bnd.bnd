@@ -1,0 +1,14 @@
+Bundle-Name: Aragon Portal Utilities Web
+Bundle-SymbolicName: es.aragon.base.portal.utilities.web
+Bundle-Version: 1.8.0
+Export-Package: \
+	es.aragon.base.portal.utilities.constants,\
+	es.aragon.base.portal.utilities.utils
+-includeresource:\
+	@poi-[0-9]*.jar,
+    lib/httpcore.jar=httpcore-*.jar,\
+    lib/httpclient.jar=httpclient-*.jar,\
+    lib/avalon-framework-api.jar=avalon-framework-api-*.jar,\
+    lib/commons-logging.jar=commons-logging-*.jar,\    
+    lib/commons-io.jar=commons-io-*.jar,\
+    lib/commons-lang.jar=commons-lang-*.jar, \

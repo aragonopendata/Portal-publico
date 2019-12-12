@@ -1,0 +1,4 @@
+Bundle-Name: Aragon Search Web
+Bundle-SymbolicName: es.aragon.base.search.web
+Bundle-Version: 1.8.0
+-metatype: *

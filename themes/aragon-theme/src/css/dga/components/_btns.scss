@@ -1,0 +1,27 @@
+.dga-view{
+    /* módulo btn acceso más contenidos */
+    .btn-module{
+        .container{
+            width: 100%;
+        }
+        .btn-access-news{
+            // padding-right: 3rem;
+            // padding-left: 3rem;
+            display: inline-block;
+            span{
+                position: relative;
+                margin: auto;
+                display: inline-block;
+                @include font-size(16);
+            }
+            &:hover,
+            &:focus{
+                text-decoration: none;
+                span{
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+

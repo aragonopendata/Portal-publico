@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="es.aragon.base.semaphore">
+	<namespace>EAB_SEMAPHORE</namespace>
+	<entity local-service="true" name="Semaphore" remote-service="true" uuid="true">
+		<!-- PK fields -->
+		<column name="semaphoreId" primary="true" type="long" />
+		<!-- Rating fields -->
+		<column name="groupId" type="long" />
+		<column name="serviceName" type="String" />
+		<column name="maxUsers" type="long" />
+		<column name="currentUsers" type="long" />
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="semaphoreId" />
+		</order>
+		<!-- Finders -->
+		<finder return-type="Collection" name="ServiceNameGroupId">
+			<finder-column name="groupId" />
+			<finder-column name="serviceName" />
+		</finder>
+		
+		<finder return-type="Collection" name="GroupId">
+			<finder-column name="groupId" />
+		</finder>
+	</entity>
+</service-builder>

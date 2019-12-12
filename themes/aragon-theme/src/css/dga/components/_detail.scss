@@ -1,0 +1,439 @@
+.dga-view{
+    /* Cuerpo de detalle de noticia: título, categorias y fecha, introducción, texto e imagen, detalle imagen*/
+    .detail-news-module{
+        position: relative;
+        &__h1{
+            color: $dga_darkblack;
+            font-family: $openSansSemiBold;
+            padding: 3rem 1.5rem 1rem;
+            //padding: 3rem 8rem 2rem 0; ** activar cuando se active el speaker
+            margin: 0;
+            @include font-size(24);
+            max-width: 100%;
+            position: relative;
+            line-height: initial;
+            span{
+                display: block;
+                padding: 0;
+                white-space: initial;
+            }
+        }
+        &__date-categories{
+            overflow: hidden;
+            padding: 0 1.5rem;
+            .date,
+            .categories{
+                padding: 2rem 0 0;
+                display: block;
+                color: $dga_marrongray;
+                @include font-size(16);
+                &__item{
+                    display: inline;
+                    margin-right: 1rem;
+                    .name{
+                        color: $dga_black;
+                        &::after{
+                            content:'|';
+                            padding-left: 1rem;
+                        }
+                    }
+                    
+                    &:last-child{
+                        .name{
+                            &::after{
+                                display: none;
+                            }
+                        }
+
+                    }
+                }
+            }
+            .date{
+                width: auto;
+                margin-bottom: 0;
+                padding-right: 0;
+                padding-left: 0;
+                font-family: $openSansSemiBoldItalic;
+            }
+            .categories{
+                padding: 2rem 0;
+            }
+        }
+        &__intro{
+            @include font-size(18);
+            color: $dga_marrongray;
+            font-family: $openSansSemiBold;
+            padding:0 1.5rem 2rem 5.5rem;
+            position: relative;
+            display: block;
+            line-height: 1.5em;
+            &::before{
+                content: '';
+                width: 3rem;
+                height: 0.2rem;
+                background-color: $dga_rojo;
+                position: absolute;
+                top: 1.2rem;
+                left: 1.5rem;
+            }
+            &::after {
+                display: block;
+                clear: both;
+                content: "";
+            }
+            a{
+                color: $dga_blue;
+                text-decoration: underline;
+            }
+        }
+        &__body-news{
+            overflow: hidden;
+            margin-top: 3rem;
+            &__description{
+                @include font-size(18);
+                color: $dga_darkblack;
+                margin-bottom: 4rem;
+                line-height: 3rem;
+                padding: 0 1.5rem;
+                &::after {
+                    display: block;
+                    clear: both;
+                    content: "";
+                }
+                p{
+                    margin-bottom: 1.5rem;
+                    a{
+                        margin-bottom: 0;
+                    }
+                    &.p-custom-class{
+                        padding: 1.5rem;
+                        display: table-cell;
+                        border-bottom: 2rem solid $dga_white;
+                        background-color: $dga_lightGray;
+                    }
+                }
+                blockquote{
+                    padding-left: 6rem;
+                    margin: 4rem 0;
+                    @include font-size(18);
+                    position: relative;
+                    &::before{
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 1rem;
+                        background-image: url(../images/dga/icons/icon-quote.svg);
+                        background-size: 100%;
+                        background-repeat: no-repeat;
+                        width: 4rem;
+                        height: 2.8rem;
+                    }
+                }
+                a{
+                    color: $dga_blue;
+                    text-decoration: underline;
+                    margin-bottom: 10px;
+                    &:hover{
+                        text-decoration: none;
+                    }
+                }
+                h2,
+                h3,
+                h4{
+                    margin-top: 0;
+                    margin-bottom: 2rem;
+                    font-family: $openSansSemiBold;
+                }
+                h2{
+                    @include font-size(24);
+                }
+                h3{
+                    @include font-size(20);
+                }
+                h4{
+                    @include font-size(18);
+                }
+                p ~ h2,p ~ h3,p ~ h4{
+                    margin-top: 3rem;
+                }
+                
+
+            }
+            &__image{
+                width: 100%;
+                margin: 0 0 3rem;
+                img{
+                    width: 100%;
+                }
+            }
+        }
+        &__image-acc-description{
+            border-top:.2rem solid $dga_orange;
+            border-bottom:.2rem solid $dga_orange;
+            @include font-size(18);
+            padding: 2rem 1.5rem 0;
+            color: $dga_darkblack;
+            &__label{
+                font-family: $openSansSemiBold;
+                display: block;
+                @include font-size(20);
+                margin-bottom: 1rem;
+                text-indent: initial;
+            }
+            &__text{
+                line-height: 1.5em;
+                margin-bottom: 2rem;
+                a{
+                margin-top: 0.5rem;
+                color: $dga_darkblack;
+                text-decoration: none;
+                border-bottom: 0.1rem solid $dga_rojo;
+                &:hover,
+                &:focus{
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        &__video{
+            width: 100%;
+            max-width: 80rem;
+            margin: 0 auto 5rem;
+            .video-container{
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                iframe,
+                .image{
+                    position: absolute;
+                    top:0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+                .icon-play{
+                    height: 5rem;
+                    width: 5rem;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    background-color: rgba($color: $dga_darkblack, $alpha: 0.6);
+                    border-radius: 3rem;
+                    padding: .2rem;
+                    box-sizing: content-box;;
+                }
+                a:focus{
+                    .image{
+                        outline: -webkit-focus-ring-color auto .5rem;
+                    }
+                }
+            }
+        }
+        &__anchor{
+            padding-top: 1rem;
+            .listado{
+                list-style: none;
+                padding: 0 0 3rem;
+                position: relative;
+                &::after{
+                    content: '';
+                    width: 100%;
+                    height: .4rem;
+                    background: $dga_amarillo;
+                }
+                margin-bottom: 3rem;
+                &__item{
+                    font-family: $openSansSemiBold;
+                    position: relative;
+                    padding: 0;
+                    .link{
+                        @include font-size(20);
+                        border-bottom: 0.1rem solid #f0f0f0;
+                        padding: 3rem 2rem 2rem 5rem;
+                        position: relative;
+                        font-family: $openSansSemiBold;
+                        color: $dga_black;
+                        text-decoration-color: $dga_black;
+                        text-underline-position:under;
+                        display: block;
+                        overflow: hidden;
+                        word-break: break-word;
+                        position: relative;
+                        &::before{
+                            content: '';
+                            width: 1.0rem;
+                            height: 1.1rem;
+                            background: url(../images/dga/icons/icon-plus.svg) center center no-repeat;
+                            background-size: 100%;
+                            position: absolute;
+                            left: 2rem;
+                            top: 3.75rem;
+                        }
+                        &:hover,
+                        &:focus{
+                            &::before{
+                                display: none;
+                            }
+                            .title{
+                                text-decoration: underline;
+                            }
+                        }
+                        &.no-border{
+                            border-bottom: none;
+                        }
+                    }
+                    
+                }
+            }
+            .anchor-txt-container{
+                @include font-size(18);
+                &__title{
+                    font-family: $signikaSemiBold;
+                    @include font-size(24);
+                    margin: 4rem 0 1rem;
+                }
+            }
+        }
+        &--persona{
+            &__h1{
+                .inline{
+                    display: inline;
+                    border-bottom: .2rem solid $dga_rojo;
+                }
+            }
+            &__cargo{
+                font-family: $openSansSemiBold;
+                @include font-size(16);
+                margin-top: 1rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            &__body-news{
+                &__image{
+                    width: 90%;
+                    margin: 0 auto 3rem;
+                    display: block;
+                    max-width: 24rem;
+                }
+            }
+        }
+        
+        
+    }
+}
+
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .detail-news-module{
+            &__h1{
+                padding: 2rem 0;
+                @include font-size(30);
+                padding-left: 0;
+                padding-right: 0;
+            }
+            &__date-categories{
+                padding: 0;
+                .date,
+                .categories{
+                    padding: 2rem;
+                    float: left;
+                    display: inline;
+                }
+                .date{
+                    padding-left: 0;
+                }
+                .categories{
+                    width: calc(100% - 11rem);
+                }
+            }
+            &__intro{
+                display: block;
+                padding:0 0 2rem 4rem;
+                &::before{
+                    left: 0;
+                }
+            }
+            &__body-news{
+                &__description{
+                    padding: 0;
+                    blockquote{
+                        padding-left: 9rem;
+                        &::before{
+                            left: 3rem;
+                        }
+                    }
+                    .table-layer{
+                        overflow-x:auto;
+                    }
+                }
+                &__image{
+                    width: 45%;
+                    padding: 0 0 1rem 3%;
+                    float: right;
+                    background: $dga_white;
+                    margin-left: 2%;
+                }
+            }
+            &__image-acc-description{
+                padding: 2rem 0 0;
+            }
+            &__anchor{
+                .listado{
+                    margin-left: -1.5rem;
+                    margin-right: -1.5rem;
+                    &::after{
+                        width: calc(100% - 3rem);
+                    }
+                    &__item{
+                        padding: 0 1.5rem;
+                        .link{
+                            @include font-size(24);
+                            padding: 2rem 5rem;
+                            height: 100%;
+                            &::before{
+                                top: 3rem;
+                            }
+                            .icon{
+                                position: relative;
+                                top: -1rem;
+                                right: 2rem;
+                                padding-top: 0;
+                            }
+                        }
+                    }
+                }
+            }
+            &--persona{
+                &__h1{
+                    width: auto;
+                    display: inline-block;
+                    padding-bottom: 1rem;
+                    margin-bottom: 1rem;
+                }
+                &__cargo{
+                    @include font-size(24);
+                    padding-left: 0;
+                    padding-right: 0;
+                    
+                }
+                &__body-news{
+                    margin-top: 5rem;
+                    display: flex;
+                    flex-wrap: wrap;
+                    &__description{
+                        flex: 6;
+                    }
+                    &__image{
+                        flex: 2;
+                        max-width: inherit;
+                        margin: 0 0 1rem 3rem;
+                    }
+                }
+            }
+        }
+    }
+}
+

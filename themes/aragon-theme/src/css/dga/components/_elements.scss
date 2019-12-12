@@ -1,0 +1,303 @@
+.dga-view{
+    // botones
+    .u-btn{
+        padding: 1rem;
+        font-family: $openSansBold;
+        font-weight: bold;
+        &.u-btn-white{
+            background-color: $dga_white;
+            color: $dga_darkblack;
+            text-transform: uppercase;
+            border-radius: 0.5rem;
+            padding: 1.5rem 1.5rem;
+            border:.1rem solid $dga_grayBorder;
+        }
+        &.u-btn-red{
+            background-color: $dga_rojo;
+            border: 0.2rem solid $dga_rojo;
+            color: $dga_darkblack;
+            text-transform: uppercase;
+            border-radius: 0.5rem;
+            padding: 1.3rem 2rem;
+            line-height: 2rem;
+            transition: all 300ms linear;
+            &:hover,
+            &:focus{
+                text-decoration: underline;
+            }
+        }
+        &.u-btn-red-border{
+            border:.2rem solid $dga_rojo;
+            background: transparent;
+            color: $dga_darkblack;
+            text-transform: uppercase;
+            border-radius: 0.5rem;
+            padding: 1.3rem 1.5rem;
+            line-height: 2rem;
+            transition: all 300ms linear;
+            &:hover,
+            &:focus{
+                text-decoration: underline;
+            }
+        }
+        &.u-btn-red-white{
+            background-color: $dga_rojo;
+            color: $dga_white;
+            text-transform: uppercase;
+            border-radius: 0.5rem;
+            padding: 1.3rem 1.5rem;
+            line-height: 2rem;
+            transition: all 300ms linear;
+            &:hover,
+            &:focus{
+                color: $dga_black;
+                text-decoration: none;
+            }
+        }
+    }
+    
+    // Botón cerrar
+    .close-btn {
+        background: transparent;
+        border: none;
+        width: 5rem;
+        height: 3.2rem;
+        transform: rotate(0deg);
+        transition: all .5s ease-in-out;
+        cursor: pointer;
+        z-index: 1;
+        position: absolute;
+        top: -2rem;
+        left: 1.5rem;
+        span{
+            display: block;
+            position: absolute;
+            height: 0.3rem;
+            width: 3rem;
+            background: $dga_black;
+            border-radius: 2rem;
+            opacity: 1;
+            top: 0.5rem;
+            left: 1rem;
+            transform: rotate(0deg);
+            transition: all .25s ease-in-out;
+            &:first-of-type {
+                transform: rotate(45deg);
+                top: 0.3rem;
+                left: 1rem;
+            }
+            &:nth-of-type(2){
+                display: none;
+            }
+            &:last-of-type {
+                transform: rotate(-45deg);
+                top: 0.3rem;
+                left: 1rem;
+            }
+        }
+    }
+
+    // estilos comunes input
+    .form-input{
+        background: $dga_white;
+        border: none;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    // checkbox con imagen custom
+    .check-item{
+        &__check{
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+    // .check-item{
+    //     &__check {
+    //         display:none;
+    //     }
+    //     input + label {
+    //         background: url('../images/dga/check-off.svg') 0 .1rem no-repeat;
+    //         padding-left: 3.25rem;
+    //         display: block;
+    //     }
+    //     input:checked + label {
+    //         background: url('../images/dga/check-on.svg') 0 0 no-repeat;
+    //     }
+    // }
+
+    //Flechas indicadoras nivel
+    .arrow-open{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4.4rem;
+        height: 4.4rem;
+        padding: 0;
+        background: transparent;
+        border:none;
+        cursor: pointer;
+        &::after{
+            content: '\f107';
+            font-family: 'fontawesome-alloy';
+            width: 2rem;
+            height: 2rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            @include font-size(30);
+            line-height: 2.6rem;
+            color: $dga_black;
+            transform: translate(-50%,-50%) rotate(0deg);
+            transition: all 300ms linear;
+        }
+        &[aria-expanded=true]{
+            &::after{
+                transform: translate(-52%,-20%) rotate(180deg);
+                color: $dga_rojo;
+            }
+        }
+    }
+
+    // listado/indice elementos
+    .elmts-list{
+        .title{
+            font-family: $signikaSemiBold;
+            @include font-size(20);
+            border-bottom: .2rem solid $dga_rojo;
+            padding-left: 0;
+            display: inline;
+            a{
+                color: $dga_black;
+            }
+        }
+        .listado{
+            list-style: none;
+            padding:1rem 0 0;
+            .item{
+                .link{
+                    @include font-size(16);
+                    display: block;
+                    position: relative;
+                    font-family: $openSansSemiBold;
+                    color: $dga_black;
+                    padding:1rem 0 1.5rem 3rem;
+                    text-decoration: none;
+                    &::before{
+                        content: '';
+                        width: 1.0rem;
+                        height: 1.1rem;
+                        background: url(../images/dga/icons/icon-plus.svg) center center no-repeat;
+                        background-size: 100%;
+                        position: absolute;
+                        left: 1rem;
+                        top: 1.6rem;
+                    }
+                    &:hover,
+                    &:focus{
+                        transition: all 150ms linear;
+                        .name{
+                            padding-bottom: .3rem;
+                            border-bottom: .2rem solid $dga_rojo;
+                        }
+                        &::before{
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Tablas
+    .table-layer{
+        overflow-x: scroll
+    }
+    table{
+        @include font-size(18);
+        width:100%;
+        margin: 3rem 0 0;
+        border:.1rem solid $dga_black;
+        border-bottom: none;
+        min-width: 80rem;
+        border-spacing: 0;
+        caption{
+            margin: 0 0 3rem;
+            @include font-size(14);
+            font-family: $openSansSemiBold;
+            text-align: center;
+        }
+        th{
+            padding:1.5rem;
+            text-align: center;
+            background: $dga_black;
+            font-family: $openSansSemiBold;
+            color: $dga_white;
+        }
+        td{
+            padding:1.5rem;
+            text-align: center;
+            vertical-align: top;
+            border-bottom:1px solid $dga_black;
+            border-right:1px solid $dga_black;
+            &:first-of-type{
+                text-align: center;
+            }
+            &:last-of-type{
+                border-right: none;
+            }
+            a{
+                display: block;
+                text-align: left;
+            }
+        }
+    }
+
+    // pie de foto
+    .pie-foto{
+        display: block;
+        width: 100%;
+        text-align: center;
+        @include font-size(14);
+        color: $dga_marrongray;
+        margin-top: .5rem;
+        a{
+            color: $dga_marrongray!important;
+            border-bottom: 0.1rem solid $dga_black;
+            text-decoration: none!important;
+            font-weight: normal!important;
+            &:hover,
+            &:focus{
+                text-decoration: none!important;
+            }
+        }
+    }
+}
+
+@media (min-width:$screen-xs){
+    .dga-view{
+        .elmts-list{
+            .title{
+                display: block;
+            }
+        }
+    }
+}
+
+@media (min-width:$screen-sm){
+    .dga-view{
+        .elmts-list{
+            &:nth-of-type(odd){
+                padding-right:2rem;
+            }
+            &:nth-of-type(even){
+                padding-left:2rem;
+            }
+            .title{
+                @include font-size(24);
+                padding-left: 1rem;
+            }
+        }
+    }
+}
+

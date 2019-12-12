@@ -1,0 +1,12 @@
+dependencies {
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender.api"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly project(":modules:aragon-process-queue-sb:aragon-process-queue-sb-api")
+}
+
+buildService {
+	apiDir = "../aragon-process-queue-sb-api/src/main/java"
+}
+
+group = "es.aragon.base.process.queue"

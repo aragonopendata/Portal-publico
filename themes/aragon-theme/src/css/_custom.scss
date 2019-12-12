@@ -1,0 +1,29 @@
+@import "dga/helpers/mixins";
+@import "dga/helpers/variables";
+
+/* GLOBAL */
+@import "dga/common/global";
+@import "dga/helpers/reboot";
+@import "dga/vendor/ekko-lightbox.scss";
+@import "dga/vendor/swiper.scss";
+
+
+
+
+/* LAYOUT */
+@import "dga/layout/header";
+@import "dga/layout/nav";
+@import "dga/layout/footer";
+
+/* HELPERS */
+@import "dga/helpers/hacks";
+@import "dga/helpers/print";
+
+/* COMPONENTS */
+@import "dga/components/components";
+@import "dga/common/zoom";
+
+/* LIFERAY */
+@import "dga/liferay/controlpanel";
+@import "dga/liferay/override";
+@import "dga/liferay/portlet";

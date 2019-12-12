@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>${title}</title>
+
+    <style>
+
+        *, *::before, *::after {
+          box-sizing: border-box;
+        }
+        body {
+          background-color: rgb(255, 255, 255);
+          box-sizing: border-box;
+          color: rgb(33, 37, 41);
+          display: block;
+          font-family: open_sans, sans-serif;
+          font-size: 20px;
+          font-weight: 400;
+          height: 100%;
+          line-height: 28px;
+          margin-bottom: 0px;
+          margin-left: 0px;
+          margin-right: 0px;
+          margin-top: 0px;
+          text-align: left;
+          text-size-adjust: 100%;
+          width: 100%;
+          -webkit-font-smoothing: antialiased;
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+    
+        #wrapper {
+          padding-top: 0;
+          margin: 0;
+          padding-bottom: 0;
+        }
+    
+        .h1-interior {
+          background-color: rgb(51, 51, 51);
+          box-sizing: border-box;
+          color: rgb(255, 255, 255);
+          display: block;
+          font-family: Signika-SemiBold, sans-serif;
+          font-size: 20px;
+          font-weight: 400;
+          height: 86px;
+          line-height: 28px;
+          margin-bottom: 0px;
+          margin-left: 0px;
+          margin-right: 0px;
+          margin-top: 0px;
+          max-width: 100%;
+          padding-bottom: 10px;
+          padding-left: 0px;
+          padding-right: 0px;
+          padding-top: 25px;
+          position: relative;
+          text-align: left;
+          text-size-adjust: 100%;
+          width: 100%;
+          -webkit-font-smoothing: antialiased;
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        .h1-interior:before {
+          content: "";
+          background-image: url(https://www.aragon.es/o/aragon-theme/images/dga/icons/icon-flag-pixel.svg);
+          opacity: 0.1;
+          height: 10rem;
+          width: 100%;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-repeat: no-repeat;
+          background-position: -18rem center;
+        }
+    
+        .h1-interior:after {
+          content: "";
+          width: 100%;
+          height: 0.5rem;
+          position: absolute;
+          top: 0px;
+          background: linear-gradient(to right, rgb(253, 203, 51) 0%, rgb(253, 203, 51) 33%, rgb(250, 153, 2) 33%, rgb(250, 153, 2) 66%, rgb(240, 84, 66) 66%, rgb(240, 84, 66) 100%, rgb(241, 241, 241) 100%, rgb(240, 84, 66) 100%, rgb(240, 84, 66) 100%);
+        }
+    
+        .h1-interior .container {
+          padding: 0px 0px 0px 4rem;
+          display: block;
+          font-size: 30px;
+          line-height: 50px;
+          max-width: 130rem;
+          box-sizing: border-box;
+          margin-right: auto;
+          margin-left: auto;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+    
+        h1 {
+          margin-inline-start: 0px;
+          margin-inline-end: 0px;
+          margin-block-start: 0.83em;
+          margin-block-end: 0.83em;
+          margin-top: 0;
+          color: inherit;
+          font-family: inherit;
+          font-weight: 500;
+        }
+    
+        .container {
+          width: 100%;
+          padding-right: 1.5rem;
+          padding-left: 1.5rem;
+          margin-right: auto;
+          margin-left: auto;
+          box-sizing: border-box;
+        }
+    
+        div {
+          display: block;
+        }
+    
+        .list-news-module {
+          width: 100%;
+          margin: 0 auto;
+          padding: 0 0 2rem;
+        }
+    
+        .list-news-module .listado {
+          width: 100%;
+          list-style: none;
+          padding: 0;
+        }
+    
+        ul {
+          /*margin-block-start: 1em;*/
+          margin-block-end: 1em;
+          margin-inline-start: 0px;
+          margin-inline-end: 0px;
+          padding-inline-start: 40px;
+        }
+    
+        li {
+          text-align: -webkit-match-parent;
+        }
+    
+        .list-news-module .listado__item:first-of-type {
+          border-top: 0;
+        }
+    
+        .col-12, .col-xs-12 {
+          flex: 0 0 100%;
+          max-width: 100%;
+          width: 100%;
+          min-height: 1px;
+        }
+    
+        .list-news-module .listado__item:first-of-type .link {
+          padding-top: 0.5rem;
+        }
+    
+        .list-news-module .listado__item .link {
+          font-size: 10px;
+          font-size: 1.5rem;
+          line-height: 2.8rem;
+          display: block;
+          padding: 1.5rem 0rem 0rem 7rem;
+          position: relative;
+          font-family: "open_sans-semibold",sans-serif;
+          color: #333;
+          text-decoration-color: #333;
+          text-underline-position: under;
+          display: block;
+          overflow: hidden;
+        }
+    
+        a {
+          text-decoration: none;
+          background-color: transparent;
+        }
+    
+        a:-webkit-any-link {
+          cursor: pointer;
+        }
+    
+        .list-news-module .listado__item .link .title {
+          position: relative;
+          display: block;
+        }
+    
+        .list-news-module .listado__item .link .title:before {
+          content: '\002B';
+          color: red;
+          position: absolute;
+          left: -2.5rem;
+          /*top: .75rem;*/
+        }
+    
+        .list-news-module .listado__item {
+          font-family: "open_sans-semibold",sans-serif;
+          border-top: .1rem solid #f2f2f2;
+          position: relative;
+        }
+    
+        .mapa-web .arrow-open {
+          margin: 0rem 0;
+        }
+    
+        .arrow-open {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 4.4rem;
+          height: 4.4rem;
+          padding: 0;
+          background: transparent;
+          border: 0;
+          cursor: pointer;
+        }
+    
+        button {
+          -webkit-appearance: button;
+          text-transform: none;
+          overflow: visible;
+          margin: 0;
+          font-family: inherit;
+          font-size: inherit;
+          line-height: inherit;
+          border-radius: 0;
+          -webkit-writing-mode: horizontal-tb !important;
+          text-rendering: auto;
+          letter-spacing: normal;
+          word-spacing: normal;
+          text-transform: none;
+          text-indent: 0px;
+          text-shadow: none;
+          display: inline-block;
+          text-align: center;
+          align-items: flex-start;
+          cursor: default;
+          background-color: buttonface;
+          box-sizing: border-box;
+          margin: 0em;
+          font: 400 13.3333px Arial;
+          padding: 1px 6px;
+          border-width: 2px;
+          border-style: outset;
+          border-color: buttonface;
+          border-image: initial;
+        }
+    
+        .arrow-open[aria-expanded=true]:after {
+          transform: translate(-52%,-20%) rotate(-180deg);
+          color: #f05442;
+        }
+    
+        .arrow-open:after {
+          transform: translate(-50%,-50%) rotate(0);
+          transition: all 300ms linear;
+    
+          position: absolute;
+          content: "";
+          top: 30px;
+          right: 12px;
+          width: 0;
+          height: 0;
+          border: 6px solid transparent;
+          border-color: #2B2B2B transparent transparent transparent;
+        }
+    
+        .fast-access-module__listado__item .link:hover .name, .fast-access-module__listado__item .link:focus .name {
+          text-decoration: underline; 
+        }
+    
+        .list-news-module .listado__item .link:hover, .list-news-module .listado__item .link:focus {
+          text-decoration: none;
+        }
+    
+        .list-news-module .listado__item .link:hover .title, .list-news-module .listado__item .link:focus .title {
+          text-decoration: underline;
+        }
+    
+        .list-news-module .listado__item .link:hover .title::before, .list-news-module .listado__item .link:focus .title::before {
+          display: none;
+        }
+    
+        .mapa-web .collapse {
+          padding-left: 50px;
+        }
+    
+        .collapse {
+          display: none;
+        }
+    
+        .collapse.show {
+          display: block;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="h1-interior">
+      <h1 class="container">${folder_title}</h1>
+    </div>
+    <div class="container">
+      <div class="list-news-module mapa-web">
+        <ul class="listado">
+			${list}
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

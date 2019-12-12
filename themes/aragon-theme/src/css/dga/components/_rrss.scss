@@ -1,0 +1,25 @@
+.dga-view{
+    /* Módulo RRSS genérico */
+    .rrss{
+        padding: 0;
+        list-style: none;
+        li{
+            display: inline-block;
+            margin-right: 1rem;
+            &:last-child{
+                margin-right: 0;
+            }
+            .icon-rrss{
+                height: 3.6rem;
+                width: 3.6rem;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                display: block;
+                img{
+                    height: 100%;
+                }
+            }
+        }
+    }
+}

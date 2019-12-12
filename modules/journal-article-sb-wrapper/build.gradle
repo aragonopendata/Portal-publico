@@ -1,0 +1,13 @@
+dependencies {
+compile group: 'com.liferay', name: 'com.liferay.asset.display.page.api'	
+compileOnly group: "com.liferay", name: "com.liferay.friendly.url.api"	
+compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+compileOnly group: "com.liferay", name: "com.liferay.exportimport.api"
+compileOnly group: "com.liferay", name: "com.liferay.petra.string"	
+compileOnly group: "com.liferay", name:"com.liferay.dynamic.data.lists.api"	
+compileOnly group: "com.liferay", name:"com.liferay.dynamic.data.mapping.api"	
+compileOnly group: "com.liferay", name:"com.liferay.layout.page.template.api"	
+compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"	
+compileOnly group: "javax.portlet", name: "portlet-api"	
+compileOnly group: "org.osgi", name: "osgi.cmpn"
+}

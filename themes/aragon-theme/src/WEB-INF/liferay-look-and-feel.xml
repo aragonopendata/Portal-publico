@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE look-and-feel PUBLIC "-//Liferay//DTD Look and Feel 7.1.0//EN" "http://www.liferay.com/dtd/liferay-look-and-feel_7_1_0.dtd">
+
+<look-and-feel>
+	<compatibility>
+		<version>7.1.0+</version>
+	</compatibility>
+	<theme id="aragon-theme" name="Aragon Theme">
+		<template-extension>ftl</template-extension>
+		<settings>
+			<setting configurable="true" key="layout-header-style" options="default,home" type="select" value="default" />
+			<setting configurable="true" key="euro-flag-url" type="text" value="http://www.aragon.es/Fondos_Europeos" />
+			<setting configurable="true" key="show-page-title" options="true,false" type="select" value="false" />
+			<setting configurable="true" key="show-back-button" options="true,false" type="select" value="false" />
+			<setting configurable="true" key="show-enlinea-help" options="true,false" type="select" value="false" />
+			<setting configurable="true" key="show-most-visited" options="true,false" type="select" value="true" />
+			<setting configurable="true" key="show-procedure-title" options="true,false" type="select" value="false" />
+			<setting configurable="true" key="html-title-format" options="default,procedure" type="select" value="default" />
+			<setting configurable="true" key="dynamic-meta-description" options="default,procedure-distributor" type="select" value="default" />
+		</settings>
+		<portlet-decorator id="barebone" name="Barebone">
+			<default-portlet-decorator>true</default-portlet-decorator>
+			<portlet-decorator-css-class>portlet-barebone</portlet-decorator-css-class>
+		</portlet-decorator>
+		<portlet-decorator id="borderless" name="Borderless">
+			<portlet-decorator-css-class>portlet-borderless</portlet-decorator-css-class>
+		</portlet-decorator>
+		<portlet-decorator id="decorate" name="Decorate">
+			<portlet-decorator-css-class>portlet-decorate</portlet-decorator-css-class>
+		</portlet-decorator>
+		<portlet-decorator id="aragonFlag" name="Aragon Flag">
+			<portlet-decorator-css-class>portlet-bgblue-title</portlet-decorator-css-class>
+		</portlet-decorator>
+		<portlet-decorator id="bgwhite" name="Fondo Blanco">
+			<portlet-decorator-css-class>portlet-bgwhite-title</portlet-decorator-css-class>
+		</portlet-decorator>
+		<portlet-decorator id="notitle" name="Titulo oculto">
+			<portlet-decorator-css-class>portlet-notitle</portlet-decorator-css-class>
+		</portlet-decorator>
+	</theme>
+</look-and-feel>

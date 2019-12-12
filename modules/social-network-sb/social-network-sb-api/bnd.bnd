@@ -1,0 +1,10 @@
+Bundle-Name: Social Network SB API
+Bundle-SymbolicName: es.aragon.base.social_network.sb.api
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.social_network.sb.exception,\
+	es.aragon.base.social_network.sb.model,\
+	es.aragon.base.social_network.sb.service,\
+	es.aragon.base.social_network.sb.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../social-network-sb-service/service.xml

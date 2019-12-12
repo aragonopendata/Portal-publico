@@ -1,0 +1,11 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	
+	compileOnly group: "com.liferay", name: "com.liferay.journal.service"		
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	
+	compileOnly project(":modules:aragon-portal-utilities:aragon-portal-utilities-web")
+	compileOnly project(":modules:aragon-process-queue-sb:aragon-process-queue-sb-api")
+	compileOnly project(":modules:aragon-process-queue-sb:aragon-process-queue-sb-service")
+}

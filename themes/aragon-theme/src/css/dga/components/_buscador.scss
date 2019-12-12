@@ -1,0 +1,502 @@
+.dga-view{
+    .abrir-filtro-contenedor{
+        text-align: center;
+        margin: 0 0 3rem;
+    }
+    .filtrado-buscador{
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        height: 100%;
+        background-color: $dga_grayLines;
+        overflow-y: scroll;
+        padding: 5rem 0 0;
+    }
+    .filtrado{
+        @include font-size(18);
+        padding: 0;
+        .filtrado-container{
+            padding: 2.5rem 2rem 8rem;
+            background-color: $dga_grayLines;
+        }
+        .btn-borrar,
+        .intro,
+        .date,
+        .categoria,
+        .search-module{
+            margin-bottom: 2rem;
+        }
+        .btn-borrar{
+            margin-right: 1.5rem;
+        }
+        .search-module{
+            padding:1rem 0 3rem;
+            border-bottom: .1rem solid $dga_grayBorder;
+        }
+        .intro{
+            padding: 0 1rem 2rem;
+            border-bottom: .1rem solid $dga_grayBorder;
+        }
+        .date{
+            padding-bottom: 3rem;
+            border-bottom: .1rem solid $dga_grayBorder;
+            &__title{
+                font-family: $openSansSemiBold;
+                @include font-size(18);
+                margin-bottom: 2rem;
+            }
+            &__input-label{
+                font-family: $openSansSemiBold;
+                @include font-size(16);
+                color: $dga_black;
+            }
+            &__input-date{
+                @include font-size(14);
+                padding: 1.4rem;
+                &:focus{
+                    background-color: $dga_amarillo_focus;
+                }
+            }
+            .row{
+                margin: 0;
+                .date-container{
+                    padding: 0;
+                    position: relative;
+                    .accCalendar{
+                        position: absolute;
+                        bottom: 0;
+                        right: 1rem;
+                        padding: 1rem .85rem 0.8rem;
+                    }
+                }
+            }
+        }
+        .categoria{
+            position: relative;
+            margin-bottom: 0;
+            &__title{
+                font-family: $openSansSemiBold;
+                @include font-size(18);
+                color: $dga_darkblack;
+                display: inline-block;
+                text-decoration: none;
+                position: relative;
+                line-height: 4.4rem;
+                width: 100%;
+                &::after{
+                    left: auto;
+                    right: 0;
+                }
+                // &[aria-expanded=true]{
+                //     &::after{
+                //         transform: rotate(180deg);
+                //         color: $dga_rojo;
+                //         right: -.1rem;
+                //     }
+                // }
+                 
+            }
+            .listado{
+                list-style: none;
+                position: relative;
+                padding-top: .5rem;
+                padding-left: 1.5rem;
+                .cont-item{
+                    display: flex;
+                    align-items: start;
+                }
+                &__item{
+                    font-family: $openSansSemiBold;
+                    @include font-size(14);
+                    line-height: 2.4rem;
+                    padding-top: 1.5rem;
+                    position: relative;
+                    &:first-child{
+                        border-top: .1rem solid $dga_rojo;
+                    }
+                }
+                
+                .check-item input + label{
+                    padding-left: 1rem;
+                    line-height: 2rem;
+                    position: relative;
+                    top: -.2rem;
+                    width: calc(100% - 6rem);
+                }
+            }
+        }
+        .portal-externo{
+			padding:1rem 0 3rem;
+			border-top:1px solid $dga_grayBorder;
+        }
+        .calendar{
+            .btn:focus,
+            
+            .btn.focus {
+                box-shadow: 0 0 0 0.5rem rgba($dga_rojo, 0.75);
+            }
+            .day:focus{
+                box-shadow: 0 0 0 0.5rem rgba(0, 123, 255, 0.5);
+            }
+        }
+        .btn-filtrar-container{
+            width: 100%;
+            border-top: .1rem solid $dga_grayBorder;
+            .u-btn{
+                margin: 3rem 1rem 0;
+            }
+        }
+    }
+    .resultados{
+        width: 100%;
+        margin-bottom: 1rem;
+        @include font-size(14);
+        padding: 0 1.5rem;
+        .info-resultados{
+            font-family: $signika;
+            @include font-size(20);
+            overflow: hidden;
+            &__btn{
+                position: relative;
+                display: inline-block;
+                padding-right: 3rem;
+                padding-left: 0;
+                color: $dga_darkblack;
+                text-decoration: none;
+                border: none;
+                float: left;
+                background: transparent;
+                &::after{
+                    content: '\f107';
+                    font-family: 'fontawesome-alloy';
+                    position: absolute;
+                    top: .35rem;
+                    right: 0;
+                    @include font-size(30);
+                    line-height: 2rem;
+                    transform: rotate(0deg);
+                    transition: all 300ms linear;
+                }
+                &[aria-expanded=true]{
+                    &::after{
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+            &__txt-numero-cadena{
+                float: right;
+                margin-bottom: 3rem;
+            }
+
+        }
+        .resultados-buscador{
+            &__listado-cat{
+                padding: 2rem 0 1rem;
+                .level{
+                    margin:0;
+                    background: $dga_white;
+                    position: relative;
+                    list-style: none;
+                    .remove-filter{
+                        background: transparent;
+                        border: none;
+                        position: absolute;
+                        top: .2rem;
+                        right: 1rem;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                        cursor: pointer;
+                        span{
+                            width: 1.7rem;
+                            height: .2rem;
+                            background-color: $dga_rojo;
+                            transform: rotate(45deg);
+                            display: inline-block;
+                            position: absolute;
+                            left: 0;
+                            border-radius: 4px;
+                            &:last-of-type{
+                                transform: rotate(135deg);
+                            }
+                        }
+                    }
+                    .level-link{
+                        padding: 0 3rem 2.5rem 0;
+                        font-family: $openSansSemiBold;
+                        @include font-size(16);
+                        margin: 0;
+                        color: $dga_darkblack;
+                        text-decoration: none;
+                        display: block;
+                        line-height: 2rem;
+                    }
+                }
+            }
+        }
+    }
+    .no-result{
+        padding-top: 3rem;
+        font-family: $openSansSemiBold;
+    }
+}
+@media (min-width:$screen-sm){
+    .dga-view{
+        .filtrado-buscador{
+            position: relative;
+            top: inherit;
+            left: inherit;
+            z-index: inherit;
+            background-color: transparent;
+            overflow-y: inherit;
+            padding:0 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .filtrado{
+            padding: 4rem 0 0 0;
+            .filtrado-container{
+                padding: 2.5rem 2rem;
+            }
+            .btn-borrar{
+                margin-right: 0;
+            }
+            .btn-filtrar-container{
+                width: auto;
+                position: relative;
+                .btn-filtrar{
+                    padding: 1.3rem 3rem;
+                    border-radius: .5rem;
+                    width: auto;
+                }
+            }
+            .date{
+                .row{
+                    margin-left: -1rem;
+                    margin-right: -1rem;
+                    .date-container{
+                        padding: 0 1rem;
+                    }
+                }
+            }
+        }
+        .resultados{
+            padding: 0;
+            .info-resultados{
+                padding: 0 3rem;
+                &__btn{
+                    &::after{
+                        display: none;
+                    }
+                }
+            }
+            &__label{
+                padding: 0;
+            }
+            .resultados-buscador{
+                &__listado-cat{
+                    display: flex;
+                    flex-wrap: wrap;
+                    padding: 3rem 1.5rem 1rem;
+                    border-top: .1rem solid $dga_grayLines;
+                    border-bottom: .1rem solid $dga_grayLines;
+                    .level{
+                        position: relative;
+                        display: inline-block;
+                        list-style: none;
+                        margin:0 1.5rem 1rem;
+                        
+                    }
+                }
+            }
+        }
+        .no-result{
+            padding-top: 4rem;
+        }
+    }
+}
+@media (min-width:$screen-md){
+    .dga-view{
+        .filtrado{
+            .filtrado-container{
+                padding: 2.5rem 2rem;
+            }
+        }
+    }   
+}
+
+/* ESTILOS CALENDARIO */
+/* WHATSOCK, 2018 */
+/* Specific styles for ARIA Calendar */
+
+.date-container{
+    #datepicker-demo {
+        background: #E0E0E0;
+        padding: 1rem;
+        margin: 1rem 0 2rem;
+    }
+    
+    #datepicker-demo em {
+        display: block;
+        font-size: 90%;
+    }
+    
+    
+    
+    a.accCalendar {
+        display: inline-block;
+        background: transparent;
+    }
+    
+    div.calendar {
+        text-align: center;
+        color: #FFF;
+        background: #2E3135;
+        padding: 0.5rem;
+        border-radius: 0.3rem;
+        left: 50%!important;
+        top: 80px!important;
+        transform: translateX(-50%);
+        box-shadow: 0 10px 6px -6px #777;
+    }
+    
+    table.calendar {
+        border-collapse: separate;
+        border-spacing: 1px;
+        min-width: auto;
+        margin-top:0;
+    }
+    
+    table.calendar td,
+    table.calendar th {
+        padding: 0.3em 0.5em;
+        border-radius: 0.15rem;
+    }
+    
+    td.empty {
+        background: rgba(255, 255, 255, .07);
+    }
+    
+    th.week {}
+    
+    td.nav,
+    td.day {
+        cursor: pointer;
+    }
+    
+    td.day {
+        //text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+        color: #000;
+        background: $dga_white;
+    }
+    
+    td.dayToday {
+        color: #000;
+        background: #db7093;
+    }
+    
+    td.dayInPrevMonth,
+    td.dayInNextMonth {
+        color: #000;
+        background: #e6e6e6;
+    }
+    
+    td.day:hover {
+        background: $dga_rojo;
+    }
+    
+    td[aria-current="date"] {
+        background: $dga_rojo;
+    }
+    
+    div.calendar *:focus,
+    div.commentAdd *:focus {
+        //outline: blue 2px inset;
+    }
+    
+    td.month {
+        font-weight: 600;
+        color: $dga_rojo;
+    }
+    
+    td.comment {
+        position: relative;
+    }
+    td.comment span::after {
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        top: 0.2rem;
+        right: 0.2rem;
+        content: "";
+        background: #49182E;
+        border-radius: 7px;
+    }
+    
+    td.comment.selected {
+        background: #E2A037;
+    }
+    
+    
+    td.disabled,
+    td.disabled:hover {
+        color: #CCC;
+        background: #bdbdbd;
+        cursor: auto;
+    }
+    
+    td.disabled.selected {
+        background: #C2C2C2;
+    }
+    
+    div.commentTooltip {
+        width: 271px;
+        padding: 0.5rem;
+        color: #FFF;
+        background: #3D4043;
+        font-size: 0.8em;
+        font-weight: bold;
+        max-height: 50px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        word-wrap: break-word;
+        text-align: left;
+    }
+    
+    div.commentAdd {
+        background: #2E3135;
+        border-radius: 0.3rem;
+    }
+    
+    div.commentAdd button {
+        font-size: 100%;
+        text-transform: uppercase;
+        color: #FFF;
+        background: #2E3135;
+        padding: 0.5rem;
+        margin-top: -5px;
+        border: none;
+        border-bottom-left-radius: 0.3rem;
+        border-bottom-right-radius: 0.3rem;
+        -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;
+    }
+    
+    div.commentAdd textarea {
+        width: 270px;
+        height: 2em;
+        overflow: auto;
+        word-wrap: break-word;
+        text-align: left;
+        padding: 0.2em;
+        margin: 0.5rem 0.5rem 0;
+    }
+    
+    
+    div.monthMessage {
+        border: 1px solid #000;
+        margin: 20px 10px 10px 10px;
+        padding: 10px;
+    }
+}

@@ -1,0 +1,106 @@
+.dga-view{
+    //barras grises
+    .top-bar{
+        position: relative;
+        background-color: $dga_grayBar;
+        //height: 4rem;
+        padding: 1rem 0;
+        font-family: $openSansSemiBold;
+        @include font-size(16);
+        border-bottom: .1rem solid $dga_grayBorder;
+        border-left: .1rem solid $dga_grayBorder;
+        border-right: .1rem solid $dga_grayBorder;
+        overflow: hidden;
+        &__labels{
+            // position: absolute;
+            // top: 50%;
+            // left: 50%;
+            // transform: translate(-50%,-50%);
+            position: relative;
+            top: 15%;
+            .title{
+                margin: 0;
+                width: 100%;
+                //padding: 0 1.5rem;
+            }
+        }
+        &--border-gray{
+            border-left: .1rem solid $dga_grayBorder;
+            border-right: .1rem solid $dga_grayBorder;
+        }
+        &--border-yellow{
+            border-top: .3rem solid $dga_amarillo;
+        }
+        &--border-red{
+            border-top: .3rem solid $dga_rojo;
+        }
+        &--red-link{
+            border:none;
+            .link{
+                text-decoration: none; 
+                &:hover,
+                &:focus{
+                    border-bottom:.2rem solid $dga_rojo;
+                }
+                color: $dga_marrongray;
+            }
+        }
+    }
+    .main-tema{
+        .top-bar{
+            border-left: .1rem solid $dga_grayBorder;
+            border-right: .1rem solid $dga_grayBorder;
+            &--red-link{
+                border:none;
+            }
+            &__labels{
+                .title{
+                    padding: 0 1.5rem;
+                }
+            }
+        }
+    }
+}
+
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .top-bar{
+            //height: 8.4rem;
+            @include font-size(20);
+            border-left: none;
+            border-right: none;
+            padding: 2.5rem 0;
+            &__labels{
+                //padding: 0 4rem;
+                top: 30%;
+                .title{
+                    padding: 0;
+                    .pull-left{
+                        padding-left: 1.5rem;
+                    }
+                    .pull-right{
+                        padding-right: 3rem;
+                    }
+                }
+            }
+        }
+        //perso en páginas de tema
+        .main-tema{
+            .top-bar{
+                &--red-link{
+                    //height: 5.8rem;
+                    padding: 1.5rem 0;
+                    .link{
+                        margin-left: 2rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+

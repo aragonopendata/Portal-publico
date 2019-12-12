@@ -1,0 +1,5 @@
+Bundle-Name: Liferay 7.1.1 GA2 AUI JS Override
+Bundle-SymbolicName: es.aragon.base.liferay.711.ga2.aui.js.override
+Bundle-Version: 1.8.0
+Liferay-JS-Config:/META-INF/resources/js/config.js
+Web-ContextPath: /liferay-711-ga2-aui-js-override

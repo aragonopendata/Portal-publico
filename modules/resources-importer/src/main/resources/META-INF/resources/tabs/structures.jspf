@@ -1,0 +1,102 @@
+<liferay-portlet:actionURL var="importStructuresURL">
+	<liferay-portlet:param name="javax.portlet.action" value="updateStructuresSelected" />
+</liferay-portlet:actionURL>	
+
+<liferay-frontend:edit-form action="<%=importStructuresURL%>" method="post" name="fm">
+	<div class="closed container-fluid-1280 sidenav-container sidenav-right">
+		<div class="list-group-header"> 
+			<div class="list-group-header-title"><liferay-ui:message key="resources-importer.cms-structures-title" /></div> 
+			<label for="<portlet:namespace />selectAllStructures"> 
+				<input id="<portlet:namespace />selectAllStructures" name="<portlet:namespace />selectAllStructures" type="checkbox">
+				<liferay-ui:message key="resources-importer.select-all-button" /> 
+			</label>
+		</div>
+		<div>
+			<liferay-ui:search-container emptyResultsMessage="resources-importer.empty-structures-results-message">
+				<liferay-ui:search-container-results results="${structuresList}"/>
+				<liferay-ui:search-container-row className="DDMStructure" modelVar="curStructure" cssClass="entry-display-style">
+					
+					<liferay-ui:search-container-column-text>
+						<label>
+							<aui:input cssClass="rowStructures" label="" name="rowStructures" type="checkbox" value="<%=curStructure.getStructureKey()%>" />
+						</label>
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text>
+						<liferay-ui:user-portrait userId="<%= curStructure.getUserId() %>" />
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text colspan="<%=5%>">
+						<%
+						Date createDate = curStructure.getModifiedDate();
+						if(Validator.isNotNull(createDate)){
+							String modifiedDateDescription = LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - createDate.getTime(), true);
+						%>
+							<h6><liferay-ui:message arguments="<%= new String[]{HtmlUtil.escape(curStructure.getUserName()), modifiedDateDescription} %>" key="x-modified-x-ago" /></h6>
+						<%
+						}
+						%>
+						<h5><%= HtmlUtil.escape(curStructure.getName(locale)) %></h5>
+					</liferay-ui:search-container-column-text>
+					
+					<liferay-ui:search-container-column-text>
+						<%
+						if(Validator.isNull(curStructure.getStructureId())){
+						%>
+							<h6 style="color:#ba0000;"><liferay-ui:message key="resources-importer.resource-not-imported-message" /></h6>
+						<%
+						}else{
+							DDMStructure ddmStructure = _ddmStructureLocalService.fetchDDMStructure(curStructure.getStructureId());
+							if(Validator.isNotNull(ddmStructure)){
+						%>
+								<h6 style="color:#287d3d;text-align:right"><liferay-ui:message key="resources-importer.resource-imported-message" /></h6>
+							
+								<portlet:renderURL var="compareStructuresURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+									<portlet:param name="mvcPath" value="/tabs/compare_contents.jsp" />
+									<portlet:param name="resourceId" value="<%=String.valueOf(curStructure.getStructureId())%>" />
+									<portlet:param name="resourceType" value="<%=DDMStructure.class.getName()%>" />
+								</portlet:renderURL>
+								
+								<div>
+									<aui:button cssClass="btn-default" href="<%=compareStructuresURL%>" useDialog="true" value="resources-importer.compare-structure-button" />
+								</div>
+						<%		
+							}
+						}
+						%>
+					</liferay-ui:search-container-column-text>
+				</liferay-ui:search-container-row>
+				<liferay-ui:search-iterator displayStyle="descriptive" markupView="lexicon" />
+			</liferay-ui:search-container>
+		</div>
+		<liferay-frontend:edit-form-footer>		
+			<aui:button cssClass="btn-lg" type="submit" value="resources-importer.import-button"/>
+ 		</liferay-frontend:edit-form-footer>
+	</div>
+</liferay-frontend:edit-form>
+
+<script>
+
+	$().ready(function() {
+	    // Desmarcamos todos los checkbox al importar estructuras
+	    $("#<portlet:namespace />selectAllStructures").prop('checked', false);
+		$(".rowStructures").prop('checked', false);
+	});
+
+	// Seleccionamos todos los checkbox de las estructuras
+	$("#<portlet:namespace />selectAllStructures").change(function(){
+	    $(".rowStructures").prop('checked', $(this).prop("checked"));
+	});
+	
+	$('.rowStructures').change(function(){ 
+		// Si una de las estructuras no esta seleccionada, el boton general queda desmarcado
+	    if(false == $(this).prop("checked")){
+	        $("#<portlet:namespace />selectAllStructures").prop('checked', false);
+	    }
+		// Si todas las estructuras estan seleccionadas, el boton general queda marcado
+		if ($('.rowStructures:checked').length == $('.rowStructures').length ){
+			$("#<portlet:namespace />selectAllStructures").prop('checked', true);
+		}
+	});
+
+</script>

@@ -1,0 +1,532 @@
+{
+	"Structure Name": {"es_ES":"Footer"},
+	"Structure Description": {"es_ES":"Footer"},
+	"Structure Key": "FOOTER",
+	"availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "Cabecera"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "cabecera",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-separator",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Enlace"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "enlaceCabecera",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "URL"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "enlaceCabeceraUrl",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Abrir en pestaña nueva"
+                            },
+                            "predefinedValue": {
+                                "es_ES": false
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "boolean",
+                            "indexType": "",
+                            "localizable": false,
+                            "name": "enlaceCabeceraOpenInNewTab",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "checkbox"
+                        }
+                    ]
+                },
+                {
+                    "label": {
+                        "es_ES": "Botón"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "boton",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "URL"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "botonUrl",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Abrir en pestaña nueva"
+                            },
+                            "predefinedValue": {
+                                "es_ES": false
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "boolean",
+                            "indexType": "",
+                            "localizable": false,
+                            "name": "botonOpenInNewTab",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "checkbox"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": {
+                "es_ES": "Contenido"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "contenido",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-separator",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Columna"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "columna",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "Tamaño"
+                            },
+                            "options": [
+                                {
+                                    "value": "3",
+                                    "label": {
+                                        "es_ES": "25%"
+                                    }
+                                },
+                                {
+                                    "value": "4",
+                                    "label": {
+                                        "es_ES": "33%"
+                                    }
+                                },
+                                {
+                                    "value": "6",
+                                    "label": {
+                                        "es_ES": "50%"
+                                    }
+                                },
+                                {
+                                    "value": "8",
+                                    "label": {
+                                        "es_ES": "66%"
+                                    }
+                                },
+                                {
+                                    "value": "9",
+                                    "label": {
+                                        "es_ES": "75%"
+                                    }
+                                },
+                                {
+                                    "value": "12",
+                                    "label": {
+                                        "es_ES": "100%"
+                                    }
+                                }
+                            ],
+                            "predefinedValue": {
+                                "es_ES": [
+                                    "3"
+                                ]
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": false,
+                            "multiple": false,
+                            "name": "claseColumna",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "select"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Enlace"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "enlaceColumna",
+                            "readOnly": false,
+                            "repeatable": true,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text",
+                            "nestedFields": [
+                                {
+                                    "label": {
+                                        "es_ES": "URL"
+                                    },
+                                    "predefinedValue": {
+                                        "es_ES": ""
+                                    },
+                                    "style": {
+                                        "es_ES": ""
+                                    },
+                                    "tip": {
+                                        "es_ES": ""
+                                    },
+                                    "dataType": "string",
+                                    "indexType": "",
+                                    "localizable": true,
+                                    "name": "enlaceColumnaUrl",
+                                    "readOnly": false,
+                                    "repeatable": false,
+                                    "required": false,
+                                    "showLabel": true,
+                                    "type": "text"
+                                },
+                                {
+                                    "label": {
+                                        "es_ES": "Abrir en pestaña nueva"
+                                    },
+                                    "predefinedValue": {
+                                        "es_ES": false
+                                    },
+                                    "style": {
+                                        "es_ES": ""
+                                    },
+                                    "tip": {
+                                        "es_ES": ""
+                                    },
+                                    "dataType": "boolean",
+                                    "indexType": "",
+                                    "localizable": false,
+                                    "name": "enlaceColumnaOpenInNewTab",
+                                    "readOnly": false,
+                                    "repeatable": false,
+                                    "required": false,
+                                    "showLabel": true,
+                                    "type": "checkbox"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": {
+                "es_ES": "Pie"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "pie",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-separator",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Red Social"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "image",
+                    "fieldNamespace": "ddm",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "redSocial",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-image",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "URL"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "redSocialURL",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Abrir en pestaña nueva"
+                            },
+                            "predefinedValue": {
+                                "es_ES": false
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "boolean",
+                            "indexType": "",
+                            "localizable": false,
+                            "name": "redSocialOpenInNewTab",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "checkbox"
+                        }
+                    ]
+                },
+                {
+                    "label": {
+                        "es_ES": "Copyright"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "copyright",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Dirección"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "direccion",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Teléfono"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "telefono",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        }
+    ]
+}

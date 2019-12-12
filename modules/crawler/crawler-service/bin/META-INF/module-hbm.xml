@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="es.aragon.base.crawler.model.Page" />
+	<import class="es.aragon.base.crawler.model.RootPage" />
+	<class name="es.aragon.base.crawler.model.impl.PageImpl" table="EAB_CRAWLER_Page">
+		<id name="pageId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contentType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="metaDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="metaKeywords" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="categoryIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="rootPageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="parentPageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="es.aragon.base.crawler.model.impl.RootPageImpl" table="EAB_CRAWLER_RootPage">
+		<id name="rootPageId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="crawledDate" type="org.hibernate.type.TimestampType" />
+		<property column="alias_" name="alias" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="inclusionRules" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="pageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="scheduledCrawl" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="depth" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+</hibernate-mapping>

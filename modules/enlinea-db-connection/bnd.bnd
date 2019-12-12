@@ -1,0 +1,13 @@
+Bundle-Name: Enlinea DB Connection
+Bundle-SymbolicName: es.aragon.enlinea.db.connection
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.enlinea.db.connection.api,\
+	es.aragon.enlinea.db.connection.impl,\
+	es.aragon.enlinea.db.connection.dao
+Bundle-Classpath:\
+    .,\
+    lib/ojdbc14.jar
+-includeresource:\
+	lib/ojdbc14.jar
+Import-Package: !oracle.security.pki,*

@@ -1,0 +1,14 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+	compileOnly group: "com.liferay", name: "com.liferay.application.list.api"
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.clay"
+	compileOnly group: "com.liferay", name: "com.liferay.layout.page.template.api"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	compileOnly project(":modules:categories-custom-properties-sb:categories-custom-properties-sb-api")
+	compileOnly project(":modules:enlinea-db-connection")
+}

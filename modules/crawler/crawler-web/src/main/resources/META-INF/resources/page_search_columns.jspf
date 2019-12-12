@@ -1,0 +1,72 @@
+
+<c:if test="${rootPageId eq 0}">
+
+	<portlet:renderURL var="viewPageURL">
+		<portlet:param name="mvcRenderCommandName" value="<%=MVCCommandNames.VIEW_PAGE%>" />
+		<portlet:param name="redirect" value="${themeDisplay.getURLCurrent()}" />
+		<portlet:param name="rootPageId" value="${rootPageService.getRootPageId(crawledPage.pageId)}" />
+		<portlet:param name="rootPageAlias" value="${rootPageService.getAlias(crawledPage.pageId)}" />
+	</portlet:renderURL>
+
+	<liferay-ui:search-container-column-text cssClass="table-cell-content"
+		href="${pagePermissionChecker.contains(permissionChecker, scopeGroupId, crawledPage.pageId, 'UPDATE' ) ? viewPageURL : null}" 
+		name="es.aragon.base.crawler.table.column.alias" value="${rootPageService.getAlias(crawledPage.pageId)}" />
+	<liferay-ui:search-container-column-date name="es.aragon.base.crawler.table.column.crawled-date" value="${rootPageService.getCrawledDate(crawledPage.pageId)}" />
+</c:if>
+
+<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.title">
+	<span class="custom-truncate-text" onmouseover="Liferay.Portal.ToolTip.show(this, '${crawledPage.getTitle()}')">${crawledPage.getTitle()}</span>
+</liferay-ui:search-container-column-text>
+
+<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.url">
+	<span class="custom-truncate-text" onmouseover="Liferay.Portal.ToolTip.show(this, '${crawledPage.getUrl()}')">${crawledPage.getUrl()}</span>
+</liferay-ui:search-container-column-text>
+
+<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.page-id" property="pageId" />
+
+<c:if test="${not (rootPageId eq 0)}">
+	<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.parent-page-id" property="parentPageId" />
+</c:if>
+
+<c:choose>
+	<c:when test="${crawledPage.getStatus() eq 0}">
+		<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.status" cssClass="crawlerWorking">
+			<liferay-ui:message key="es.aragon.base.crawler.table.column.status.0" />
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test="${crawledPage.getStatus() eq 1}">
+		<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.status" cssClass="crawlerWorkEnd">
+			<liferay-ui:message key="es.aragon.base.crawler.table.column.status.1" />
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test="${crawledPage.getStatus() eq 2}">
+		<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.status" cssClass="crawlerWorking">
+			<liferay-ui:message key="es.aragon.base.crawler.table.column.status.2" />
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test="${crawledPage.getStatus() eq 3}">
+		<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.status" cssClass="crawlerWorking">
+			<liferay-ui:message key="es.aragon.base.crawler.table.column.status.3" />
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test="${crawledPage.getStatus() eq 4}">
+		<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.status" cssClass="crawlerWorking">
+			<liferay-ui:message key="es.aragon.base.crawler.table.column.status.4" />
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test="${crawledPage.getStatus() eq 5}">
+		<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.status" cssClass="crawlerWorkEnd">
+			<liferay-ui:message key="es.aragon.base.crawler.table.column.status.5" />
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test="${crawledPage.getStatus() eq 6}">
+		<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.status" cssClass="crawlerWorking">
+			<liferay-ui:message key="es.aragon.base.crawler.table.column.status.6" />
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:otherwise>
+		<liferay-ui:search-container-column-text name="es.aragon.base.crawler.table.column.status" />
+	</c:otherwise>
+</c:choose>
+
+<liferay-ui:search-container-column-jsp name="es.aragon.base.crawler.table.column.actions" path="/page_actions.jsp"	/>

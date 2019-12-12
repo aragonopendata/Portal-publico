@@ -1,0 +1,107 @@
+{
+	"Structure Name": {"es_ES":"Noticia"},
+	"Structure Description": {"es_ES":"Tipo de contenido para noticias"},
+	"Structure Key": "NOTICIA",
+    "availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "Imagen"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "imagen",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "ddm-image",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Descipción extensa"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": "Al rellenar este campo, se mostrará al final del detalle de la noticia un bloque con su valor"
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "descripcion_extensa",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "textarea"
+                },
+                {
+                    "label": {
+                        "es_ES": "Texto de pié de imagen"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": "Al rellenar este campo se mostrará su valor como pie de la imagen principal"
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "descripcion_breve",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "label": {
+                "es_ES": "Cuerpo"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "cuerpo",
+            "readOnly": false,
+            "repeatable": false,
+            "required": true,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        }
+    ]
+}

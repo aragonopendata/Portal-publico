@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="es.aragon.base.content_ratings">
+	<namespace>EAB_CR</namespace>
+	<entity local-service="true" name="Rating" remote-service="true" uuid="true">
+		<!-- PK fields -->
+		<column name="ratingId" primary="true" type="long" />
+		<!-- Rating fields -->
+		<column name="createDate" type="Date" />
+		<column name="companyId" type="long" />
+		<column name="classNameId" type="long" />
+		<column name="classPK" type="long" />
+		<column name="score" type="double" />
+		<column name="comment" type="String" />
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="createDate" />
+		</order>
+		<!-- Finders -->
+		<finder return-type="Collection" name="ClassNameIdClassPK">
+			<finder-column name="classNameId" />
+			<finder-column name="classPK" />
+		</finder>
+	</entity>
+</service-builder>

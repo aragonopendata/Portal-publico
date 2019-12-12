@@ -1,0 +1,39 @@
+@import "../helpers/mixins";
+@import "../helpers/variables";
+
+@media print {
+    header, footer, nav, aside {
+    display: none;
+    }
+    body {
+        background-image: none;
+    }
+    img {
+        max-width: 50rem;
+    }
+    .collapse{
+        display: block;
+    }
+    .u-btn{
+        display: none!important;
+    }
+    .search-module,
+    .share-module,
+    .valoration-module{
+        display: none;
+    }
+    .dga-view .fast-access-module__listado__item .link .icon-theme,
+    .dga-view .valoration-module .listado-stars__star .link{
+        -webkit-print-color-adjust: exact; 
+    }
+    .dga-view .pie-foto{
+        text-align: left;
+    }
+    .portlet-bgblue-title h2,
+    .h1-interior{
+        color: $dga_darkblack;
+    }
+    .dga-view .modules-two-columns{
+        page-break-inside: avoid;
+    }
+  }

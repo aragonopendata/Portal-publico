@@ -1,0 +1,30 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "org.osgi", name: "org.osgi.core"
+	compileOnly group: "com.liferay", name: "com.liferay.application.list.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.service"		
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.dynamic.data.mapping.api"
+	compileOnly group: "com.liferay", name: "com.liferay.document.library.service"
+	
+	compileOnly project(':modules:aragon-utilities')
+	compileOnly project(':modules:categories-custom-properties-sb:categories-custom-properties-sb-api')
+	
+	compileOnly project(":modules:aragon-semaphore-sb:aragon-semaphore-sb-api")
+	compileOnly project(":modules:aragon-semaphore-sb:aragon-semaphore-sb-service")
+	
+	compileOnly project(":modules:aragon-process-queue-sb:aragon-process-queue-sb-api")
+	compileOnly project(":modules:aragon-process-queue-sb:aragon-process-queue-sb-service")
+	
+	compileOnly group: "com.liferay", name: "com.liferay.document.library.web"//, version: "3.0.34"
+	compileOnly group: "com.liferay", name: "com.liferay.document.library.service"//, version: "3.0.26"
+	
+	compile group: "org.apache.poi", name: "poi", version: "3.14"
+	compile group: 'javax.mail', name: 'mail', version: '1.4.1'
+	
+}

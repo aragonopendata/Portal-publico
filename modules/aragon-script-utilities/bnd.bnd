@@ -1,0 +1,13 @@
+Bundle-Name: Aragon Script Utilities
+Bundle-SymbolicName: es.aragon.base.aragon_script_utilities
+Bundle-Version: 1.8.0
+Export-Package: es.aragon.base.aragon_script_utilities.constants
+Import-Package: !com.sun.jdmk.comm,*
+-includeresource:\
+	@poi-[0-9]*.jar,
+    lib/httpcore.jar=httpcore-*.jar,\
+    lib/httpclient.jar=httpclient-*.jar,\
+    lib/avalon-framework-api.jar=avalon-framework-api-*.jar,\
+    lib/commons-logging.jar=commons-logging-*.jar,\    
+    lib/commons-io.jar=commons-io-*.jar,\
+    lib/commons-lang.jar=commons-lang-*.jar, \

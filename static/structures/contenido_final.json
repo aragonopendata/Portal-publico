@@ -1,0 +1,594 @@
+{
+    "availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "Generar anclas"
+            },
+            "predefinedValue": {
+                "es_ES": false
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": "Al activar esta opción, se generará dinámicamente una sección al principio del contenido con enlaces tipo ancla a todos los h2 presentes en en el cuerpo de la página"
+            },
+            "dataType": "boolean",
+            "indexType": "",
+            "localizable": false,
+            "name": "generar_anclas",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "es_ES": "Cuerpo principal"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "cuerpo_principal",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "es_ES": "Imagen principal"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": "Rellenar el campo descripción a no ser que la imagen principal sea puramente decorativa"
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "imagen_principal",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Texto de pie de imagen"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": "Al rellenar este campo se mostrará su valor como pie de la imagen principal"
+                    },
+                    "dataType": "string",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "pie_imagen_principal",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Descripción extensa de la imagen"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": "Si la descripción de la imagen es muy extensa, identifica la imagen en el campo Descripción (por ejemplo, “Gráfico de población activa”) y después incluye su descripción detallada en este campo."
+                    },
+                    "dataType": "string",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "descripcion_imagen_principal",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "textarea"
+                }
+            ]
+        },
+        {
+            "label": {
+                "es_ES": "Vídeo principal"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": "URL de Youtube o Vimeo del vídeo a compartir"
+            },
+            "dataType": "string",
+            "indexType": "text",
+            "localizable": true,
+            "name": "video_principal",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Texto de pie de vídeo"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "pie_video_principal",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Descripción extensa del vídeo"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "descripcion_video_principal",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "textarea"
+                }
+            ]
+        },
+        {
+            "label": {
+                "es_ES": "Cuerpo secundario"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "cuerpo_secundario",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "es_ES": "Galería de Contenidos"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "text",
+            "localizable": true,
+            "name": "galeria_contenidos_titulo",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Contenido"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": "Rellene únicamente los campos que hacen referencia a la opción seleccionada."
+                    },
+                    "dataType": "",
+                    "fieldNamespace": "ddm",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "contenido",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-separator",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "Tipo"
+                            },
+                            "options": [
+                                {
+                                    "value": "doc",
+                                    "label": {
+                                        "es_ES": "Documento y multimedia"
+                                    }
+                                },
+                                {
+                                    "value": "link",
+                                    "label": {
+                                        "es_ES": "Enlace"
+                                    }
+                                }
+                            ],
+                            "predefinedValue": {
+                                "es_ES": [
+                                    ""
+                                ]
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "multiple": false,
+                            "name": "tipo",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "select"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Documentos y multimedia"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "document-library",
+                            "fieldNamespace": "ddm",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "galeria_imagenes_imagen",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "ddm-documentlibrary",
+                            "nestedFields": [
+                                {
+                                    "label": {
+                                        "es_ES": "Descripcion"
+                                    },
+                                    "predefinedValue": {
+                                        "es_ES": ""
+                                    },
+                                    "style": {
+                                        "es_ES": ""
+                                    },
+                                    "tip": {
+                                        "es_ES": ""
+                                    },
+                                    "dataType": "string",
+                                    "indexType": "text",
+                                    "localizable": true,
+                                    "name": "descripcion",
+                                    "readOnly": false,
+                                    "repeatable": false,
+                                    "required": false,
+                                    "showLabel": true,
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Título enlace"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "text",
+                            "localizable": true,
+                            "name": "tituloEnlace",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text",
+                            "nestedFields": [
+                                {
+                                    "label": {
+                                        "es_ES": "Link"
+                                    },
+                                    "predefinedValue": {
+                                        "es_ES": ""
+                                    },
+                                    "style": {
+                                        "es_ES": ""
+                                    },
+                                    "tip": {
+                                        "es_ES": ""
+                                    },
+                                    "dataType": "string",
+                                    "indexType": "text",
+                                    "localizable": true,
+                                    "name": "link",
+                                    "readOnly": false,
+                                    "repeatable": false,
+                                    "required": false,
+                                    "showLabel": true,
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": {
+                "es_ES": "Listado de enlaces"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "text",
+            "localizable": true,
+            "name": "listado_enlaces_titulo",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Título de enlace"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "titulo_enlace",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "Tipo"
+                            },
+                            "options": [
+                                {
+                                    "value": "page",
+                                    "label": {
+                                        "es_ES": "Página"
+                                    }
+                                },
+                                {
+                                    "value": "pdf",
+                                    "label": {
+                                        "es_ES": "PDF"
+                                    }
+                                },
+                                {
+                                    "value": "xls",
+                                    "label": {
+                                        "es_ES": "Excel"
+                                    }
+                                },
+                                {
+                                    "value": "ppt",
+                                    "label": {
+                                        "es_ES": "Powerpoint"
+                                    }
+                                },
+                                {
+                                    "value": "word",
+                                    "label": {
+                                        "es_ES": "Word"
+                                    }
+                                },
+                                {
+                                    "value": "zip",
+                                    "label": {
+                                        "es_ES": "Zip"
+                                    }
+                                }
+                            ],
+                            "predefinedValue": {
+                                "es_ES": [
+                                    "page"
+                                ]
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "multiple": false,
+                            "name": "enlace_tipo",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "select"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Documento"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "document-library",
+                            "fieldNamespace": "ddm",
+                            "indexType": "keyword",
+                            "localizable": true,
+                            "name": "documento",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "ddm-documentlibrary"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "URL"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "text",
+                            "localizable": true,
+                            "name": "enlace_url",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Tamaño"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": "Podrá indicarse el tamaño y la unidad del documento al que referencia la url indicada. Por ejemplo 345KB o 7,5MB"
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "enlace_size",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}	

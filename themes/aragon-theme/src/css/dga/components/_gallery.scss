@@ -1,0 +1,95 @@
+.dga-view{
+    /* GALERÍA IMÁGENES SLIDER */
+    .gallery-module{
+        .swiper-container {
+            max-width: 100%;
+            .img-fluid {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            ul{
+                &.swiper-wrapper {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+            .swiper-slide {
+                width: 80%;
+                height: auto;
+                position: relative;
+                min-height: 20rem;
+                max-height: 30rem;
+                &.link{
+                    background-color: $dga_rojo;
+                    border-radius: .5rem;
+                    color: $dga_darkblack;
+                    text-align: center;
+                }
+                .web,
+                .document{
+                    font-family: $openSansBold;
+                }
+                .web{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    width: 90%;
+                    color: $dga_darkblack;
+                    word-break: break-word;
+                }
+                .document{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    width: 90%;
+                    color: $dga_darkblack;
+                    line-height: 2.4rem;
+                    text-align: right;
+                    .icon-image{
+                        width: 7rem;
+                        opacity: .75;
+                        margin: 0 auto 1rem;
+                        display: block;
+                    }
+                    span,
+                    strong{
+                        @include font-size(18);
+                    }
+                    span{
+                        display: block;
+                        text-align: left;
+                    }
+                    strong{
+                        display: inline-block;
+                        margin-top: .5rem;
+                    }
+                }
+            }
+            .swiper-button-prev,
+            .swiper-button-next{
+                margin-left: -1rem;
+                margin-right: -1rem;
+            }
+            /* Swiper custom pagination */
+            .swiper-pagination-bullet {
+                width: 34px;
+                height: 34px;
+                text-align: center;
+                line-height: 34px;
+                font-size: 14px;
+                color: #000;
+                opacity: 1;
+                background: rgba(0, 0, 0, 0.3);
+            }
+            
+            .swiper-pagination-bullet-active {
+                color: $dga_white;
+                background: $dga_darkblack;
+            }
+        }
+    }
+}

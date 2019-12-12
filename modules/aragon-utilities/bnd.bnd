@@ -1,0 +1,4 @@
+Bundle-Name: Aragon Utilities
+Bundle-SymbolicName: es.aragon.base.aragon_utilities
+Bundle-Version: 1.8.0
+Export-Package: es.aragon.base.aragon_utilities.constants

@@ -1,0 +1,82 @@
+$openSans: 'open_sans',sans-serif;
+$openSansSemiBold: 'open_sans-semibold',sans-serif;
+$openSansBold: 'open_sans-bold',sans-serif;
+$openSansSemiBoldItalic: 'open_sans-semibolditalic',sans-serif;
+$signika: 'Signika',sans-serif;
+$signikaBold: 'Signika-Bold',sans-serif;
+$signikaSemiBold: 'Signika-SemiBold',sans-serif;
+
+
+@font-face {
+    font-family: 'open_sans-semibolditalic';
+    src: url('../fonts/opensans-semibolditalic.woff2') format('woff2'),
+         url('../fonts/opensans-semibolditalic.woff') format('woff'),
+         url('../fonts/opensans-semibolditalic.ttf') format('truetype'),
+         url('../fonts/opensans-semibolditalic.svg#open_sansextrabold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sans';
+    src: url('../fonts/opensans-regular-webfont.woff2') format('woff2'),
+         url('../fonts/opensans-regular-webfont.woff') format('woff'),
+         url('../fonts/opensans-regular-webfont.ttf') format('truetype'),
+         url('../fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sans-semibold';
+    src: url('../fonts/opensans-semibold-webfont.woff2') format('woff2'),
+         url('../fonts/opensans-semibold-webfont.woff') format('woff'),
+         url('../fonts/opensans-semibold-webfont.ttf') format('truetype'),
+         url('../fonts/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sans-bold';
+    src: url('../fonts/opensans-bold.woff2') format('woff2'),
+         url('../fonts/opensans-bold.woff') format('woff'),
+         url('../fonts/opensans-bold.ttf') format('truetype'),
+         url('../fonts/opensans-bold.svg#open_sanssemibold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Signika-Bold';
+    src: url('../fonts/Signika-Bold.eot');
+    src: url('../fonts/Signika-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Signika-Bold.woff2') format('woff2'),
+        url('../fonts/Signika-Bold.woff') format('woff'),
+        url('../fonts/Signika-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Signika-SemiBold';
+    src: url('../fonts/Signika-SemiBold.eot');
+    src: url('../fonts/Signika-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Signika-SemiBold.woff2') format('woff2'),
+        url('../fonts/Signika-SemiBold.woff') format('woff'),
+        url('../fonts/Signika-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Signika';
+    src: url('../fonts/Signika-Regular.eot');
+    src: url('../fonts/Signika-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Signika-Regular.woff2') format('woff2'),
+        url('../fonts/Signika-Regular.woff') format('woff'),
+        url('../fonts/Signika-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+

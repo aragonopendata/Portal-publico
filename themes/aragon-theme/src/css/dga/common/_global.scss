@@ -1,0 +1,748 @@
+
+
+
+/***************************  Responsive font size porportion rule ************************** */
+
+html {
+    font-size: 62.5%; // 1.6rem = 16px, 2.0rem = 2rem, etc...
+
+    @media screen and (max-width: $screen-xs) {
+        font-size: 60%; // Reduce font size on mobile
+    }
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body{
+    font-family: $openSans;
+    @include font-size(20);
+    //line-height: 2.4rem;
+    //background-color: $dga_lightGray;
+}
+
+#content{
+    background-color: $dga_white;
+}
+.interior{
+    #content{
+        margin-top: 7.4rem;
+        @media (min-width:$screen-sm){
+            margin-top: 0;
+        }
+    }
+}
+
+h1{
+    margin-bottom: 0;
+    line-height: 0;
+}
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
+    line-height: 2.4rem;
+}
+
+.btn:focus, .btn.focus,button.close:focus {
+    box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.5);
+}
+
+
+
+
+/****************** CONTENEDORES ******************/
+
+
+
+
+
+
+.container {
+    width: 100%;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (max-width:767px){
+    .container {
+        &.u-container-mobile-0{
+            padding: 0;
+        }
+    }
+}
+// @media (min-width: 576px) {
+//     .container {
+//     max-width: 54rem;
+//     }
+// }
+@media screen and (min-width: $screen-s) and (max-width: 767px){
+    .container {
+        max-width: initial;
+    }
+}
+// @media (min-width: 768px) {
+//     .container {
+//     max-width: 75rem;
+//     }
+// }
+// @media (min-width: 992px) {
+//     .container {
+//     max-width: 97rem;
+//     }
+// }
+
+@media (min-width: $screen-sm) {
+    .container {
+    max-width: 100%;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .container {
+    max-width: 114rem;
+    }
+}
+@media screen and (min-width:1500px){
+    .container{
+        max-width: 130rem;
+        box-sizing: border-box;
+    }
+}
+
+
+/************** SUBTEMAS ****************/
+.dga-view{
+    .main-tema,
+    .main-buscador{
+        padding-top: 3.5rem;
+        @media (min-width: $screen-sm) {
+            padding: 5rem 0 0;
+        }
+        .row{
+            margin: 0;
+            // @media (min-width: 768px) {
+            //     margin-right: 0.75rem;
+            //     margin-left: 0.75rem;
+            // }
+        }
+        .container{
+                padding: 0;
+        }
+        .info-tema,
+        .info-buscador{
+            padding: 0;
+            @media (min-width: $screen-sm) {
+                padding: 0 1.5rem;
+            }
+            .asociados__listado{
+                .item{
+                    padding: 0 1.5rem;
+                }
+            }
+            .map-container{
+                .data-place{
+                    padding: 1.5rem;
+                    margin-right: 1.5rem;
+                    margin-left: 1.5rem;
+                    @media (min-width: $screen-sm) {
+                        margin-left: 0;
+                        margin-right: 0;
+                    }
+                }   
+            }
+        }
+        .info-tema{
+            position: relative;
+        }
+    }
+    .main-buscador{
+        @media (min-width: $screen-sm) {
+            padding: 2rem 0 0;
+        }
+    }
+
+    .txt-intro-section{
+        font-family: $openSansSemiBold;
+        @include font-size(18);
+        margin-bottom: 2rem;
+    }
+    .download-module{
+        padding: 0 1.5rem;
+        @media (min-width: $screen-sm) {
+            padding: 0;
+        }
+    }
+    .speaker-box{
+        position: relative;
+        .speaker{
+            top: 0;
+            right: auto;
+            left: 50%;
+            transform: translateX(-50%);
+            @media (min-width:$screen-sm){
+                top: 0;
+                left: auto;
+                right: 0;
+                transform: none;
+            }
+        }
+    }
+    .speaker{
+        width: 4.5rem;
+        @media (min-width:$screen-sm){
+            width: 5.9rem;
+            top: 4rem;
+            right: 0;
+        }
+        height: 4.4rem;
+        background: url("../images/dga/icons/icon-speaker.svg") center no-repeat;
+        background-size: 100%;
+        position: absolute;
+        top: 3rem;
+        right: 1.5rem;
+    }
+}
+/************* BACKGROUND'S *****************/
+
+.bg-gray{
+    background-color: $dga_lightGray;
+}
+.bg-black{
+    background-color: $dga_black;
+}
+
+/************* BORDER'S *****************/
+
+.border-gray{
+    border: 1px solid $dga_grayBorder;
+}
+.border-red{
+    border: 3px solid $dga_rojo!important;
+}
+.border-bottom-yellow{
+    &::after{
+        content: '';
+        border: 1px solid $dga_amarillo;
+        position: absolute;
+        bottom: -3px;
+        left: -1px;
+        width: calc(100% + 2px);
+
+    }
+}
+/************** TITULOS BAJO CLASES NATIVAS LIFERAY ***********/
+
+.portlet-bgblue-title h2,
+.portlet-bgblue-title .portlet-title-text,
+.h1-interior{
+        color: $dga_white;
+        font-family: $signikaSemiBold;
+        padding: 2.5rem 0;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+        background-color: $dga_black;
+        &::before{
+            content: '';
+            background-image: url(../images/dga/icons/icon-flag-pixel.svg);
+            background-repeat: no-repeat;
+            background-position: -18rem center;
+            opacity: 0.1;
+            height: 10rem;
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        @media (min-width:786px){
+            &::after{
+                content: '';
+                @include bgGradientThree();
+                width: 100%;
+                height: 0.5rem;
+                position: absolute;
+                top: 0;
+            }
+        }
+        span,
+        .container{
+            display: block;
+            white-space: initial;
+            padding: 0 2rem;
+            @include font-size(30);
+            line-height: 3.6rem;
+            @media screen and (min-width:$screen-sm){
+                padding: 0 0 0 4rem;
+            }
+        }
+
+}
+
+.portlet-bgwhite-title{
+    h2{
+        font-family: $openSans;
+        @include font-size(24);
+        @media screen and (min-width:$screen-sm){
+            @include font-size(30);
+        }
+        padding: 3rem 0 1rem 1.5rem;
+        width: 100%;
+        max-width: 100%;
+
+        a{
+            color: $dga_darkblack;
+            text-decoration: none;
+            display: block;
+            width: 90%;
+            white-space: normal;
+            overflow: hidden;
+            line-height: 1em;
+            cursor: default;
+            &::after{
+                content: '\f107';
+                font-family: fontawesome-alloy;
+                position: absolute;
+                top: 3rem;
+                right: 2rem;
+                @include font-size(30);
+                line-height: 3rem;
+                transform: rotate(0deg);
+                transition: all 300ms linear;
+                @media screen and (min-width:$screen-s){
+                    display: none;
+                }
+            }
+            &[aria-expanded=true]{
+                &::after{
+                    transform: rotate(180deg);
+                    transition: all 300ms linear;
+                }
+            }
+        }
+    }
+}
+
+.portlet-notitle{
+    .portlet-content{
+        .portlet-title-text{
+            text-indent: -9999rem;
+            display: block;
+            margin: 0;
+            height: 0;
+        }
+    }
+}
+
+.portlet-layout{
+    .portlet-bgwhite-title{
+        h2{
+            width: 100%;
+            text-align: left;
+            @include font-size(24);
+            @media screen and (min-width:$screen-sm){
+                @include font-size(30);
+            }
+            font-family: $signika;
+            border-bottom: 0.3rem solid $dga_rojo;
+            margin: 0;
+            .container{
+                display: block;
+                margin-bottom: 0;
+                padding: 0;
+                @media screen and (min-width: $screen-sm)
+                {
+                    padding: 0 1rem;
+                }
+            }
+        }
+    }
+    .col{
+        padding: 0;
+        .portlet-bgwhite-title{
+            h2{
+                width: 100%;
+                text-align: left;
+                padding-left: 1rem;
+                border-bottom: none;
+                @media screen and (min-width: $screen-sm)
+                {
+                    //max-width: 33rem;
+                    padding-left: 5rem;
+                }
+                @media screen and (min-width: $screen-md)
+                {
+                    max-width: 45rem;
+                }
+                @media screen and (min-width: $screen-lg)
+                {
+                    max-width: 54rem;
+                }
+                @media screen and (min-width: 1500px)
+                {
+                    max-width: 62rem;
+                }
+            }
+        }
+        &:first-of-type{
+            .portlet-bgwhite-title{
+                text-align: right;
+                h2{
+                    @media screen and (min-width: $screen-sm)
+                    {
+                        max-width: 33rem;
+                        padding-left: 5rem;
+                    }
+                    @media screen and (min-width: $screen-md)
+                    {
+                        max-width: 45rem;
+                    }
+                    @media screen and (min-width: $screen-lg)
+                    {
+                        max-width: 54rem;
+                    }
+                    @media screen and (min-width: 1500px)
+                    {
+                        max-width: 62rem;
+                    }
+                }
+            }
+        }
+    }
+}
+/***************************** GENERAL ****************************/
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+
+        .pagination{
+            border-radius: 0;
+            padding: 5rem 0 5rem 4rem;
+            justify-content: left;
+        }
+
+    }
+}
+
+
+/************************* ZOOM *********************************/
+
+.zoom{
+    display: inline-block;
+    top: initial;
+    right: initial;
+    margin-bottom: 0;
+    float: left;
+    height: 5.8rem;
+    position: relative;
+    top: -.4rem;
+    border-right: 0.1rem solid $dga_white;
+    border-left: 0.1rem solid $dga_white;
+    padding: 0;
+    text-align: center;
+    list-style: none;
+    li{
+        display: inline-block;
+        position: relative;
+        width: 4.5rem;
+        height: 4.5rem;
+        line-height: 5rem;
+        margin: 1rem 0 0;
+        &.active
+        {
+            background-color: $dga_lightblack;
+            border-bottom: 0.3rem solid $dga_rojo;
+        }
+        a{
+            color: $dga_white;
+            font-family: $openSansSemiBold;
+            @include font-size(16);
+            width: 4.5rem;
+            text-decoration: none;
+            cursor: pointer;
+            overflow: hidden;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            sup{
+                @include font-size(24);
+                font-family: 'open_sans-light';
+            }
+        }
+        &:first-child{
+            
+            a{
+                @include font-size(30);
+            }
+        }
+    }
+    &.responsive{
+        width: 100%;
+        background: $dga_lightblack;
+        height: auto;
+        top: 0;
+        border: none;
+        float: none;
+        li{
+            margin: .5rem 0 .5rem .5rem;
+            position: relative;
+            &:first-child{
+                margin: .5rem 1rem .5rem 0;
+                &::after{
+                    content: '';
+                    width: 1px;
+                    height: 100%;
+                    background: $dga_lightGray;
+                    position: absolute;
+                    top: 0;
+                    right: -1rem;
+                }
+            }
+        }
+    }
+}
+
+.interior{
+    .dga-view{
+        header {
+            .navigation{
+                .zoom{
+                    margin-top: 0;
+                    top: 0;
+                    height: 8rem;
+                    border-left: .1rem solid $dga_white;
+                    padding-left: .5rem;
+                    li{
+                        height: 6rem;
+                    }
+                }
+            }
+        }
+    }
+}
+@media screen and (min-width:$screen-sm){
+    .zoom{
+        padding: 0 2rem 0;
+        li{
+            display: initial;
+            float: left;
+            margin: .5rem 0 0;
+        }
+    }
+    .interior{
+        .dga-view{
+            header {
+                .navigation{
+                    .zoom{
+                        top: -.4rem;
+                        height: 5.8rem;
+                        border-left: none;
+                        padding-left: 0;
+                        li{
+                            height: 4.5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/************************************** HACKS *******************************/
+
+/* Clases que se añaden en ie11 para imágenes con object-fit */
+
+.custom-object-fit {
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    display: block;
+    .featured-image {
+      opacity: 0;
+    }
+  }
+
+
+/************************************** ESPACE *******************************/
+
+
+/* MARGIN, PADDING */
+$num-of-classes: 7;
+$directions: ('top', 'bottom', 'left', 'right');
+$types: ('margin', 'padding');
+$queries: (
+  $screen-xs: 'xs',
+  $screen-sm: 'sm',
+  $screen-md: 'md',
+  $screen-lg: 'lg'
+);
+@mixin generate-margins {
+  @each $type in $types {
+  	@each $direction in $directions {
+  		@for $i from 0 through ($num-of-classes) - 1 {
+  			.u-#{$type}-#{$direction}-#{$i} {
+  				#{$type}-#{$direction}: (#{$i}rem);
+  			}
+  		}
+  	}
+    @each $query, $z in $queries {
+      @media(min-width: #{$query}) {
+      	@each $direction in $directions {
+      		@for $i from 0 through ($num-of-classes) - 1 {
+      			.u-#{$type}-#{$direction}-#{$z}-#{$i} {
+      				#{$type}-#{$direction}: (#{$i}rem);
+      			}
+      		}
+      	}
+      }
+    }
+  }
+}
+@include generate-margins();
+
+
+/* BLOQUEAR scroll */
+
+.noScroll,
+.noScroll-busq{
+    overflow: hidden;
+}
+
+/* ocultar texto */
+.oculto {
+    text-indent:-1000em;
+    position: absolute;
+    width: 0;
+}
+
+/************************************** 404 *******************************/
+.error-page{
+    width: 90%;
+    max-width: 80rem;
+    margin: 5rem auto 8rem;
+    @media (min-width:$screen-sm){
+        margin: 6.5rem auto 9rem;
+    }
+    position: relative;
+    &__h1{
+        font-family: $signikaBold;
+        @include font-size(120);
+        line-height: 19rem;
+        @media (min-width:$screen-sm){
+            @include font-size(120);
+            line-height: 19rem;
+        }
+        display: inline-block;
+        padding: 3rem;
+        color: $dga_lightblack;
+        border: .8rem solid $dga_rojo;
+        border-radius: 200px;
+    }
+    &__text{
+        margin: 3rem 0 5rem;
+        font-family: $openSans;
+        color: $dga_lightblack;
+    }
+}
+
+
+
+
+/************ ICONOS sercicios *****************/
+.icon-theme{
+    height: 4.5rem;
+    width: 4.5rem;
+    display: block!important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    &.icon-big{
+        height: 5.6rem;
+        width: 5.6rem;
+    }
+    &.empresa{
+        background-image: url('../images/dga/icons/icon-empresa.svg');
+    }
+    &.derechos{
+        background-image: url('../images/dga/icons/icon-derechos.svg');
+    }
+    &.cultura{
+        background-image: url('../images/dga/icons/icon-cultura.svg');
+    }
+    &.educacion{
+        background-image: url('../images/dga/icons/icon-educacion.svg');
+    }
+    &.empleo{
+        background-image: url('../images/dga/icons/icon-empleo.svg');
+    }
+    &.medioambiente{
+        background-image: url('../images/dga/icons/icon-medioambiente.svg');
+    }
+    &.salud{
+        background-image: url('../images/dga/icons/icon-salud.svg');
+    }
+    &.vivienda{
+        background-image: url('../images/dga/icons/icon-vivienda.svg');
+    }
+    &.industria{
+        background-image: url('../images/dga/icons/icon-industria.svg');
+    }
+    &.transporte{
+        background-image: url('../images/dga/icons/icon-transporte.svg');
+    }
+    &.rural{
+        background-image: url('../images/dga/icons/icon-rural.svg');
+    }
+    &.dependencia{
+        background-image: url('../images/dga/icons/icon-dependencia.svg');
+    }
+    &.familias{
+        background-image: url('../images/dga/icons/icon-tramites-familias.svg');
+    }
+    &.jovenes{
+        background-image: url('../images/dga/icons/icon-tramites-jovenes.svg');
+    }
+    &.mayores{
+        background-image: url('../images/dga/icons/icon-tramites-mayores.svg');
+    }
+    &.exclusion{
+        background-image: url('../images/dga/icons/icon-tramites-exclusion.svg');
+    }
+    &.tramites-dependencia{
+        background-image: url('../images/dga/icons/icon-tramites-dependencia.svg');
+    }
+    &.ayuda{
+        background-image: url('../images/dga/icons/icon-ayuda.svg');
+    }
+    &.guia{
+        background-image: url('../images/dga/icons/icon-guia.svg');
+    }
+    &.certificado{
+        background-image: url('../images/dga/icons/icon-certificado.svg');
+    }
+    &.oficinas-info{
+        background-image: url('../images/dga/icons/icon-oficinas-info.svg');
+    }
+    &.gestiones-digitales{
+        background-image: url('../images/dga/icons/icon-gestiones-digitales.svg');
+    }
+    &.email{
+        background-image: url('../images/dga/icons/icon-email.svg');
+    }
+    &.ubicacion{
+        background-image: url('../images/dga/icons/icon-ubicacion.svg');
+    }
+    &.phone{
+        background-image: url('../images/dga/icons/icon-phone.svg');
+    }
+    &.documents-red{
+        background-image: url('../images/dga/icons/icon-documents-red.svg');
+    }
+    &.escanear{
+        background-image: url('../images/dga/icons/icon-escanear.svg');
+    }
+    &.upload{
+        background-image: url('../images/dga/icons/icon-upload.svg');
+    }
+}

@@ -1,0 +1,22 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	
+	compileInclude (name:'ojdbc14', ext:'jar')
+	compileInclude group: 'javax.resource', name: 'javax.resource-api'
+	compileInclude group: 'com.oracle', name: 'orai18n'
+	compileInclude group: 'com.oracle.ons', name: 'com.springsource.oracle.ons'
+	
+	compileOnly project(":modules:categories-custom-properties-sb:categories-custom-properties-sb-api")
+}
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
+}

@@ -1,0 +1,14 @@
+dependencies {
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender.api"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly project(":modules:crawler:crawler-api")
+	
+	compileOnly group: "javax.portlet", name: "portlet-api"
+}
+
+buildService {
+	apiDir = "../crawler-api/src/main/java"
+}
+
+group = "es.aragon.base.crawler"

@@ -1,0 +1,23 @@
+dependencies {	
+	compileOnly group: "com.liferay", name: "com.liferay.application.list.api"
+	compileOnly group: "com.liferay", name:"com.liferay.dynamic.data.mapping.api"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.service"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+	
+	compileInclude group: "org.apache.commons", name: "commons-io", version: "1.3.2"
+	compileOnly group: "org.apache.poi", name: "poi", version:"3.14"
+	
+	compileOnly project(":modules:aragon-migration-sb:aragon-migration-sb-api")
+	compileOnly project(":modules:aragon-migration-sb:aragon-migration-sb-service")
+	compileOnly project(':modules:aragon-utilities')
+	compileOnly project(':modules:freemarker-utilities')
+}

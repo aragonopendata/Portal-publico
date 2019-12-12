@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="es.aragon.base.aragon_most_visited_pages">
+	<namespace>EAB_AMVP</namespace>
+	<entity local-service="true" name="MostVisitedPage" remote-service="true" uuid="true">
+		<!-- PK fields -->
+		<column name="mostVisitedPageId" primary="true" type="long" />
+		<!-- Other fields -->
+		<column name="path" type="String"/>
+		<column name="visits" type="int" />
+		<column name="title" type="String" />
+		<column name="position" type="int" />
+		<column name ="visible" type="boolean"/>
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="visits" />
+		</order>
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+</service-builder>

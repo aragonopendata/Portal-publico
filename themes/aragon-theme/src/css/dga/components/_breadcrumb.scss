@@ -1,0 +1,94 @@
+.dga-view{
+    /* miga de pan */
+    .breadcrumb{
+        background-color: $dga_white;
+        padding: 2rem 0;
+        margin-bottom: 0;
+        .container{
+            padding: 0;
+            width: 100%;
+        }
+        &__listado{
+            list-style: none;
+            padding: 0;
+            li{
+                display: inline-block;
+                @include font-size(16);
+                font-family: $openSansSemiBold;
+                color: $dga_black;
+                a{
+                    text-decoration: underline;
+                    color: $dga_black;
+                    &:hover,
+                    &:focus{
+                        text-decoration: none;
+                    }
+                }
+                &::after{
+                    content: '\f105';
+                    font-family: fontawesome-alloy;
+                    padding-left: 0.5rem;
+                }
+                &:last-child{
+                    &::after{
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+    .mostrar-resultados{
+        font-family: $openSansSemiBold;
+        @include font-size(16);
+        text-align: center;
+        padding-right: 0;
+        margin-top: 3rem;
+    }
+}
+.interior{
+    .dga-view{
+        .breadcrumb{
+            padding-top: 10rem;
+        }
+    }
+}
+
+/* 768px */
+@media screen and (min-width:$screen-sm){
+    .dga-view{
+        .breadcrumb{
+            &__listado{
+                padding: 0 1.5rem;
+                margin: 0;
+                float: left;
+            }
+        }
+        .mostrar-resultados{
+            padding-right: 4rem;
+            float: right;
+        }
+    }
+    .interior{
+        .dga-view{
+            .breadcrumb{
+                padding-top: 8rem;
+            }
+        }
+    }
+}
+
+
+
+/* 1200px */
+@media screen and (min-width:$screen-lg){
+    .interior{
+        .dga-view{
+            .breadcrumb{
+                padding-top: 2rem;
+                &__listado{
+                    padding: 0 0 0 2.5em;
+                }
+            }
+        }
+    }
+}

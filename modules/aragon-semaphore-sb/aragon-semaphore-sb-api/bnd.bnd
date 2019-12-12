@@ -1,0 +1,10 @@
+Bundle-Name: Aragon Semaphore SB API
+Bundle-SymbolicName: es.aragon.base.semaphore.api
+Bundle-Version: 1.8.0
+Export-Package:\
+	es.aragon.base.semaphore.exception,\
+	es.aragon.base.semaphore.model,\
+	es.aragon.base.semaphore.service,\
+	es.aragon.base.semaphore.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../aragon-semaphore-sb-service/service.xml

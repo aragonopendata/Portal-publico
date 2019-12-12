@@ -1,0 +1,24 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+	
+	compileOnly group: "com.liferay", name: "com.liferay.application.list.api"
+	compileInclude group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+	
+	compile project(":modules:crawler:crawler-api")
+	compile project(":modules:crawler:crawler-service")
+	
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.clay"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.string"
+	
+	compileOnly group: "com.liferay", name:"com.liferay.journal.api"
+	
+	// Remove emojis
+	compile group: 'com.vdurmont', name: 'emoji-java', version: '5.0.0'
+}
+
+group = "es.aragon.base.crawler"
