@@ -1,0 +1,228 @@
+/*Default styles*/
+.banner-aceptacion-cookies {
+	padding: 20px 0px 10px 0px;
+	border-bottom: 3px solid #333;
+	font-family: open_sans, sans-serif;
+	.titulo {
+		color: #333333;
+		font-size: 24px;
+		line-height: 33px;
+		font-weight: bold;
+	}
+	.descripcion {
+		font-size: 16px;
+		line-height: 22px;
+		a {
+			color: #2F536A;
+			text-decoration: underline;
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+	.acciones {
+		.boton {
+			display: block;
+			width: 100%;
+			height: 100%;
+			padding: 6px 0;
+			background-color: #FFB000;
+			border: 2px solid #333333;
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 22px;
+			text-align: center;
+			color: #333333;
+			text-decoration: none;
+			border-radius: 10px;
+		}
+	}
+}
+.configuracion-cookies{
+	color: #333333;	
+	.titulo{
+		font-size: 28px;	
+		font-weight: bold;	
+		line-height: 38px;
+		padding: 40px 0px 40px;
+	}
+	.descripcion, .informacion-adicional{
+		font-size: 16px;	
+		line-height: 26px;
+		h2{
+			font-size: 24px;	
+			font-weight: bold;	
+			line-height: 27px;
+		}
+		h3{
+			font-size: 20px;	
+			font-weight: bold;	
+			line-height: 27px;
+		}
+	}
+	.formulario{
+		font-size: 16px;	
+		line-height: 26px;
+		.contenido-cookie{
+			margin: 30px 0px;
+			h3{
+				font-size: 20px;	
+				font-weight: bold;	
+				line-height: 27px;
+				margin-bottom: 20px;
+			}
+			.acciones{
+				display: flex;
+				margin: 30px;
+				.contenedor-radio{
+					margin-right: 1.2em;
+			    	text-align: center;
+			    	display: inline;
+					position: relative;
+					padding-left: 4rem;
+					margin-right: 6em;
+					line-height: 32px;
+					margin-botton:0px;
+					cursor: pointer;
+					-webkit-user-select: none;
+					-moz-user-select: none;
+					-ms-user-select: none;
+					user-select: none;
+					input{
+						position: absolute;
+					    opacity: 0;
+					    cursor: pointer;
+					    height: 0px;
+					    width: 0px;
+					    &:checked ~ .checkmark{
+					    	background-color: #ffffff;
+					    	&:after{
+					    		display: block;
+					    	}
+					    }
+					}
+					.checkmark{
+						position: absolute;
+					  	top: 0px;
+						left: 0px;
+						box-sizing: border-box;
+						height: 32px;
+						width: 32px;
+						background-color: #ffffff;
+						border-radius: 50%;
+						border: 2px solid #333333;
+						&:after{
+							content: "";
+		  					position: absolute;
+		  					display: none;
+		  					top: 0px;
+							left: 0px;
+							bottom: 0px;
+							margin: 4px;
+    						right: 0px;
+							width: 20px;
+							height: 20px;
+							border-radius: 50%;
+							background: #FFB000;
+						}
+					}
+				}
+			}
+		}
+		input[type=submit]{
+		    padding: 10px 90px;
+		    margin: 50px  0px;
+		    background-color: #FFB000;
+		    border: 2px solid #333333;
+		    font-size: 16px;
+		    font-weight: 600;
+		    line-height: 22px;
+		    text-align: center;
+		    color: #333333;
+		    text-decoration: none;
+		}
+	}
+}
+
+/*Mobile styles*/
+@media (max-width: 768px) {
+	.banner-aceptacion-cookies {
+		.titulo {
+			font-size: 20px;
+			line-height: 26px;
+		}
+		.descripcion {
+			font-size: 14px;
+			line-height: 20px;
+		}
+		.acciones {
+			margin-top: 10px;
+			.boton {
+				padding: 10px 0;
+				font-size: 14px;
+				line-height: 20px;
+				margin-bottom: 10px;
+				height: 80%;
+			}
+		}
+	}
+	.configuracion-cookies{
+		.titulo{
+			font-size: 20px;	
+			line-height: 26px;
+			padding: 30px 0px 30px;
+		}
+		.descripcion, .informacion-adicional{
+			font-size: 14px;	
+			line-height: 20px;
+			h2{
+				font-size: 20px;	
+				font-weight: bold;	
+				line-height: 27px;
+			}
+			h3{
+				font-size: 18px;	
+				font-weight: bold;	
+				line-height: 20px;
+			}
+		}
+		.formulario{
+			font-size: 14px;	
+			line-height: 20px;
+			.contenido-cookie{
+				margin: 40px 0px;
+				h3{
+					font-size: 18px;	
+					font-weight: bold;	
+					line-height: 20px;
+				}
+				.acciones{
+					margin: 30px;
+					.contenedor-radio{
+						margin-right: 1.2em;
+						padding-left: 4rem;
+						margin-right: 3em;
+						line-height: 28px;
+						.checkmark{
+							height: 28px;
+							width: 28px;
+							&:after{
+								margin: 4px;
+	    						right: 0px;
+								width: 16px;
+								height: 16px;
+							}
+						}
+					}
+				}
+			}
+			input[type=submit]{
+				width: 100%;
+			    padding: 10px 60px;
+			    margin: 50px  0px;
+			    font-size: 14px;
+			    line-height: 20px;
+			}
+		}
+	}
+}

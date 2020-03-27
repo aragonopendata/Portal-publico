@@ -1,9 +1,11 @@
 AUI().ready(
     //This function gets loaded when all the HTML, not including the portlets, is loaded.
     function() {
+      checkCookiesGoogleAnalytics();
       registerVisitedPage();
       assignBackURL();
       analyticsJsonLDG();
+      
     }
 );
 
@@ -41,8 +43,20 @@ function assignBackURL() {
 }
 
 /**
+ * Disabled google analytics if user refuse this cookies
+ * @returns
+ */
+function checkCookiesGoogleAnalytics(){
+	var cookiesAcceptedCookieName = getCookie("COOKIES_ACCEPTED");
+	var googleAnalyticsId = $("#googleAnalyticsId").val();
+	if (googleAnalyticsId != "" && googleAnalyticsId != null){
+		if (cookiesAcceptedCookieName.indexOf("GOOGLE_ANALYTICS-0") != -1 || cookiesAcceptedCookieName == ""){
+			window['ga-disable-'+googleAnalyticsId] = true;
+		}
+	}
+}
+/**
  * Analytics function to get the Organism name, and the web that it comes from
- * 
  *
  * */
 
@@ -59,6 +73,15 @@ function analyticsJsonLDG(){
     }
 }
 
+/**
+ * User accepted all cookies
+ */
+function cookiesAccepted(){
+	var allCookiesAccepted = "GOOGLE_ANALYTICS-1[COOKIE-SEPARATOR]LAST_VISITED_PAGES-1[COOKIE-SEPARATOR]MARKETING-1";
+	setCookie("COOKIES_ACCEPTED", allCookiesAccepted, 30);
+	$(".banner-aceptacion-cookies").remove();
+	location.reload();
+}
 //Obtencion de miniatura de video desde su url
 function getVideoThumbnail(url, imgElementId) {
 	var videoType = "";
@@ -122,72 +145,78 @@ function getCookie(cname) {
     }
     return "";
 }
+ 
 
 /**
  * Updates the LAST_VISITED_PAGES cookie with the current page information
  */
 function registerVisitedPage() {
-  //Gets current page title
-  var currentPageTitle = document.title;
-  if (currentPageTitle.lastIndexOf('.') != -1) {
-    currentPageTitle = currentPageTitle.substring(0, currentPageTitle.lastIndexOf('.'));
-  }
-  //Saves the current page title in the cookie if is not "Inicio" or "Estado" 
-  if (currentPageTitle != "Inicio" && currentPageTitle != "Estado") {
-    //Gets last visited pages cookie
-    var lastVisitedPagesCookie = getCookie("LAST_VISITED_PAGES");
-    //Declares the register separator between title and value
-    var titleValueSeparator = "[COOKIE_SEPARATOR]";
-    //Updates the cookie value
-    if (lastVisitedPagesCookie != "") {
-      //Gets the last visited pages value separated by '|'
-      var lastVisitedPagesList = lastVisitedPagesCookie.split('|');
-      //Deletes the current page from list if exists
-      for (var i = 0; i < lastVisitedPagesList.length; i++) {
-        var lastVisitedPageEntry = lastVisitedPagesList[i].trim();
-        var lastVisitedPageEntryTitleValueSeparatorIndex = lastVisitedPageEntry.indexOf(titleValueSeparator);
-        var lastVisitedPageEntryTitle = lastVisitedPageEntry.substring(0, lastVisitedPageEntryTitleValueSeparatorIndex);
-        var lastVisitedPageEntryURL = lastVisitedPageEntry.substring(lastVisitedPageEntryTitleValueSeparatorIndex + titleValueSeparator.length, lastVisitedPageEntry.length);
-        if (lastVisitedPageEntryTitle == encodeURIComponent(currentPageTitle)) {
-          lastVisitedPagesList.splice(i, 1);
-        } else if (lastVisitedPageEntryURL == document.location) {
-          lastVisitedPagesList.splice(i, 1);
-        }
-      }
-      //Adds the current page in the first position of the cookie value
-      lastVisitedPagesCookie = encodeURIComponent(currentPageTitle) + titleValueSeparator + document.location;
-      //Adds the previous pages to the cookie value (4 max)
-      if (lastVisitedPagesList != null && lastVisitedPagesList.length > 0) {
-        var visitedPagesCount = 0;
-        for (var j = 0; j < lastVisitedPagesList.length && visitedPagesCount < 4; j++) {
-          if (lastVisitedPagesList[j].trim().indexOf(titleValueSeparator) != -1) {
-            lastVisitedPagesCookie = lastVisitedPagesCookie + "|" + lastVisitedPagesList[j].trim();
-            visitedPagesCount++;
-          }
-        }
-      }
-    }
-    //Creates the cookie value
-    else {
-      lastVisitedPagesCookie = encodeURIComponent(currentPageTitle) + titleValueSeparator + document.location;
-    }
-    //Saves the cookie in the browser
-    setCookie("LAST_VISITED_PAGES", lastVisitedPagesCookie, 30);
-  }
+	//Check if user has accepted the cookies
+	const LAST_VISITED_PAGES = "LAST_VISITED_PAGES";
+	var cookiesAcceptedCookieName = getCookie("COOKIES_ACCEPTED");
+	if (cookiesAcceptedCookieName.indexOf("LAST_VISITED_PAGES-1") != -1 || cookiesAcceptedCookieName == ""){
+		//Gets current page title
+		var currentPageTitle = document.title;
+		if (currentPageTitle.lastIndexOf('.') != -1) {
+			currentPageTitle = currentPageTitle.substring(0, currentPageTitle.lastIndexOf('.'));
+		}
+		//Saves the current page title in the cookie if is not "Inicio" or "Estado" 
+		if (currentPageTitle != "Inicio" && currentPageTitle != "Estado") {
+			//Gets last visited pages cookie
+			var lastVisitedPagesCookie = getCookie(LAST_VISITED_PAGES);
+			//Declares the register separator between title and value
+			var titleValueSeparator = "[COOKIE_SEPARATOR]";
+			//Updates the cookie value
+			if (lastVisitedPagesCookie != "") {
+				//Gets the last visited pages value separated by '|'
+				var lastVisitedPagesList = lastVisitedPagesCookie.split('|');
+				//Deletes the current page from list if exists
+				for (var i = 0; i < lastVisitedPagesList.length; i++) {
+					var lastVisitedPageEntry = lastVisitedPagesList[i].trim();
+					var lastVisitedPageEntryTitleValueSeparatorIndex = lastVisitedPageEntry.indexOf(titleValueSeparator);
+					var lastVisitedPageEntryTitle = lastVisitedPageEntry.substring(0, lastVisitedPageEntryTitleValueSeparatorIndex);
+					var lastVisitedPageEntryURL = lastVisitedPageEntry.substring(lastVisitedPageEntryTitleValueSeparatorIndex + titleValueSeparator.length, lastVisitedPageEntry.length);
+					if (lastVisitedPageEntryTitle == encodeURIComponent(currentPageTitle)) {
+						lastVisitedPagesList.splice(i, 1);
+					} else if (lastVisitedPageEntryURL == document.location) {
+						lastVisitedPagesList.splice(i, 1);
+					}
+				}
+				//Adds the current page in the first position of the cookie value
+				lastVisitedPagesCookie = encodeURIComponent(currentPageTitle) + titleValueSeparator + document.location;
+				//Adds the previous pages to the cookie value (4 max)
+				if (lastVisitedPagesList != null && lastVisitedPagesList.length > 0) {
+					var visitedPagesCount = 0;
+					for (var j = 0; j < lastVisitedPagesList.length && visitedPagesCount < 4; j++) {
+						if (lastVisitedPagesList[j].trim().indexOf(titleValueSeparator) != -1) {
+							lastVisitedPagesCookie = lastVisitedPagesCookie + "|" + lastVisitedPagesList[j].trim();
+							visitedPagesCount++;
+						}
+					}
+				}
+			} else {
+				lastVisitedPagesCookie = encodeURIComponent(currentPageTitle) + titleValueSeparator + document.location;
+			}
+			//Saves the cookie in the browser
+			setCookie(LAST_VISITED_PAGES, lastVisitedPagesCookie, 30);
+		}
+	}else {
+		document.cookie = "LAST_VISITED_PAGES" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	}
 }
 
 //Prevents the standard onsubmit function
 $("#portal_searcher_form").submit(function(event) {
-  event.preventDefault();
+	event.preventDefault();
 });
 
 /**
  * Assigns onsubmit to the theme search form
  */
-function onClickSearchOrFilterPortal(){
+function onClickSearchOrFilterPortal(searchType){
   var searchURLPortal = document.getElementById("searchURLPortal").value;
   //Default search url
-  var url = searchURLPortal + "/-/search/type/any/page/0";
+  var url = searchURLPortal + "/-/search/type/" + searchType + "/page/0";
   //Gets the original searched text
   var searchedText = $("#searchTextHeader")[0].value;
   //Limits the searched text to 400
@@ -770,34 +799,58 @@ var mainApp = (function(){
 
     });
   }
-  //Cambiar la etiqueta aria-label al ejecutarse un evento
-  var slideToggleCustom = function () {
-  	$('[data-control-collapse]').on('click', function () {
-  		if ($(window).width() <= 767) {
-  			var et = $(this).data('control-collapse');
-  			var ec = $('[data-content-collapse="' + et + '"]');
-  			if ($(this).attr("aria-expanded") === "false") {
-  				$(ec).slideDown(500, function () {
-  					$(et).addClass('active');
-  					$(ec).addClass('active');
-  				});
-  				$(this).attr("aria-expanded", "true");
-  			} else {
-  				$(ec).slideUp(500, function () {
-  					$(et).removeClass('active');
-  					$(ec).removeClass('active');
-  				});
-  				$(this).attr("aria-expanded", "false");
-  			}
-  		}
-  	});
-  }
-  var slideToggleFooterClean = function (){
-      var dataNum = $('[data-content-collapse]').length;
-      for (var i= 0; i < dataNum; i++) {
-        $('[data-content-collapse]')[i].removeAttribute("style");
-      }
-  }  
+  
+	/**
+	 * Toggle para listados de enlaces del footer
+	 */
+	var slideToggleFooter = function () {
+		$('.footer__links').find('[data-control-collapse]').on('click', function () {
+			if ($(window).width() <= 767) {
+				var et = $(this).data('control-collapse');
+				var ec = $('[data-content-collapse="' + et + '"]');
+				$(this).toggleClass('active');
+				$(ec).toggleClass('active');
+				$(ec).slideToggle();
+				$(this).attr("aria-expanded") === "true" ?
+				$(this).attr("aria-expanded", "false") :
+				$(this).attr("aria-expanded", "true");
+			}
+		});
+	}
+
+	/**
+	 * Toggle para listados de enlaces de enlinea
+	 */
+	var slideToggleCustom = function () {
+		$('.en-linea').find('[data-control-collapse]').on('click', function () {
+			var et = $(this).data('control-collapse');
+			var ec = $('[data-content-collapse="' + et + '"]');
+			if ($(this).attr("aria-expanded") === "false") {
+				$(ec).slideDown(500, function () {
+					$(et).addClass('active');
+					$(ec).addClass('active');
+				});
+				$(this).attr("aria-expanded", "true");
+			} else {
+				$(ec).slideUp(500, function () {
+					$(et).removeClass('active');
+					$(ec).removeClass('active');
+				});
+				$(this).attr("aria-expanded", "false");
+			}
+		});
+	}
+
+	/**
+	 * Eliminacion de atributo style de los collapse
+	 */
+	var slideToggleFooterClean = function () {
+		var dataNum = $('[data-content-collapse]').length;
+		for (var i= 0; i < dataNum; i++) {
+			$('[data-content-collapse]')[i].removeAttribute("style");
+		}
+	} 
+	
   return{
     saltoContenidoTeclado : function(){
       saltoContenidoTeclado();
@@ -853,6 +906,9 @@ var mainApp = (function(){
     abrirCerrarFiltrado : function(){
       abrirCerrarFiltrado();
     },
+    slideToggleFooter : function(){
+    	slideToggleFooter();
+      },    
     slideToggleCustom : function(){
       slideToggleCustom();
     },
@@ -879,6 +935,7 @@ $(document).ready(function() {
     mainApp.abrirCerrarFiltrado();
     mainApp.changeAriaLabel();
     mainApp.stickyBar();
+    mainApp.slideToggleFooter();
     mainApp.slideToggleCustom();
     mainApp.slideToggleFooterClean();
     // Evitamos inicializar la función cuando el slider no esté implementado en la página cargada

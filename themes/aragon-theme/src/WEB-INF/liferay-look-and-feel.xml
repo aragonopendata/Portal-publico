@@ -9,14 +9,17 @@
 		<template-extension>ftl</template-extension>
 		<settings>
 			<setting configurable="true" key="layout-header-style" options="default,home" type="select" value="default" />
-			<setting configurable="true" key="euro-flag-url" type="text" value="http://www.aragon.es/Fondos_Europeos" />
+			<setting configurable="true" key="euro-flag-url" type="text" value="/-/fondos-europeos-gobierno-de-aragon" />
 			<setting configurable="true" key="show-page-title" options="true,false" type="select" value="false" />
 			<setting configurable="true" key="show-back-button" options="true,false" type="select" value="false" />
 			<setting configurable="true" key="show-enlinea-help" options="true,false" type="select" value="false" />
-			<setting configurable="true" key="show-most-visited" options="true,false" type="select" value="true" />
+			<setting configurable="true" key="procedure-page" options="true,false" type="select" value="false" />
 			<setting configurable="true" key="show-procedure-title" options="true,false" type="select" value="false" />
 			<setting configurable="true" key="html-title-format" options="default,procedure" type="select" value="default" />
 			<setting configurable="true" key="dynamic-meta-description" options="default,procedure-distributor" type="select" value="default" />
+			<setting configurable="true" key="show-banner-cookies" options="true,false" type="select" value="true" />
+			<setting configurable="true" key="show-warning-alert" options="true,false" type="select" value="false" />
+			<setting configurable="true" key="warning-alert-msg" type="text" value="" />
 		</settings>
 		<portlet-decorator id="barebone" name="Barebone">
 			<default-portlet-decorator>true</default-portlet-decorator>

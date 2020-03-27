@@ -50,6 +50,10 @@
                     }
                     
                 }
+				p {
+					@include font-size(18);
+                    font-family: $openSansSemiBold; 
+				}
             }
         }
         &__ver-menos{

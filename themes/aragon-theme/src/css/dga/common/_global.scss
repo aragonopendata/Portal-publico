@@ -746,3 +746,16 @@ $queries: (
         background-image: url('../images/dga/icons/icon-upload.svg');
     }
 }
+.info-video {
+    display: flex;
+    flex-wrap: wrap;
+    color:#000000;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 0 2rem;
+    .icon-theme {
+	 	height: 3.5rem;
+	    width: 3.5rem;
+    	background: url('../images/dga/icons/icon-yt-red.svg') 0px 0 no-repeat;
+	}
+}

@@ -1,6 +1,6 @@
 .dga-view{
     .en-linea{
-        //HOME ENLÍNEA
+        /*HOME ENLINEA*/
         .home-title-block{
             padding: 3rem 0 4rem;
             width: 95%;
@@ -48,6 +48,10 @@
             }
         }
         .aside-block-module{
+        	.document-margins{
+				position: relative ;
+				margin-left: 15px ;
+			}
             @include font-size(16);
             background-color: $dga_white;
             font-family: $openSansSemiBold;
@@ -193,7 +197,7 @@
                 }
             }
             .title-descarga{
-                span,a{
+                a{
                     cursor: pointer;
                     color: $dga_black;
                     @include font-size(16);
@@ -218,6 +222,18 @@
                             transform: translateY(-50%) rotate(180deg);
                             transition: all 300ms linear;
                         }
+                    }
+                }
+                span{
+                    cursor: pointer;
+                    color: $dga_black;
+                    @include font-size(16);
+                    position: relative;
+                    padding-right: 2rem;
+                    width: 100%;
+                    display: block;
+                    &::after{
+                        content: '';
                     }
                 }
                 .icon-theme{
@@ -351,6 +367,10 @@
             }
             &__listado{
                 &__item{
+                	h2 {
+                		height: 100%;
+    					width: 100%;
+                	}
                     &:nth-of-type(even){
                         border-right: none;
                     }
@@ -369,7 +389,7 @@
                 font-family: $signikaSemiBold;
             }
         }
-        //TRÁMITES ENLÍNEA
+        /*TRAMITES ENLINEA*/
         &.interior{
             .aside-block{
                 background-color: transparent;
@@ -658,8 +678,122 @@
                 }
             }
         }
-        //DETALLE TRÁMITE ENLÍNEA
+        /*DETALLE TRAMITE ENLINEA*/
+        .modal .fade .show{
+		    display: block;
+		    max-width: 1440px;
+		    padding-right: 17px;    
+		}
+		
+		.modal-custom{
+		    height: 1169px; 
+		    width: 1440px;  
+		    background-color: rgba(51,51,51,0.9);
+		}
+		.modal-content:before{
+		    content: "";
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    right: 0;
+		    background: linear-gradient(to right,#fdcb33 0%,#fdcb33 33%,#fa9902 33%,#fa9902 66%,#f05442 66%,#f05442 100%,#f1f1f1 100%,#f05442 100%,#f05442 100%);
+		    width: 100%;
+		    height: 10px;
+		}
+		.modal-content{
+		    border-radius: 0;
+		    border: 0;
+		    padding: 30px;
+		    position: relative;
+		}
+		.modal-header{
+		    justify-content: flex-end;
+		    border: 0;
+		    margin-bottom: 15px;
+		}
+		.close{
+		    height: 35px;
+		    width: 35px;
+		    opacity: 1;             
+		}
+		.close-span{
+		   color: #000;
+		   font-size: 35px;
+		   line-height: 35px;
+		   font-weight: 100;
+		}
+		.white-button{
+			border: 0.2rem solid black;
+		    border-radius: 5px;
+		    background-color: white;
+		    display: flex;
+		}
+		.orange-button{
+			border: 0.2rem solid black;
+		    border-radius: 5px;
+		    background-color: #F05442;
+		    display: flex;
+		}
+		.icon-style{
+			margin: 1rem;
+		    height: 3.6rem;
+		}
+		.custom-modal-link{	
+			margin: 0.9rem;
+			color: #333333;
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 22px;
+			text-align: center;
+			width: 100%;
+		}
+		.custom-modal-link:hover{	
+			color: #333333;
+		}
+		.description-text{
+			font-size: 24px;
+			font-weight: bold;	
+			line-height: 33px;
+			text-align: left;
+			margin: 1.8rem 0rem;
+			color: #333333;
+		}
+		.advice-text{
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 22px;
+			text-align: left;
+			margin: 1.8rem 0rem;
+			color: #333333;
+		}
+        
         &.tramite-body{
+        	.warning-line{
+				height: 2px;
+			    background-color: #FA9902;
+			}
+			.warning-message{
+				color: #000000;
+			    font-weight: bold;
+			    line-height: 22px;
+			    margin: 10px;
+			    display: table;
+			}
+			.warning-icon{
+				height: 45px;
+				width: 52px;
+				display: table-cell;
+				margin: 5px 15px;
+			}
+			.warning-text{
+				display: table-cell;
+				font-size: 16px;
+				vertical-align: middle;
+				width: 692px;
+				margin: 20px;
+				padding-left: 10px;
+			}
+        	
             .list{
                 counter-reset: item;
                 padding-left: 0;
@@ -745,6 +879,21 @@
                     &:hover{
                         text-decoration:none;
                     }
+                    &.info-video {
+	                	display: flex;
+					    flex-wrap: wrap;
+					    justify-content: flex-start;
+					    align-items: center;
+					    padding: 1rem 0 2rem;
+					    .icon-theme {
+						    height: 3.5rem;
+						    width: 3.5rem;
+					    	background: url('../images/dga/icons/icon-yt-red.svg') 0px 0 no-repeat;
+					    }
+					    span {
+					    	margin-left: 1.5rem;
+					    }
+	                }
                 }
                 .u-btn{
                     padding: 1rem 0;
@@ -798,7 +947,7 @@
                 }
             }
         }
-        // OFICINAS
+        /*OFICINAS*/
         .mapa-localizacion{
             width: 100%;
             min-height: 500px;
@@ -892,7 +1041,7 @@
 @media (min-width:$screen-sm){
     .dga-view{
         .en-linea{
-            /* accesos rápidos*/
+            /* ACCESOS RAPIDOS */
             .fast-access-module{
                 &__listado{
                     &__item{
@@ -909,7 +1058,7 @@
 @media (min-width:$screen-md){
     .dga-view{
         .en-linea{
-            /* accesos rápidos*/
+            /* ACCESOS RAPIDOS */
             .fast-access-module{
                 &__listado{
                     &__item{
@@ -917,12 +1066,12 @@
                             border-right: none;
                         }
                         .link{
-                            border-bottom:.1rem solid $dga_grayLines;
+                            border-bottom: .1rem solid $dga_grayLines !important;
                         }
                         &:nth-of-type(3n+1):nth-last-of-type(-n+3),
                         &:nth-of-type(3n+1):nth-last-of-type(-n+3) ~ li {
                             .link{
-                                border-bottom:none;
+                                border-bottom: none !important;
                             }
                         }
                     }

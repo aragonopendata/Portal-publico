@@ -2,6 +2,11 @@
 <#include init />
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 	<head>
+		<#-- Google Tag Manager --> 
+		<script>
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-PFFGV26');
+		</script> 
+		<#-- End Google Tag Manager -->
 		<meta content="initial-scale=1.0, width=device-width" name="viewport" />
 		<meta charset="utf-8"/>
 		<#-- Page title -->
@@ -28,13 +33,15 @@
 		<#if theme_display.getURLCurrent() ?contains("/en/")>
 			<meta name="robots" content="noindex,nofollow" />
 		</#if>
-		<script src="//cdn1.readspeaker.com/script/4976/webReader/webReader.js?pids=wr&amp;ver=1" type="text/javascript"></script>
 		<script type="text/javascript">
 			window.rsDocReaderConf = {lang: 'es_es'};
 		</script>
   		<meta property="og:title" content='${the_title}. <@liferay.language key="aragon.portal-head-tag"/>' />
 	</head>
 	<body class="${css_class}" id="senna_surface1">
+		<#-- Google Tag Manager (noscript) --> 
+		<noscript><iframe title="Tag Manager de Google" src="https://www.googletagmanager.com/ns.html?id=GTM-PFFGV26" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> 
+		<#-- End Google Tag Manager (noscript) -->
 		<@liferay_util["include"] page=body_top_include />
 		<@liferay.control_menu />
 		<div class="lfr-spa-loading-bar"></div>
@@ -50,8 +57,31 @@
             	</ul>
          	</nav>
 			<div class="container-fluid dga-view" id="wrapper">
+  				<#-- ACEPTACION DE COOKIES-->
+  				<#if show_banner_cookies=="true">
+	  				<input id="googleAnalyticsId" type="hidden" value="${googleAnalyticsId}"/>
+	  				<#assign existCookieAcceptedCookies = false >
+	  				<#if request.getCookies()?? && request.getCookies()?has_content>
+						<#assign cookies = request.getCookies()>
+						<#list cookies as cookie>
+							<#if cookie.name == "COOKIES_ACCEPTED">
+								<#assign existCookieAcceptedCookies = true >
+							</#if>
+						</#list>
+					</#if>
+					<#if existCookieAcceptedCookies == false>
+						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
+						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupShowBorders", "false") />
+						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupShowBordersDefault", "false") />
+						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupUseCustomTitle", "false") />
+						<#assign theme_groupID = htmlUtil.escape(theme_display.getCompanyGroupId()?string) />
+						<#assign VOID = freeMarkerPortletPreferences.setValue("groupId", '${group_id}') />
+						<@liferay_portlet["runtime"] defaultPreferences="${freeMarkerPortletPreferences}" portletProviderAction=portletProviderAction.VIEW instanceId="bannerCookies" portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet" />
+						${freeMarkerPortletPreferences.reset()}
+					</#if>
+				</#if>
 				<#-- HEADER -->
-				<header class="header" id="banner" aria-label="Cabecera" role="banner" tabindex="-1">				
+				<header class="header" id="banner" aria-label="Cabecera" role="banner" tabindex="-1">
 					<div class="navbar container">
 						<div id="heading">
 			                <#if layout_header_style=="home">
@@ -119,7 +149,7 @@
 													</#if>
 												</div>
 												<div class="col-md-6">
-													<form id="portal_searcher_form" action="javascript:void(0)" method="get" class="access-to-search input-group" onsubmit="onClickSearchOrFilterPortal()" autocomplete="off">
+													<form id="portal_searcher_form" action="javascript:void(0)" method="get" class="access-to-search input-group" onsubmit="onClickSearchOrFilterPortal('${searchType}')" autocomplete="off">
 														<input type="hidden" id ="searchURLPortal" value="${searcherUrl}">
 														<div class="search-input-container">
 															<input id="searchTextHeader" maxlength="400" type="search" placeholder='<@liferay.language key="aragon.search-box-placeholder"/>' class="search-input" title='<@liferay.language key="search"/>'>
@@ -154,6 +184,21 @@
 						<@liferay.breadcrumbs default_preferences="${freeMarkerPortletPreferences}"  />
 						${freeMarkerPortletPreferences.reset()}				
 					</#if>
+					<#assign show_warning_alert = freeMarkerUtilities.getThemeLayoutPropertyValue(themeDisplay.getLayout(), "show-warning-alert")/>
+					<#if show_warning_alert == "true">
+						<#assign warning_alert_msg = freeMarkerUtilities.getThemeLayoutPropertyValue(themeDisplay.getLayout(), "warning-alert-msg")/>
+						<#if warning_alert_msg != "">
+							<div class="container">
+								<div class="row">
+									<div class="col-12">
+										<div class="alert alert-warning" style="font-size: 15px; width: 100%; margin: 25px 0;">
+											${warning_alert_msg}
+										</div>
+									</div>
+								</div>
+							</div>
+						</#if>
+					</#if>
 					<#if show_enlinea_help=="true">
 						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupShowBorders", "false") />
@@ -186,7 +231,7 @@
 							<@liferay_util["include"] page=content_include />
 						</@>
 					</#if>
-					<#if show_most_visited=="true">
+					<#if procedure_page=="false">
 						<div class="aragon-layout-tpl">
 							<div class="portlet-layout row modules-two-columns">
 								<div class="col portlet-column portlet-column-first" role="complementary" aria-labelledby="portal-most-visited-pages">

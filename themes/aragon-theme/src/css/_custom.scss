@@ -2,13 +2,11 @@
 @import "dga/helpers/variables";
 
 /* GLOBAL */
+@import "dga/vendor/media-player.scss";
 @import "dga/common/global";
 @import "dga/helpers/reboot";
 @import "dga/vendor/ekko-lightbox.scss";
 @import "dga/vendor/swiper.scss";
-
-
-
 
 /* LAYOUT */
 @import "dga/layout/header";
