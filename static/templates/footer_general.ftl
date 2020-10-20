@@ -132,7 +132,7 @@ Small Image: false
 			<span class="name">${pie.copyright.getData()}</span>
 			<span>${pie.direccion.getData()} <#if pie.telefono?? && pie.telefono.getData()?has_content> - <abbr title="<@liferay.language key="aragon.template.footer-general.phone"/>">Tfno.</abbr> <a href="tel:+976714000">976 714 000</a></#if></span>
 		</div>
-		<a href="http://www.aragon.es/Fondos_Europeos" class="hidden-xs col-sm-3 european-flag" title="<@liferay.language key="aragon.template.footer-general.information-eie"/>">
+		<a href="/-/fondos-europeos-gobierno-de-aragon" class="hidden-xs col-sm-3 european-flag" title="<@liferay.language key="aragon.template.footer-general.information-eie"/>">
 			<img class="image" src="${themeDisplay.getPathThemeImages()}/dga/flag_europe.svg" alt="<@liferay.language key="aragon.ue-feder"/>">
 			<p class="claim">
 				<span>Fondo Europeo <@liferay.language key="aragon.template.footer-general.develop-region"/></span>

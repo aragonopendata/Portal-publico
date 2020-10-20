@@ -109,8 +109,12 @@ public class ProcedureIndexer extends BaseIndexer<Procedure> {
 		document.addText("requirementsAndObservations", procedure.getRequirementsAndObservations());
 		document.addText("documentation", procedure.getDocumentation());
 		document.addText("normative", procedure.getNormative());
-		document.addDateSortable("fromDate", procedure.getFromDate());
-		document.addDateSortable("toDate", procedure.getToDate());
+		document.addText("presentationPlace", procedure.getPresentationPlace());
+		document.addKeywordSortable("inTerm", procedure.isInTerm());
+		document.addDate("fromDate", procedure.getFromDate());
+		document.addDate("toDate", procedure.getToDate());
+		document.addKeyword("undefinedTerm", procedure.isUndefinedTerm());
+		document.addDate("displayDate", procedure.getPublishDate());
 		document.addText("resolutionTime", procedure.getResolutionTime());
 		document.addNumber("inLevel", procedure.getInLevel());
 		document.addText("onlineURL", procedure.getOnlineURL());
@@ -161,6 +165,7 @@ public class ProcedureIndexer extends BaseIndexer<Procedure> {
 			for(Procedure procedure : procedures) {
 				documents.add(doGetDocument(procedure));
 			}
+			log.info("Reindexing " + procedures.size() + " procedures");
 			IndexWriterHelperUtil.updateDocuments(getSearchEngineId(), procedures.get(0).getCompanyId(), documents, true);
 			try {
 				long companyId = companyLocalService.getCompanyByWebId(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID)).getCompanyId();

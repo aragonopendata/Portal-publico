@@ -41,6 +41,8 @@ public class AragonUtilitiesConstant {
 	public static final String CATEGORY_CUSTOM_PROPERTY_BIOGRAFIA = "BIOGRAFIA";
 	public static final String CATEGORY_CUSTOM_PROPERTY_FOTO_PATH = "FOTO_PATH";
 	public static final String CATEGORY_CUSTOM_PROPERTY_FOTO_NOMBRE = "FOTO_NOMBRE";
+	public static final String CATEGORY_CUSTOM_PROPERTY_WEB_PAGE = "PAGINA_WEB";
+	public static final String CATEGORY_CUSTOM_PROPERTY_WEB_PAGE_TITLE = "TITULO_PAGINA_WEB";
 	
 	// Category Custom Properties for municipios
 	public static final String CATEGORY_CUSTOM_PROPERTY_MUN_ID = "MUN_ID"; 
@@ -65,7 +67,7 @@ public class AragonUtilitiesConstant {
 	
 	//Structure names
 	public static final String STRUCTURE_NAME_CONTENIDO_FINAL = "Contenido final";
-	
+	public static final String CATEGORY_NAME_AGENDA = "AGENDA";
 	//Order by
 	public static final String ORDER_BY_COL_CREATE_DATE = "createDate";
 	public static final String ORDER_BY_COL_MODIFIED_DATE = "modifiedDate";

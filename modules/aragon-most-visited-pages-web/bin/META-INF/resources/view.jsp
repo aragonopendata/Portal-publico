@@ -24,7 +24,7 @@
 						if (i <= 5) {
 							%>
 							<li class="col-12 listado__item" style="<%=style %>">
-								<a class="link" href="http://www.aragon.es<%=mvp.getPath()%>">
+								<a class="link" href="https://www.aragon.es<%=mvp.getPath()%>">
 									<span class="title"><%= mvp.getTitle()%></span>
 								</a>
 							</li>

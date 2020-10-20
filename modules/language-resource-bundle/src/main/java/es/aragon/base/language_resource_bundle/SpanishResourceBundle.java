@@ -30,6 +30,6 @@ public class SpanishResourceBundle extends ResourceBundle {
 	/**
 	 * Bundle obtenido del fichero de lenguaje para español
 	 */
-	private final ResourceBundle _resourceBundle = ResourceBundle.getBundle("content.Language", UTF8Control.INSTANCE);
+	private final ResourceBundle _resourceBundle = ResourceBundle.getBundle("content.Language_es_ES", UTF8Control.INSTANCE);
 
 }

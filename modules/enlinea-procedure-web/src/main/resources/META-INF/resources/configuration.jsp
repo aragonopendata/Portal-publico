@@ -33,6 +33,16 @@
 					</aui:field-wrapper>
 				</aui:fieldset>
 			</liferay-frontend:fieldset>
+			<liferay-frontend:fieldset label="configuration.fieldset.more-information" collapsible="<%= true %>" collapsed="<%= false %>">
+				<aui:fieldset>
+		   			<aui:field-wrapper cssClass="lfr-input-text-container" label="configuration.tooltip.procedureid-variable">
+						<liferay-ui:input-localized
+							name="moreInformation"
+							type="editor"
+							xml="<%= moreInformation %>" />
+					</aui:field-wrapper>
+				</aui:fieldset>
+			</liferay-frontend:fieldset>
    		</liferay-frontend:fieldset-group>
    	</liferay-frontend:edit-form-body>
    	<liferay-frontend:edit-form-footer>

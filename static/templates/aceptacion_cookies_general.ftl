@@ -6,60 +6,27 @@ Structure Key: ACEPTACION_COOKIES
 Cacheable: true
 Small Image: false
 -->
-
-<div id="modal_aceptacion_cookies"></div>
-<script>
-	var cookiesAcceptedCookieName = "COOKIES_ACCEPTED";
-	var cookiesAcceptedCookieValue = "";
-	//Comprobar si las cookies ya han sido aceptadas
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var cookiesArray = decodedCookie.split(';');
-    for (var i = 0; i < cookiesArray.length; i++) {
-        var cookieEntry = cookiesArray[i];
-        while (cookieEntry.charAt(0) == ' ') {
-            cookieEntry = cookieEntry.substring(1);
-        }
-        if (cookieEntry.indexOf(cookiesAcceptedCookieName + "=") == 0) {
-            cookiesAcceptedCookieValue = cookieEntry.substring((cookiesAcceptedCookieName + "=").length, cookieEntry.length);
-        }
-    }
-	if (cookiesAcceptedCookieValue != "true") {
-		YUI().use(
-			'aui-modal',
-			function(Y) {
-				var modal = new Y.Modal(
-					{
-						headerContent: '<h4>${.vars['reserved-article-title'].data}</h4>',
-						bodyContent: '${textoAceptacion.getData()}',
-						centered: true,
-						destroyOnHide: false,
-						modal: true,
-						render: '#modal_aceptacion_cookies',
-						zIndex: 1,
-						toolbars: {},
-						visible: true,
-						width: 450,
-
-					}
-				).render();
-				modal.addToolbar(
-					[
-						{
-							label: 'Aceptar',
-							on: {
-								click: function() {
-									//Almacenar la cookie donde se indica que las cookies han sido aceptadas
-									var dateNow = new Date();
-									dateNow.setTime(dateNow.getTime() + (365 * 24 * 60 * 60 * 1000));
-									document.cookie = cookiesAcceptedCookieName + "=" + "true" + ";" + "expires=" + dateNow.toGMTString() + ";path=/";
-									//Ocultar el popup
-									modal.hide();
-								}
-							}
-						}
-					]
-				);
-			}
-		);
-	}
-</script>
+<section class="banner-aceptacion-cookies">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2 class="titulo">${.vars['reserved-article-title'].data}</h2>
+				<#if textoAceptacion.getData()?? && textoAceptacion.getData()?has_content>
+					<div class="descripcion">${textoAceptacion.getData()}</div>
+				</#if>
+			</div>
+		</div>
+		<div class="acciones">
+			<div class="row">
+				<div class="col-md-3">
+					<a class="boton" href="javascript:void(0)" onclick="cookiesAccepted()"><@liferay.language key="aragon.template.cookies-preferences.accepted"/></a>
+				</div>
+				<#if url_button_preferences.getData()?? && url_button_preferences.getData()?has_content>
+					<div class="col-md-4">
+						<a class="boton" href="${url_button_preferences.getData()}"><@liferay.language key="aragon.template.cookies-preferences.go-to-preferences"/></a>
+					</div>
+				</#if>
+			</div>
+		</div>
+	</div>
+</section>

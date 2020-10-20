@@ -86,6 +86,12 @@ public class OrganizationMapPortlet extends MVCPortlet {
 				if (categoryPropery.getKey().equals(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_CP)) {
 					renderRequest.setAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_CP, categoryPropery.getText());
 				}
+				if (categoryPropery.getKey().equals(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_WEB_PAGE)) {
+					renderRequest.setAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_WEB_PAGE, categoryPropery.getText());
+				}
+				if (categoryPropery.getKey().equals(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_WEB_PAGE_TITLE)) {
+					renderRequest.setAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_WEB_PAGE_TITLE, categoryPropery.getText());
+				}
 			}
 			
 			try {

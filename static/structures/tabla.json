@@ -1,0 +1,148 @@
+{
+    "availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "Fila"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "fila",
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-separator",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Columna"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "",
+                    "fieldNamespace": "ddm",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "columna",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-separator",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "Tipo"
+                            },
+                            "options": [
+                                {
+                                    "value": "texto",
+                                    "label": {
+                                        "es_ES": "Texto"
+                                    }
+                                },
+                                {
+                                    "value": "icono",
+                                    "label": {
+                                        "es_ES": "Icono"
+                                    }
+                                }
+                            ],
+                            "predefinedValue": {
+                                "es_ES": [
+                                    ""
+                                ]
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "multiple": false,
+                            "name": "columnaTipo",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "select"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Texto"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "html",
+                            "fieldNamespace": "ddm",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "columnaTexto",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "ddm-text-html"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Icono"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "document-library",
+                            "fieldNamespace": "ddm",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "documentoIcono",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "ddm-documentlibrary"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

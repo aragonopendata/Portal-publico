@@ -1,9 +1,15 @@
-<div class="aside-block-module aside-block-module--detalle border-red">
+<div class="aside-block-module aside-block-module--detalle border-red readSpeakerOrigin">
 	<p class="info-label mb-0"><liferay-ui:message key="processing.processing-term" /></p>
 	<p>
 		<c:choose>
+			<c:when test="${procedure.isUndefinedTerm()}">
+				<liferay-ui:message key="processing.processing-term.undefined-term" />
+			</c:when>
 			<c:when test="${procedure.isInTerm()}">
 				<liferay-ui:message key="processing.processing-term.in-term" />
+				<c:if test="${not empty procedure.getToDateWithYearFormatted()}">
+					- ${procedure.getToDateWithYearFormatted()}
+				</c:if>
 			</c:when>
 			<c:otherwise>
 				<liferay-ui:message key="processing.processing-term.not-in-term" />
@@ -13,10 +19,21 @@
 	<p class="info-label mb-0"><liferay-ui:message key="processing.resolution-term" /></p>
 	<p>${procedure.getResolutionTime()}</p>
 </div>
-<div class="text-center mt-4 mb-4">
+<div class="text-center mt-4 mb-4 readSpeakerOrigin">
 	<c:choose>
+		<c:when test="${procedure.isUndefinedTerm()}">
+			<span class="u-btn u-btn-white d-inline-block btn-tramites border-red pt-4 pb-4" style="opacity: 0.5;">
+				<liferay-ui:message key="processing.temporary-unavailable" />
+			</span>
+		</c:when>
+		<c:when test="${fn:contains(procedure.getOnlineURL(), 'aplicaciones.aragon.es/tramitar/registro-electronico-general-aragon/identificacion') }">
+			<a href="javascript:void(0)" data-toggle="modal" data-target="#${procedure.getProcedureId()}forms" class="u-btn u-btn-red d-inline-block btn-tramites">
+				<img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-iniciar-tramites.svg" alt="" class="hidden-md pr-3">
+				<liferay-ui:message key="processing.online" />
+			</a>
+		</c:when>
 		<c:when test="${procedure.getInLevel() >= 3}">
-			<a href="${procedure.getOnlineURL()}" class="u-btn u-btn-red d-inline-block btn-tramites">
+		   	<a href="${procedure.getOnlineURL()}" class="u-btn u-btn-red d-inline-block btn-tramites">
 				<img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-iniciar-tramites.svg" alt="" class="hidden-md pr-3">
 				<liferay-ui:message key="processing.online" />
 			</a>
@@ -29,9 +46,9 @@
 	</c:choose>
 </div>
 <c:if test="${not empty procedure.getDocuments()}">
-	<div class="aside-block-module  border-bottom-yellow border-gray pt-3 pb-3">
+	<div class="aside-block-module  border-bottom-yellow border-gray pt-3 pb-3 readSpeakerOrigin">
 		<p class="title-descarga d-flex align-items-center m-0">
-			<span class="icon-theme documents-red mr-3"></span>
+			<span class="icon-theme documents-red mr-3" ></span>
 			<a href="javascript:void(0)" data-control-collapse="listado-descarga-aside" aria-expanded="false">
 				<liferay-ui:message key="processing.download-forms" />
 			</a>
@@ -40,7 +57,7 @@
 			<c:forEach items="${procedure.getDocuments()}" var="document">
 				<li>
 					<div class="d-flex flex-wrap align-items-center">
-						<div class="col-xs-12 col-md mb-5 mb-md-0 pr-md-3">
+						<div class="col-xs-12 col-md mb-5 mb-md-0 pr-md-3 document-margins">
 							${document.getName()}
 						</div>
 						<div class="col-xs-6 col-md-2 d-flex flex-column p-0">
@@ -52,5 +69,63 @@
 				</li>
 			</c:forEach>
 		</ol>
+	</div>
+</c:if>
+<c:if test="${!procedure.isUndefinedTerm() && fn:contains(procedure.getOnlineURL(), 'aplicaciones.aragon.es/tramitar/registro-electronico-general-aragon/identificacion') }">
+	<div class="modal fade show readSpeakerOrigin" id="${procedure.getProcedureId()}forms" tabindex="-1" role="dialog" aria-hidden="true">
+	 	<div class="modal-dialog " role="document">
+			<div class="modal-content">
+				<div class="modal-content::before">
+					<div class="modal-header">
+						<button type="button" class="close close-span" data-dismiss="modal" aria-label="Close" style="height: 35px;width: 35px;opacity: 1;"> 
+						<span class="close-x" aria-hidden="true"">
+							X
+						</span>
+						<span class="oculto">Cerrar</span> </button>
+					</div>
+					<div class="description-text">
+						<liferay-ui:message key="processing.modal-title" />
+					</div>
+					<div class="advice-text">
+						<liferay-ui:message key="processing.modal-subtitle" />
+					</div>
+					<div class="row">
+						<div class="col-6">
+							<div class="white-button">
+								<img  src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-documents-red.svg" alt="" class="hidden-md pr-3 icon-style hidden-sm hidden-xs">
+								<a class="custom-modal-link" href="javascript:void(0)" data-control-collapse="listado-descarga-modal" aria-expanded="false">
+		                            <liferay-ui:message key="processing.modal-forms-button" />
+		                        </a>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="orange-button">
+							    <img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-iniciar-tramites.svg" alt="" class="hidden-md pr-3 icon-style hidden-sm hidden-xs">
+			                    <a href="${procedure.getOnlineURL()}" class="custom-modal-link">
+			                        <liferay-ui:message key="processing.modal-link-button" />
+			                    </a>
+							</div>
+						</div>
+					</div>
+					<br>
+					<ol class="listado collapse p-0" data-content-collapse="listado-descarga-modal" id="listado-descarga-modal">
+		                <c:forEach items="${procedure.getDocuments()}" var="document">
+		                    <li>
+		                        <div class="d-flex flex-wrap align-items-center">
+		                            <div class="col-xs-12 col-md mb-5 mb-md-0 pr-md-3 document-margins custom-modal-link">
+		                                ${document.getName()}
+		                            </div>
+		                            <div class="col-xs-6 col-md-2 d-flex flex-column p-0">
+		                                <a href="${document.getUrl()}" class="icon d-block text-center">
+		                                    <img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-download-red.svg" alt="#">
+		                                </a>
+		                            </div>
+		                        </div>
+		                    </li>
+		                </c:forEach>
+	            	</ol>		
+				</div>
+			</div>
+		</div>
 	</div>
 </c:if>

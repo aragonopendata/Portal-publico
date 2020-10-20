@@ -1,4 +1,12 @@
 .dga-view{
+	.indice-departamentos ul{
+		list-style:none;
+		display: flex;
+    	flex-wrap: wrap;
+    	.item{
+    		width: 100%;
+    	}
+	}
     .en-linea{
         /*HOME ENLINEA*/
         .home-title-block{
@@ -411,15 +419,6 @@
                     background-color: $dga_white;
                     padding: 2rem;
                 }
-                &__title{
-                    a{
-                        &.with-content{
-                            &::after{
-                                right: 1rem;
-                            }
-                        }
-                    }
-                }
                 &__tramites{
                     padding: 0;
                     @media (min-width:$screen-sm){
@@ -818,6 +817,7 @@
                     
                     .title{
                         font-family: $signikaSemiBold;
+                        padding-left:3px;
                         span,a{
                             cursor: pointer;
                             @include font-size(24);
@@ -952,6 +952,48 @@
             width: 100%;
             min-height: 500px;
         }
+        	.listado-oficinas-enlinea .titulo-bloque-oficinas-tipo {
+		font-size: 2.2rem;
+		line-height: 3.36rem;
+		font-family: "Signika-SemiBold",sans-serif;
+		margin-bottom: 2rem;
+		}
+		.listado-oficinas-enlinea .titulo-bloque-oficinas-provincia {
+			font-size: 1.6rem;
+			line-height: 2.4rem;
+			margin-bottom: 2rem;
+			font-weight: bold;
+		}
+		.listado-oficinas-enlinea .office-filters {
+			margin: 4rem 0;
+		}
+		.listado-oficinas-enlinea .office-filters select {
+			display: block;
+			width: 100%;
+		}
+		.listado-oficinas-enlinea .bloque-oficinas .u-btn {
+			display: inline-block;
+			width: auto !important;
+			padding: 1rem !important;
+		}
+		.listado-oficinas-enlinea .titulo-oficina {
+			font-size: 2rem;
+			line-height: 2.6rem;
+			margin-bottom: 2rem;
+			font-weight: bold;
+			text-decoration: underline;
+			text-decoration-color: #f05442;
+		}
+		@media (max-width: 991px) {
+			.listado-oficinas-enlinea .bloque-oficinas .u-btn {
+				margin-bottom: 2rem;
+			}
+		}
+		@media (max-width: 768px) {
+			.listado-oficinas-enlinea .office-filters select {
+				margin-bottom: 2rem;
+			}
+		}
         .oficinas-list{
             list-style: none;
             padding: 0 15px;
@@ -983,6 +1025,17 @@
                         &:hover{
                             text-decoration: none;
                         }
+                    }
+                    .btn-access-news{
+                    	display:block;
+						margin-top: 15px;
+					    width: 70%;
+					    padding: 5px;
+					    text-align: center;
+					    @media (max-width:$screen-sm){
+                			margin-right: auto;
+                			width: 60%;
+            			}
                     }
                 }
                 &__adress,

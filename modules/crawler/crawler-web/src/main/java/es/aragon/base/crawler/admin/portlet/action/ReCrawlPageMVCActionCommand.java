@@ -104,7 +104,10 @@ public class ReCrawlPageMVCActionCommand extends BaseMVCActionCommand {
 				crawler.initReCrawling(previousPages);
 			
 				// delete actual crawled pages if it's going to reCrawl
-				pageLocalService.deleteChildPages(page, false);
+//				pageLocalService.deleteChildPages(page, false);
+				for(Page prevPage : previousPages) {
+					pageLocalService.deletePage(prevPage);
+				}
 				
 				// launch crawling in other thread
 				crawler.start(); 

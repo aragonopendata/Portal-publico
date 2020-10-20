@@ -22,6 +22,7 @@
 	String defaultFilters = portletPreferences.getValue("defaultFilters", String.valueOf(configuration.defaultFilters()));
 	String selectedAssetTypes = portletPreferences.getValue("selectedAssetTypes", String.valueOf(configuration.selectedAssetTypes()));
 	String selectedStructures = portletPreferences.getValue("selectedStructures", String.valueOf(configuration.selectedStructures()));
+	String selectedStructuresInPage = portletPreferences.getValue("selectedStructuresInPage", String.valueOf(configuration.selectedStructuresInPage()));
 	String selectedVocabularies = portletPreferences.getValue("selectedVocabularies", String.valueOf(configuration.selectedVocabularies()));
 	String facetedVocabularies = portletPreferences.getValue("facetedVocabularies", String.valueOf(configuration.facetedVocabularies()));
 	String checkedAssetType = portletPreferences.getValue("checkedAssetType", String.valueOf(configuration.checkedAssetType()));

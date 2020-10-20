@@ -34,7 +34,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import javax.portlet.PortletRequest;
@@ -70,104 +69,6 @@ public class JSONLDGeneratorImpl implements JSONLDGenerator {
 		return result;
 	}
 	
-//	@Override
-//	public String getJournalArticleJsonLD(JournalArticle article, List<AssetCategory> categories, String imageUrl, ThemeDisplay themeDisplay) {
-//		
-//		List<String> articleCategories = getCategoriesUrlIds(categories);
-//		String publicationDate = getDateFormat(article.getDisplayDate());
-//		String modifiedDate = getDateFormat(article.getModifiedDate());
-//		String portalURL = PortalUtil.getPortalURL(themeDisplay.getRequest());
-//		String logoUrl = portalURL + "/o/aragon-theme/images/dga/logo-dga-color.svg";
-//		imageUrl = portalURL + imageUrl;
-//		String title = article.getTitle(themeDisplay.getLocale());
-//		String url = portalURL + themeDisplay.getLayout().getFriendlyURL(themeDisplay.getLocale());
-//		if(title.length() > 110) {
-//			title = title.substring(0, 110);
-//		}
-//		
-//		String result = "{\n";
-//		
-//		// Contexto Schema
-//		result = result + "\"" + JSONLD_CONTEXT + "\": \"http://schema.org/\", \n";
-//		
-//		// Tipo de documento : newsArticle o content. TODO: en funcion del tipo de documento tendremos que coger su identificador de opendata seguramente
-//		String documentType = "WebPage";
-//		List<AssetCategory> journalCategories = _assetCategoryLocalService.getCategories(JournalArticle.class.getName(), article.getResourcePrimKey());
-//		if(categories!=null && categories.size()>0) {
-//			for(AssetCategory assetCategory : journalCategories) {
-//				try {
-//					if(assetCategory.getName().toLowerCase().contains("anuncio")) {
-//						documentType = "NewsArticle";
-//					}
-//				} catch (Exception e) {
-//					_log.error("Imposible de procesar la categoria "+assetCategory.getCategoryId());
-//				}
-//			}
-//		}
-//		
-//		result = result + "\"" + JSONLD_TYPE + "\": \""+documentType+"\", \n";
-//		
-//		// Titular
-//		result = result + "\"" + SCHEMA_HEADLINE + "\": \"" + title.replace("\"", "\'") + "\", \n";
-//		
-//		// Autor del articulo
-//		result = result + "\"" + SCHEMA_AUTOR + "\": { \n";
-//		result = result + "\t\"" + JSONLD_TYPE + "\": \"GovernmentOrganization\",\n";
-//		result = result + "\t\"" + JSONLD_ID + "\": \"http://opendata.aragon.es/recurso/sectorpublico/organization/gobierno-aragon\",\n";
-//		result = result + "\t\"" + JSONLD_NAME + "\": \"Gobierno de Arag\u00f3n\"},\n";
-//		
-//		// Fecha de publicacion del articulo
-//		result = result + "\"" + SCHEMA_DATE_PUBLISHED + "\": \"" + publicationDate + "\", \n";
-//		
-//		// Fecha de modificacion del articulo
-//		result = result + "\"" + SCHEMA_DATE_MODIFIED + "\": \"" + modifiedDate + "\", \n";
-//		
-//		// Imagen del articulo
-//		if(Validator.isNotNull(imageUrl) && imageUrl != "") {
-//			result = result + "\"" + SCHEMA_IMAGE + "\": \"" + imageUrl + "\", \n";
-//		}
-//		
-//		// Pagina para la que este articulo es la principal entidad descrita
-//		result = result + "\"" + SCHEMA_MAIN_ENTITY_OF_PAGE + "\": { \n";
-//		result = result + "\t\"" + JSONLD_TYPE + "\": \"WebPage\",\n";
-//		result = result + "\t\"" + JSONLD_ID + "\": \"" + url + "#page-title" + "\"},\n";
-//		//result = result + "\t\"" + JSONLD_NAME + "\": \"" + title + "\"},\n";
-//		
-//		result = result + "\"" + SCHEMA_MAIN_ENTITY + "\": { \n";
-//		result = result + "\t\"" + JSONLD_TYPE + "\": \"WebPage\",\n";
-//		result = result + "\t\"" + JSONLD_ID + "\": \"" + url + "\",\n";
-//		result = result + "\t\"" + JSONLD_NAME + "\": \"" + title.replace("\"", "\'") + "\"},\n";
-//		
-//		// Publicador
-//		result = result + "\"" + SCHEMA_PUBLISHER + "\": { \n";
-//		result = result + "\t\"" + JSONLD_TYPE + "\": \"GovernmentOrganization\",\n";
-//		result = result + "\t\"" + JSONLD_ID + "\": \"http://opendata.aragon.es/recurso/sectorpublico/organization/gobierno-aragon\",\n";
-//		
-//		if(Validator.isNotNull(logoUrl) && logoUrl != "") {
-//            result = result + "\"" + SCHEMA_LOGO + "\": { \n";
-//            result = result + "\t\"" + JSONLD_TYPE + "\": \"ImageObject\",\n";
-//            result = result + "\t\"" + SCHEMA_URL + "\": \""+ logoUrl +"\"},\n";
-//        }
-//		result = result + "\t\"" + JSONLD_NAME + "\": \"Gobierno de Arag\u00f3n\"}\n";
-//		
-//		// Menciones (categorias del articulo)
-//		if(Validator.isNotNull(articleCategories) && articleCategories.size() > 0) {
-//			result = result + ",\n";
-//			result = result + "\"" + SCHEMA_MENTIONS + "\": [ \n";
-//			for (int i = 0; i < articleCategories.size(); i++) {
-//				if(i == articleCategories.size()-1) {
-//					result = result + "{\"" + JSONLD_ID + "\": \"" + articleCategories.get(i) + "\"}\n";
-//				}else {
-//					result = result + "{\"" + JSONLD_ID + "\": \"" + articleCategories.get(i) + "\"},\n";
-//				}
-//			}
-//			result = result + "]\n";
-//		}
-//		
-//		result = result + "}";
-//		
-//		return result;
-//	}
 	@Override
 	public String getJournalArticleJsonLD2(List<AssetCategory> categories, ThemeDisplay themeDisplay) {
 		String portalUrl =	PortalUtil.getPortalURL(themeDisplay.getRequest());
@@ -205,7 +106,7 @@ public class JSONLDGeneratorImpl implements JSONLDGenerator {
 					CustomCategoryProperty propertyEi2a= CustomCategoryPropertyLocalServiceUtil.fetchByCategoryIdAndKey(assetCategory.getCategoryId(), AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_EI2A_ID);
 					if(Validator.isNotNull(propertyEi2a)) {
 						subject = subject + "{\r\n";
-						subject = subject + "\"@id\": \"http://opendata.aragon.es/def/ei2a#"+propertyEi2a.getText()+"\",\r\n"; 
+						subject = subject + "\"@id\": \"http://opendata.aragon.es/def/ei2a/categorization#"+propertyEi2a.getText()+"\",\r\n"; 
 						subject = subject + "\"owl:sameAs\": {\r\n" ;
 						subject = subject + "\"@id\": \"" + portalUrl + freemarkerUtilities.getAssetCategoryURL(themeDisplay.getRequest(), assetCategory.getCategoryId(), false) + "\"\r\n" ; 
 						subject = subject + "}},\r\n" ; 	
@@ -248,18 +149,16 @@ public class JSONLDGeneratorImpl implements JSONLDGenerator {
 		String result = StringPool.BLANK;
 		if (Validator.isNotNull(categories)) {
 			for (AssetCategory category : categories) {
+				String categoryTitle = category.getTitle(locale);
 				AssetVocabulary assetVocabulary = _assetVocabularyLocalService.fetchAssetVocabulary(category.getVocabularyId());
-				if (Validator.isNotNull(assetVocabulary)) {
-					CustomCategoryProperty categoryId = _customCategoryPropertyLocalService.fetchByCategoryIdAndKey(category.getCategoryId(), AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_EI2A_ID);
-					if(assetVocabulary.getName().equalsIgnoreCase(AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZATIONS_ES)) {
-						categoryId = _customCategoryPropertyLocalService.fetchByCategoryIdAndKey(category.getCategoryId(), AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_COD_SIU);
+				if (Validator.isNotNull(assetVocabulary) && assetVocabulary.getName().equalsIgnoreCase(AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZATIONS_ES)) {
+					CustomCategoryProperty cod_siu = _customCategoryPropertyLocalService.fetchByCategoryIdAndKey(category.getCategoryId(), AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_COD_SIU);
+					if (Validator.isNotNull(cod_siu) && !cod_siu.getText().isEmpty()) {
+						result = result + "-SEPARATOR-" + categoryTitle;
 					}
-					String categoryTitle = category.getTitle(locale);
-					if (Validator.isNotNull(categoryId) && !categoryId.getText().isEmpty()) {
-						if (assetVocabulary.getName().equals(AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZATIONS_ES)) {
-							result = result + "-SEPARATOR-" + categoryTitle;
-						}
-					}
+				}
+				if (Validator.isNotNull(assetVocabulary) && assetVocabulary.getName().equalsIgnoreCase(AragonUtilitiesConstant.VOCABULARY_NAME_TOPICS_ES)) {
+					result = result + "-SEPARATOR-" + categoryTitle;
 				}
 			}
 		}
@@ -646,10 +545,14 @@ public class JSONLDGeneratorImpl implements JSONLDGenerator {
 		String portalUrl = PortalUtil.getPortalURL(themeDisplay.getRequest()); 
 		AssetVocabulary vocabularyOrganization = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(themeDisplay.getScopeGroupId(), AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZATIONS_ES);
 		AssetVocabulary vocabularyTopic = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(themeDisplay.getScopeGroupId(), AragonUtilitiesConstant.VOCABULARY_NAME_TOPICS_ES);
+		AssetVocabulary vocabularyDocumentsType = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(themeDisplay.getScopeGroupId(), AragonUtilitiesConstant.VOCABULARY_NAME_DOCUMENT_TYPE_ES);
 		long idOrganization = (vocabularyOrganization != null) ? vocabularyOrganization.getVocabularyId() : -1 ;
 		long idTopic = (vocabularyTopic != null) ? vocabularyTopic.getVocabularyId() : -1 ;
+		long idDocumentsType = (vocabularyDocumentsType != null) ? vocabularyDocumentsType.getVocabularyId() : -1 ;
 		result = result + "[\r\n" ;
 		if (!categories.isEmpty()) {
+			
+			//ORGANISMOS
 			for (AssetCategory assetCategory : categories) {
 				if (assetCategory.getVocabularyId() == idOrganization) {
 					CustomCategoryProperty codSiu = _customCategoryPropertyLocalService.fetchByCategoryIdAndKey(assetCategory.getCategoryId(), AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_COD_SIU);
@@ -671,6 +574,8 @@ public class JSONLDGeneratorImpl implements JSONLDGenerator {
 				}
 			}
 		}
+		
+		//TEMAS
 		for (AssetCategory assetCategory : categories) {
 			if (assetCategory.getVocabularyId() == idTopic) {
 				CustomCategoryProperty codEi2a = _customCategoryPropertyLocalService.fetchByCategoryIdAndKey(assetCategory.getCategoryId(), AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_EI2A_ID);
@@ -687,8 +592,23 @@ public class JSONLDGeneratorImpl implements JSONLDGenerator {
 					result = result + " \"@id\": \"http://opendata.aragon.es/def/ei2a/categorization#"+codEi2a.getText()+"\",\r\n"  ; 
 				}
 				result = result + " \"@type\": \"skos:Concept\",\r\n"  ;
-				result = result + " \"skos:prefLabel\": \"" + assetCategory.getTitle(themeDisplay.getLocale()) + "\"\r\n"  ;
+				result = result + " \"skos:prefLabel\": \"" + assetCategory.getTitle(themeDisplay.getLocale()) + "\"\r\n";
 				result = result + " },"  ; 
+			}
+		}
+		
+		//DOCUMENTOS
+		for (AssetCategory assetCategory : categories) {
+			if (assetCategory.getVocabularyId() == idDocumentsType) {
+				result = result + " {\r\n"; 
+				result = result + " \"@context\": {\r\n"; 
+				result = result + " \"dct\": \"http://purl.org/dc/terms/\",\r\n";
+				result = result + " \"dcmitype\": \"http://purl.org/dc/dcmitype/\"\r\n"; 
+				result = result + " },\r\n"  ; 
+				result = result + " \"@type\": \"dcmitype:Text\",\r\n";
+				result = result + " \"@id\": \"" + portalUrl + themeDisplay.getURLCurrent() +"\",\r\n";
+				result = result + " \"dct:subject\": \"" + assetCategory.getTitle(themeDisplay.getLocale()) + "\"\r\n";
+				result = result + " },"; 
 			}
 		}
 		result = result.substring(0, result.length()-1);
@@ -1069,18 +989,11 @@ public class JSONLDGeneratorImpl implements JSONLDGenerator {
 	private final String SCHEMA_DESCRIPTION = "description";
 	private final String SCHEMA_FORMAT = "fileFormat";
 	private final String SCHEMA_DATE_PUBLISHED = "datePublished";
-	private final String SCHEMA_DATE_MODIFIED = "dateModified";
 	private final String SCHEMA_COVERAGE = "spatialCoverage";
 	private final String SCHEMA_LANGUAGE = "inLanguage";
 	private final String SCHEMA_CREATOR = "creator";
 	private final String SCHEMA_PUBLISHER = "publisher";
 	private final String SCHEMA_RIGHTS = "license";
-	private final String SCHEMA_HEADLINE = "headline";
-	private final String SCHEMA_AUTOR = "author";
-	private final String SCHEMA_IMAGE = "image";
-	private final String SCHEMA_MENTIONS = "mentions";
-	private final String SCHEMA_MAIN_ENTITY = "mainEntity";
-	private final String SCHEMA_MAIN_ENTITY_OF_PAGE = "mainEntityOfPage";
 	private final String SCHEMA_URL = "url";
 	private final String SCHEMA_LOGO = "logo";
 	private final String SCHEMA_CONTACT_POINT = "contactPoint";

@@ -1,0 +1,6 @@
+Bundle-Name: Vozme Integration Web
+Bundle-SymbolicName: es.aragon.base.vozme_integration
+Bundle-Version: 1.8.0
+Export-Package: es.aragon.base.vozme_integration.constants
+-includeresource:\
+    lib/commons-lang3.jar=commons-lang3-*.jar,\

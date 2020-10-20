@@ -43,6 +43,7 @@ public class EnlineaProcedurePortletConfigurationAction extends DefaultConfigura
         LocalizationUtil.setLocalizedPreferencesValues(actionRequest, preferences, "presential");
         LocalizationUtil.setLocalizedPreferencesValues(actionRequest, preferences, "presentialAndOnline");
         LocalizationUtil.setLocalizedPreferencesValues(actionRequest, preferences, "online");
+        LocalizationUtil.setLocalizedPreferencesValues(actionRequest, preferences, "moreInformation");
         preferences.store();
         super.processAction(portletConfig, actionRequest, actionResponse);
     }

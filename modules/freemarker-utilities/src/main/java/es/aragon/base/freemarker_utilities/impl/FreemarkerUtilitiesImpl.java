@@ -1,4 +1,5 @@
 package es.aragon.base.freemarker_utilities.impl;
+ 
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -7,7 +8,6 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
@@ -30,8 +30,10 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.portlet.LiferayPortletMode;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -48,16 +50,18 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.ExistsFilter;
 import com.liferay.portal.kernel.search.filter.RangeTermFilter;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -65,10 +69,19 @@ import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -91,6 +104,7 @@ import javax.portlet.WindowStateException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.*;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
@@ -100,6 +114,7 @@ import org.osgi.service.component.annotations.Reference;
 import es.aragon.base.aragon_utilities.constants.AragonUtilitiesConstant;
 import es.aragon.base.categories_custom_properties.model.CustomCategoryProperty;
 import es.aragon.base.categories_custom_properties.service.CustomCategoryPropertyLocalService;
+import es.aragon.base.categories_custom_properties.service.CustomCategoryPropertyLocalServiceUtil;
 import es.aragon.base.freemarker_utilities.api.FreemarkerUtilities;
 
 @Component(
@@ -263,6 +278,7 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 		return imageDetadata;
 	}
 	
+	
 	public String getArticleFieldValue(JournalArticle article, String fieldName, Locale locale) {
 		
 		String fieldValue = StringPool.BLANK;
@@ -311,7 +327,6 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 					} else if (Validator.isNotNull(vocabularyOrganismos) && assetCategory.getVocabularyId() == vocabularyOrganismos.getVocabularyId()) {
 						result.add(assetCategory.getTitle(locale));
 					}
-					
 				}
 			}
 		}
@@ -319,21 +334,55 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 	}
 	
 	@Override
+	public String getArticleCategoriesNotices(JournalArticle journalArticle, Locale locale) {
+		String isNotice = "false";
+		if (Validator.isNotNull(journalArticle)){
+			List<AssetCategory> assetCategoryList = _assetCategoryLocalService.getCategories(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+			if (assetCategoryList != null && !assetCategoryList.isEmpty()) {
+				// Solo buscaremos "Noticias/Anuncio"
+				for (AssetCategory assetCategory : assetCategoryList) {
+					if (assetCategory.getTitle(locale).contains("Anuncio") || assetCategory.getTitle(locale).contains("Noticia") ) {
+						isNotice = "true";
+					}
+				}
+			}
+		}
+		return isNotice;
+	}
+	
+	@Override
 	public List<AssetCategory> getArticleCategories(JournalArticle journalArticle, Locale locale) {
 		List<AssetCategory> result = new ArrayList<AssetCategory>();
 		if (Validator.isNotNull(journalArticle)) {
 			List<AssetCategory> assetCategoryList = _assetCategoryLocalService.getCategories(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
-			if (assetCategoryList != null && !assetCategoryList.isEmpty()) {
-				// Solo mostraremos las categorias de los vocabularios Temas y Organismos
+			if (assetCategoryList != null && !assetCategoryList.isEmpty()) { 
+				// Solo mostraremos las categorias de los vocabularios Temas, Organismos, Trámites y Municipios
 				AssetVocabulary vocabularyTemas = _assetVocabularyLocalService.fetchGroupVocabulary(journalArticle.getGroupId(), AragonUtilitiesConstant.VOCABULARY_NAME_TOPICS_ES);
 				AssetVocabulary vocabularyOrganismos = _assetVocabularyLocalService.fetchGroupVocabulary(journalArticle.getGroupId(), AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZATIONS_ES);
+				AssetVocabulary vocabularyTramites = _assetVocabularyLocalService.fetchGroupVocabulary(journalArticle.getGroupId(), AragonUtilitiesConstant.VOCABULARY_NAME_PROCEDURES_ES);
+				AssetVocabulary vocabularyMunicipalities = _assetVocabularyLocalService.fetchGroupVocabulary(journalArticle.getGroupId(), AragonUtilitiesConstant.VOCABULARY_NAME_MUNICIPALITIES_ES);
 				for (AssetCategory assetCategory : assetCategoryList) {
 					if (Validator.isNotNull(vocabularyTemas) && assetCategory.getVocabularyId() == vocabularyTemas.getVocabularyId()) {
 						result.add(assetCategory);
 					} else if (Validator.isNotNull(vocabularyOrganismos) && assetCategory.getVocabularyId() == vocabularyOrganismos.getVocabularyId()) {
 						result.add(assetCategory);
+					} else if (Validator.isNotNull(vocabularyTramites) && assetCategory.getVocabularyId() == vocabularyTramites.getVocabularyId()) {
+						result.add(assetCategory);
+					} else if (Validator.isNotNull(vocabularyMunicipalities) && assetCategory.getVocabularyId() == vocabularyMunicipalities.getVocabularyId()) {
+						result.add(assetCategory);	
 					}
-					
+				}
+			}
+		}
+		return result;
+	}
+	public List<AssetCategory> getAllArticleCategories(JournalArticle journalArticle, Locale locale) {
+		List<AssetCategory> result = new ArrayList<AssetCategory>();
+		if (Validator.isNotNull(journalArticle)) {
+			List<AssetCategory> assetCategoryList = _assetCategoryLocalService.getCategories(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+			if (assetCategoryList != null && !assetCategoryList.isEmpty()) {
+				for (AssetCategory assetCategory : assetCategoryList) {
+					result.add(assetCategory);				
 				}
 			}
 		}
@@ -344,16 +393,29 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 	public List<AssetCategory> filterVocabularyCategoriesFromArticleCategories(long groupId, String vocabularyName, List<AssetCategory> articleCategories) {
 		AssetVocabulary vocabulary = _assetVocabularyLocalService.fetchGroupVocabulary(groupId, vocabularyName);
 		List<AssetCategory> vocabularyCategories = new ArrayList<AssetCategory>();
-		if (Validator.isNotNull(articleCategories)) {
-			for (AssetCategory assetCategory : articleCategories) {
-				if (assetCategory.getVocabularyId() == vocabulary.getVocabularyId()) {
-					vocabularyCategories.add(assetCategory);
+		if (Validator.isNotNull(vocabulary)) {
+			if (Validator.isNotNull(articleCategories)) {
+				for (AssetCategory assetCategory : articleCategories) {
+					if (assetCategory.getVocabularyId() == vocabulary.getVocabularyId()) {
+						vocabularyCategories.add(assetCategory);
+					}
 				}
 			}
 		}
+
 		return vocabularyCategories;
 	}
-	
+	@Override
+	public String getCustomTitleProcedures(AssetCategory categoryProcedure, Locale locale) {
+		String customTitle = StringPool.BLANK;
+		if (Validator.isNotNull(categoryProcedure)) {
+			customTitle = categoryProcedure.getTitle(locale);
+			if (customTitle.contains("_")) {
+				customTitle = customTitle.split("_")[1];
+			}
+		}
+		return customTitle;
+	}
 	@Override
 	public String getDisplayDate(AssetEntry assetEntry, String format) {
 		JournalArticle journalArticle = _journalArticleLocalService.fetchLatestArticle(assetEntry.getClassPK());
@@ -423,6 +485,18 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 		}
 		return dateString;
 	}
+	@Override
+	public String getLastPublishDate(JournalArticle journalArticle, String format) {
+		String dateString = StringPool.BLANK;
+		DateFormat dateFormat = new SimpleDateFormat(format);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+		if (Validator.isNotNull(journalArticle)) {
+			if (journalArticle.getModifiedDate() != null) {
+				dateString = dateFormat.format(journalArticle.getModifiedDate());
+			}
+		}
+		return dateString;
+	}
 	
 	@Override
 	public List<String[]> getLastProcedures(HttpServletRequest request, long groupId) {
@@ -458,7 +532,6 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 						if(!name.isEmpty() && !friendlyURL.isEmpty()) {
 							try {
 								PortletURL renderUrl =  PortletURLFactoryUtil.create(request, portletId, plid, PortletRequest.RENDER_PHASE);
-								renderUrl.setWindowState(LiferayWindowState.MAXIMIZED);
 								renderUrl.setPortletMode(LiferayPortletMode.VIEW);
 								renderUrl.setParameter("friendlyURL", friendlyURL);
 								
@@ -466,8 +539,6 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 								item[0] = renderUrl.toString();
 								item[1] = name;
 								procedures.add(item);
-							} catch (WindowStateException e) {
-								// Unable to set window state
 							} catch (PortletModeException e) {
 								// Unable to set portlet mode
 							}
@@ -549,6 +620,36 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 	}
 	
 	@Override
+	public Map<String, Map<String, String>> getMunicipalitiesLinksMap(long groupId, HttpServletRequest request, Locale locale, String nameVocabulary){
+		Map<String, Map<String, String>> mapProvinciasEnlaces = new HashMap<String, Map<String, String>>();
+		Map<String, String> mapMunicipiosZaragoza = new HashMap<String, String>();
+		Map<String, String> mapMunicipiosHuesca = new HashMap<String, String>();
+		Map<String, String> mapMunicipiosTeruel = new HashMap<String, String>();
+		AssetVocabulary vocabularyMunicipalities = _assetVocabularyLocalService.fetchGroupVocabulary(groupId, nameVocabulary);
+		List <AssetCategory> listCategoriesMunicipalities = _assetCategoryLocalService.getVocabularyCategories(vocabularyMunicipalities.getVocabularyId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		for (AssetCategory assetCategory : listCategoriesMunicipalities) {
+			List<CustomCategoryProperty> currentLayoutCustomCategoryPropertyList = CustomCategoryPropertyLocalServiceUtil.findByCategoryId(assetCategory.getCategoryId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS, null, true);
+			if (Validator.isNotNull(currentLayoutCustomCategoryPropertyList)) {
+				for (CustomCategoryProperty categoryPropery : currentLayoutCustomCategoryPropertyList ) {
+					if (categoryPropery.getKey().equals(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_PROVINCIA)) {
+						String urlCategory = getAssetCategoryURL(request, assetCategory.getCategoryId(), false);
+						if(categoryPropery.getText().equalsIgnoreCase("ZARAGOZA")) {
+							mapMunicipiosZaragoza.put(assetCategory.getTitle(locale), urlCategory);
+							mapProvinciasEnlaces.put(categoryPropery.getText(), sortMapByKey(mapMunicipiosZaragoza));
+						}else if(categoryPropery.getText().equalsIgnoreCase("HUESCA")) {
+							mapMunicipiosHuesca.put(assetCategory.getTitle(locale), urlCategory);
+							mapProvinciasEnlaces.put(categoryPropery.getText(), sortMapByKey(mapMunicipiosHuesca));
+						}else if(categoryPropery.getText().equalsIgnoreCase("TERUEL")) {
+							mapMunicipiosTeruel.put(assetCategory.getTitle(locale), urlCategory);
+							mapProvinciasEnlaces.put(categoryPropery.getText(), sortMapByKey(mapMunicipiosTeruel));
+						}
+					}
+				}
+			}
+		}
+		return mapProvinciasEnlaces;
+	}
+	@Override
 	public Map<String, String> getChildLayoutsLinksMap(Layout layout){
 		Map<String, String> mapEnlaces = new HashMap<String, String>();
 		List<Layout> childLayouts = layout.getChildren();
@@ -596,6 +697,15 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
     		}
     	}
     	return url;
+    }
+    
+    @Override
+    public String getProcedureClassNameId() {
+        ClassName className = classNameLocalService.fetchClassName("es.aragon.enlinea.db.connection.dao.Procedure");
+        if(Validator.isNotNull(className)) {
+            return String.valueOf(className.getClassNameId());
+        }
+        return "any";
     }
     
     @Override
@@ -657,6 +767,25 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 		}
 		return url;
 	}
+    
+    public String getAssetcategoryProcedureURL(HttpServletRequest request, long assetCategoryProcedureId) {
+    	String urlProcedure = StringPool.BLANK;
+    	List<CustomCategoryProperty> categoryPropertyList = CustomCategoryPropertyLocalServiceUtil.findByCategoryId(assetCategoryProcedureId);
+    	if (categoryPropertyList!= null && !categoryPropertyList.isEmpty()) {
+    		for (CustomCategoryProperty customCategoryProperty : categoryPropertyList) {
+				if (customCategoryProperty.getKey().equals(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_ALIAS)) {
+					urlProcedure = "/tramitador/-/tramite/"+customCategoryProperty.getText();
+				}
+			}
+    	}
+		//If category layout doesnt exists, the url will redirect to the filtered searcher
+		if (urlProcedure.isEmpty()) {
+			List<Long> assetCategoryIds = new ArrayList<>();
+			assetCategoryIds.add(assetCategoryProcedureId);
+			urlProcedure = getSearcherRenderURL(request, assetCategoryIds);
+		}
+    	return urlProcedure;
+    }
     
     private String getSearcherRenderURL(HttpServletRequest request, List<Long> assetCategoryIds) {
     	String url = StringPool.BLANK;
@@ -744,14 +873,6 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
     	}
     	return result;
     }
-    
-	@Override
-	public String getReadSpeakerURL(String originElementId, String currentURL, Locale locale) {
-		String customerId = "4976";
-		String language = locale.toString().toLowerCase();
-		String url = HtmlUtil.escapeURL(currentURL);
-		return "//app-eu.readspeaker.com/cgi-bin/rsent?customerid=" + customerId + "&amp;lang=" + language + "&amp;readid=" + originElementId + "&amp;url=" + url;
-	}
 	
 	@Override
 	public String getOpenDataURL(String categories) {
@@ -873,7 +994,284 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 		AssetEntryLocalServiceUtil.incrementViewCounter(userId, JournalArticle.class.getName(), resourcePrimaryKey, 1);
 	}
 	
+	@Override
+	public String getGoogleAnalyticsId(ThemeDisplay themeDisplay) {
+		String googleAnalyticsId = StringPool.BLANK;
+		Group group = themeDisplay.getScopeGroup();
+		if (Validator.isNotNull(group)) {
+			UnicodeProperties groupTypeSettings = group.getTypeSettingsProperties();
+			if (Validator.isNotNull(groupTypeSettings)) {
+				if (groupTypeSettings.getProperty("googleAnalyticsId") != null) {
+					googleAnalyticsId = groupTypeSettings.getProperty("googleAnalyticsId");
+				}
+			}
+		}
+		return googleAnalyticsId;
+	}
 	
+	@Override
+	public String getThemeLayoutPropertyValue(Layout layout, String propertyName) {
+		String result = StringPool.BLANK;
+		try {
+			if (layout != null && propertyName != null && !propertyName.trim().isEmpty()) {
+				result = layout.getTypeSettingsProperty("lfr-theme:regular:" + propertyName, StringPool.BLANK);
+				//Search property value in the ancestor layout
+				if (result == null || result.trim().isEmpty()) {
+					long parentLayoutPlid = layout.getAncestorPlid();
+					if (parentLayoutPlid != layout.getPlid()) {
+						Layout parentLayout = _layoutLocalService.fetchLayout(parentLayoutPlid);
+						if (parentLayout != null) {
+							result = getThemeLayoutPropertyValue(parentLayout, propertyName);
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			_log.error("There was an error getting the property " + propertyName + " from the current layout");
+		}
+		return result;
+	}
+	@Override
+	public boolean viewCoronavirusMenu(long groupId, JournalArticle journalArticle, Locale locale, String vocabularyName, String categoryTitle) {
+		boolean foundCategory = false;
+		if (Validator.isNotNull(journalArticle)){
+			List<AssetCategory> assetCategoryList = _assetCategoryLocalService.getCategories(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+			if (assetCategoryList != null && !assetCategoryList.isEmpty()) {
+				// Solo mostraremos las categorias de visibilidad
+				AssetVocabulary vocabularyDocumentType = _assetVocabularyLocalService.fetchGroupVocabulary(groupId, vocabularyName);
+				if (Validator.isNotNull(vocabularyDocumentType)) {
+					for (AssetCategory assetCategory : assetCategoryList) {
+						if (assetCategory.getVocabularyId() == vocabularyDocumentType.getVocabularyId() && categoryTitle.equals(assetCategory.getTitle(locale))){
+							foundCategory = true;
+						}
+					}
+				}
+			}
+		}
+		return foundCategory;
+	}
+	
+	@Override
+    public boolean isTranslated(ThemeDisplay themeDisplay, Locale locale) {
+		boolean isTranslated = false;
+        	String currentURL = themeDisplay.getURLCurrent();
+        	if(currentURL.contains("/-/") && !themeDisplay.getURLCurrent().substring(themeDisplay.getURLCurrent().indexOf("/-/") + 3).contains("/")) {
+        		String urlTitle = themeDisplay.getURLCurrent().substring(themeDisplay.getURLCurrent().indexOf("/-/") + 3);
+    			JournalArticle journalArticle = _journalArticleLocalService.fetchArticleByUrlTitle(themeDisplay.getScopeGroupId(), urlTitle);
+    			if(Validator.isNotNull(journalArticle)) {
+    				if(isJournalTranslated(journalArticle, locale)) {
+//    					_log.info("Contenido final no traducible al idioma " + locale);
+    					isTranslated = true;
+    				}else {
+//    					_log.info(journalArticle.getTitle(locale)+" Si es traducible al idioma: "+locale+" titulo:"+ journalArticle.getAvailableLanguageIds().length);
+    				}
+    			}else {
+//    				_log.info("No existe el articulo");
+    			}
+        	} else {
+//        		_log.info("No es un contenido final");
+	        	DynamicQuery dynamicQuery = portletPreferencesLocalService.dynamicQuery();
+				dynamicQuery.add(PropertyFactoryUtil.forName("companyId").eq(themeDisplay.getCompanyId()));
+				dynamicQuery.add(PropertyFactoryUtil.forName("plid").eq(themeDisplay.getPlid()));
+				dynamicQuery.add(PropertyFactoryUtil.forName("portletId").like("com_liferay_journal_content_web_portlet_JournalContentPortlet%"));
+				List<PortletPreferences> portletPreferences = portletPreferencesLocalService.dynamicQuery(dynamicQuery);
+				if(!portletPreferences.isEmpty()) {
+//					_log.info("Es una pagina con un visor de contenidos");
+		        	for(PortletPreferences portletPreference : portletPreferences) {
+		        		if(portletPreference.getPreferences().contains("<name>articleId</name>")) {
+//		        			_log.info("tiene articleId");
+			        		javax.portlet.PortletPreferences prefs = portletPreferencesLocalService.getPreferences(
+			    					portletPreference.getCompanyId(), 
+			    					portletPreference.getOwnerId(), 
+			    					portletPreference.getOwnerType(), 
+			    					portletPreference.getPlid(), 
+			    					portletPreference.getPortletId());
+			        		String articleId = prefs.getValue("articleId", "");
+			        		if(!articleId.isEmpty()) {
+//			        			_log.info("El articleId tiene un value");
+			        			JournalArticle journalArticle = _journalArticleLocalService.fetchArticle(themeDisplay.getScopeGroupId(), articleId);
+			        			if(Validator.isNotNull(journalArticle)) {
+			        				if(isJournalTranslated(journalArticle, locale)) {
+//			        					_log.info("pagina con contenido traducible");
+			        					isTranslated = true;
+			        					break;
+			        				}
+			        			}
+			        		}
+		        		}
+		        	}
+				}
+        	}
+//        _log.info("-----Fin------");
+		return isTranslated;
+    }
+	
+	private boolean isJournalTranslated(JournalArticle journalArticle, Locale locale) {
+		String[] availableLocales = journalArticle.getAvailableLanguageIds();
+		Arrays.sort(availableLocales);
+		if(Validator.isNotNull(availableLocales) && Arrays.binarySearch(availableLocales, "en_US") >= 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public List<JSONObject> getQuestionAnswerTemplate(String[] codeHtml) {
+		List<JSONObject> result = new ArrayList<JSONObject>();
+		if (Validator.isNotNull(codeHtml)) {
+			int i = 1;
+			for (String sourceElement : codeHtml) {
+				if (Validator.isNotNull(sourceElement)) {
+					org.jsoup.nodes.Document sourceElementDocument = Jsoup.parse(sourceElement);
+					Elements h2Elements = sourceElementDocument.getElementsByTag("h2");
+					if (h2Elements != null && !h2Elements.isEmpty()) {
+						for (Element h2Element : h2Elements) {
+							try{
+								if (!h2Element.text().isEmpty()){
+									String answer = getAllElementsToH2(h2Element);
+									JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+									jsonObject.put("question", h2Element.text());
+									jsonObject.put("answer", answer);
+									result.add(jsonObject);
+									i++;
+									answer = StringPool.BLANK;
+								}
+							}catch (NullPointerException e) {
+			    				_log.error("There was an error checking empty h2 elements: " + e.toString());
+							}
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	public Map<String, String> getCSVStaticsCovid(String urlCSV) {
+		Map<String, String> dataCovid = new HashMap<String, String>();
+		try {
+			if (Validator.isNotNull(urlCSV) && !urlCSV.equals(StringPool.BLANK)) {
+				URL url = new URL(urlCSV);
+				if (Validator.isNotNull(url)) {
+					BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+					String line;
+					String lastLine = StringPool.BLANK;
+					final String SEPARATOR_CSV = StringPool.SEMICOLON;
+					List <String> lines = new ArrayList<>();
+					int countLines = 0;
+		            while ((line = br.readLine()) != null) {
+		            	countLines++;
+		            	lines.add(line);
+		            	lastLine = line;
+		            }
+		            //Read penultimate line to comparete increase
+		            String penultimateLine = lines.get(countLines-1);
+		            String[] dataPenultimate = penultimateLine.split(SEPARATOR_CSV);
+		            int poblacionTotalAragon = 1319291;
+		            int poblacionTotalEspania = 47026208;
+		            if(lastLine.contains(SEPARATOR_CSV)) {
+		            	String[] datas = lastLine.split(SEPARATOR_CSV);
+		            	String numberCasosConfirmados = StringPool.DASH;
+		            	String numberIngresosHospitalarios = StringPool.DASH;
+		            	String numberIngresosUCI = StringPool.DASH;
+		            	String numberFallecidos = StringPool.DASH;
+		            	String numberAltasHospitalarias = StringPool.DASH;
+		            	String numberPCRPositivos = StringPool.DASH;
+		            	String numberPCR = StringPool.DASH;
+			            String dateToday = StringPool.DASH;
+			            String confirmados_cada_100000 = StringPool.DASH;
+			            String porcentaje_ingresos_hospitalarios = StringPool.DASH;
+			            String tasa_letalidad = StringPool.DASH;
+			            String incremento_diario = StringPool.DASH;
+			            //Number format to put the dot of the millions
+		            	NumberFormat nf2 = NumberFormat.getInstance(new Locale("es", "ES"));
+		            	if(datas.length > 0 && Validator.isNotNull(datas[0])) {
+			            	SimpleDateFormat format = new SimpleDateFormat("'Actualizado a' dd 'de' MMMM 'de' yyyy", LocaleUtil.SPAIN);
+				            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+				            try {
+				            	Date fecha = format2.parse(datas[0]);
+				            	dateToday = format.format(fecha);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+		            	}
+		            	if(datas.length > 1 && Validator.isNotNull(datas[1])) {
+			            	numberCasosConfirmados = nf2.format(Long.valueOf(datas[1]));
+			            	if(urlCSV.contains("casos_coronavirus_espana.csv")){
+			            		 confirmados_cada_100000 = String.valueOf(Math.round((Double.parseDouble(datas[1])/poblacionTotalEspania ) * 100000));
+			            	}else if(urlCSV.contains("casos_coronavirus_aragon.csv")) {
+			            		 confirmados_cada_100000 = String.valueOf(Math.round((Double.parseDouble(datas[1])/poblacionTotalAragon ) * 100000));
+			            	}
+				            confirmados_cada_100000 = nf2.format(Long.valueOf(confirmados_cada_100000));
+		            	}
+		            	if(datas.length > 2 && Validator.isNotNull(datas[2]) && !datas[2].equals("")) {
+		            		numberIngresosHospitalarios = nf2.format(Long.valueOf(datas[2]));
+			            	double division_ingresos = Double.parseDouble(datas[2]) / Double.parseDouble(datas[1]);
+			            	long porcentaje_ingresos = Math.round(division_ingresos * 100);
+			            	porcentaje_ingresos_hospitalarios = String.valueOf(porcentaje_ingresos);
+		            	}
+		            	if(datas.length > 3 && Validator.isNotNull(datas[3]) && !datas[3].equals("")) {
+		            		numberIngresosUCI = nf2.format(Long.valueOf(datas[3]));
+		            	}
+		            	if(datas.length > 4 && Validator.isNotNull(datas[4]) && !datas[4].equals("")) {
+		            		numberFallecidos = nf2.format(Long.valueOf(datas[4]));				            
+			            	double t_letalidad= Double.parseDouble(datas[4]) / Double.parseDouble(dataPenultimate[1]);
+			            	double roundDouble =  t_letalidad * 100.0;
+			            	DecimalFormat df = new DecimalFormat("0.00");
+			            	tasa_letalidad = df.format(roundDouble)+"%";
+		            	}
+		            	if(datas.length > 6 && Validator.isNotNull(datas[6]) && !datas[6].equals("")) {
+		            		numberAltasHospitalarias = nf2.format(Long.valueOf(datas[6]));
+		            	}
+			            if(datas.length > 9 && Validator.isNotNull(datas[9]) && !datas[9].equals("")) {
+			            	double incrementDay= Double.parseDouble(datas[9]) / Double.parseDouble(dataPenultimate[1]);
+			            	double roundDouble =  incrementDay * 100.0;
+			            	DecimalFormat df = new DecimalFormat("0.00");
+			                incremento_diario = df.format(roundDouble);
+			            }		 
+		            	if(datas.length > 11 && Validator.isNotNull(datas[11]) && !datas[11].equals("")) {
+		            		numberPCRPositivos = nf2.format(Long.valueOf(datas[11]));				            
+		            	}
+			            if(datas.length > 13 && Validator.isNotNull(datas[13]) && !datas[13].equals("")) {
+			            	numberPCR = nf2.format(Long.valueOf(datas[13]));
+			            }
+			            dataCovid.put(COVID_STADISTICS_CASOS_FECHA, dateToday);
+			            dataCovid.put(COVID_STADISTICS_CASOS_CONFIRMADOS, Validator.isNotNull(numberCasosConfirmados)? numberCasosConfirmados : StringPool.DASH);
+		            	dataCovid.put(COVID_STADISTICS_CONFIRMADOS_CADA_100000, confirmados_cada_100000);
+		            	dataCovid.put(COVID_STADISTICS_INGRESOS_HOSPITALARIOS, Validator.isNotNull(numberIngresosHospitalarios)? numberIngresosHospitalarios : StringPool.DASH);
+		            	dataCovid.put(COVID_STADISTICS_PORCENTAJE_INGRESOS_HOSPITALARIOS, porcentaje_ingresos_hospitalarios+"%");
+		            	dataCovid.put(COVID_STADISTICS_INGRESOS_UCI, Validator.isNotNull(numberIngresosUCI)? numberIngresosUCI : StringPool.DASH);
+		            	dataCovid.put(COVID_STADISTICS_FALLECIMIENTOS, Validator.isNotNull(numberFallecidos)? numberFallecidos : StringPool.DASH);
+		            	dataCovid.put(COVID_STADISTICS_TASA_LETALIDAD,  tasa_letalidad);
+		            	dataCovid.put(COVID_STADISTICS_ALTAS_HOSPITALARIAS, numberAltasHospitalarias != null? numberAltasHospitalarias : StringPool.DASH);
+		            	dataCovid.put(COVID_STADISTICS_INCREMENTO_CASOS_DIARIOS, incremento_diario+"%");
+		            	dataCovid.put(COVID_POSITIVO_PCR, numberPCRPositivos != null? numberPCRPositivos : StringPool.DASH);
+			            dataCovid.put(COVID_REALIZADAS_PCR, numberPCR != null? numberPCR : StringPool.DASH);
+		            }
+				}else {
+					_log.error("No se ha podido establecer la conexion url con el csv");
+				}
+			}
+        } catch (FileNotFoundException e) {
+        	_log.error("Error read CSV.",e);
+            e.printStackTrace();
+        } catch (IOException e) {
+        	_log.error("Error CSV ", e);
+            e.printStackTrace();
+        } 
+		return dataCovid;
+	}
+	
+	private String getAllElementsToH2(Element elementh2) {
+		String answerTag = StringPool.BLANK;
+		Element nextElement = elementh2.nextElementSibling();
+		do {
+			answerTag = answerTag + nextElement.outerHtml();
+			nextElement = nextElement.nextElementSibling();
+		}while(nextElement != null && !nextElement.tagName().equalsIgnoreCase("h2"));
+		
+		return answerTag;
+	}
 	
 	@Reference
 	private AssetCategoryLocalService _assetCategoryLocalService;
@@ -883,6 +1281,9 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 	
 	@Reference
 	private AssetVocabularyLocalService _assetVocabularyLocalService;
+	
+	@Reference
+	private ClassNameLocalService classNameLocalService;
 	
 	@Reference
 	private DLFileEntryLocalService _dlFileEntryLocalService;
@@ -902,6 +1303,9 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 	@Reference
 	private CustomCategoryPropertyLocalService _customCategoryPropertyLocalService;
 	
+	@Reference
+	private PortletPreferencesLocalService portletPreferencesLocalService;
+	
 	/**
 	 * Log of the class
 	 */
@@ -911,4 +1315,16 @@ public class FreemarkerUtilitiesImpl implements FreemarkerUtilities {
 	private static final int TOPIC = 0;
 	private static final int ORGANISM = 1;
 	private static final String OPENDATA_URL = "https://opendata.aragon.es/datos/catalogo";
+	private static final String COVID_STADISTICS_CASOS_FECHA = "fecha";
+	private static final String COVID_STADISTICS_CASOS_CONFIRMADOS = "casos_confirmados";
+	private static final String COVID_STADISTICS_INGRESOS_HOSPITALARIOS = "ingresos_hospitalarios";
+	private static final String COVID_STADISTICS_INGRESOS_UCI = "ingresos_uci";
+	private static final String COVID_STADISTICS_FALLECIMIENTOS = "fallecimientos";
+	private static final String COVID_STADISTICS_CONFIRMADOS_CADA_100000 = "confirmados_cada_100000";
+	private static final String COVID_STADISTICS_PORCENTAJE_INGRESOS_HOSPITALARIOS = "porcentaje_ingresos_hospitalarios";
+	private static final String COVID_STADISTICS_INCREMENTO_CASOS_DIARIOS = "incremento_casos_diarios";
+	private static final String COVID_STADISTICS_TASA_LETALIDAD= "tasa_letalidad";
+	private static final String COVID_STADISTICS_ALTAS_HOSPITALARIAS= "altas_hospitalarias";
+	private static final String COVID_POSITIVO_PCR= "positivo_pruebas_pcr";
+	private static final String COVID_REALIZADAS_PCR= "pruebas_pcr_realizadas";
 }

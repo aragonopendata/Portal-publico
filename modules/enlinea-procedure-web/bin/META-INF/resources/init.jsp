@@ -6,6 +6,7 @@
 <%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ page import="com.liferay.portal.kernel.util.GetterUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.LocaleUtil" %>
@@ -22,4 +23,5 @@
 	String presential = GetterUtil.getString(LocalizationUtil.getLocalizationXmlFromPreferences(portletPreferences, renderRequest, "presential"), "");
 	String presentialAndOnline = GetterUtil.getString(LocalizationUtil.getLocalizationXmlFromPreferences(portletPreferences, renderRequest, "presentialAndOnline"), "");
 	String online = GetterUtil.getString(LocalizationUtil.getLocalizationXmlFromPreferences(portletPreferences, renderRequest, "online"), "");
+	String moreInformation = GetterUtil.getString(LocalizationUtil.getLocalizationXmlFromPreferences(portletPreferences, renderRequest, "moreInformation"), "");
 %>

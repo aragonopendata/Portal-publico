@@ -71,10 +71,10 @@ public class ReindexProceduresMessageListener extends BaseMessageListener {
 		Class<?> clazz = getClass();
 
 		String className = clazz.getName();
-
+		
 		Trigger trigger = triggerFactory.createTrigger(
 			className, className, new Date(), null, CRON_EXPRESSION);
-
+		
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 			className, trigger);
 
@@ -97,7 +97,7 @@ public class ReindexProceduresMessageListener extends BaseMessageListener {
 		this.schedulerEngineHelper = schedulerEngineHelper;
 	}
 	
-	private static final String CRON_EXPRESSION = "0 0 0,8,10,12 ? * *"; // Everyday at 0, 8, 10 and 12 (UTC+0)
+	private static final String CRON_EXPRESSION = "0 0 2,8,10,12 ? * *"; // Everyday at 4, 8, 10 and 12 (UTC+0)
 	
 	private SchedulerEngineHelper schedulerEngineHelper;
 

@@ -30,7 +30,8 @@ import org.osgi.service.component.annotations.Reference;
 	)
 public class MostVisitedSchedulerListener extends BaseMessageListener  {
 	private static final Log _log = LogFactoryUtil.getLog(MostVisitedSchedulerListener.class);
-	private static final String _DEFAULT_CRON_EXPRESSION = "0 0 2 ? * MON"; //Cada lunes a las 4:00 A.M.
+	//private static final String _DEFAULT_CRON_EXPRESSION = "0 0 2 ? * MON"; //Cada lunes a las 4:00 A.M.
+	private static final String _DEFAULT_CRON_EXPRESSION = "0 03 00 * * ?";
 	private TriggerFactory _triggerFactory;
 	private SchedulerEntryImpl _schedulerEntryImpl = null;
 	private volatile boolean _initialized;

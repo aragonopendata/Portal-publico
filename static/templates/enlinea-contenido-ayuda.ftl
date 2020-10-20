@@ -10,7 +10,7 @@ Small Image: false
     <div class="info">
         ${description.getData()}
     </div>
-    <#if sectionName.getSiblings()?has_content>
+    <#if sectionName.getData()!= "" && sectionName.getSiblings()?has_content>
         <ol class="list">
             <#list sectionName.getSiblings() as cur_sectionName>
                 <#if cur_sectionName.getData()?has_content && cur_sectionName.sectionContent.getData()?has_content>

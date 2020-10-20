@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -34,6 +36,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.PortletSession;
@@ -67,11 +70,15 @@ public class ProcedureDetailMVCRenderCommand implements MVCRenderCommand {
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) {
 		HttpServletRequest httpRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(renderRequest));
 		String friendlyURL = ParamUtil.getString(renderRequest, "friendlyURL", "");
-		if(!friendlyURL.isEmpty()) {
+		if(!friendlyURL.isEmpty()) {			
 			Procedure procedure = enlineaDBService.getProcedure(httpRequest, friendlyURL);
 			if(Validator.isNotNull(procedure)) {
 				PortalUtil.setPageTitle(procedure.getName(), httpRequest);
-				procedure.setRelatedProcedures(enlineaDBService.getRelatedProcedures(httpRequest, procedure.getProcedureId(), procedure.getKeywords()));
+				if(Validator.isNotNull(procedure.getKeywords()) && !procedure.getKeywords().isEmpty()) {
+					procedure.setRelatedProcedures(enlineaDBService.getRelatedProcedures(httpRequest, procedure.getProcedureId(), procedure.getKeywords()));
+				}else {
+					procedure.setRelatedProcedures(enlineaDBService.getRelatedProcedures(httpRequest, procedure.getProcedureId(), procedure.getName()));
+				}
 				ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 				if(!procedure.getRelatedProcedures().isEmpty()) {
 					String portletId = "es_aragon_enlinea_procedure_web_portlet_EnlineaProcedurePortlet";
@@ -87,6 +94,17 @@ public class ProcedureDetailMVCRenderCommand implements MVCRenderCommand {
 				renderRequest.setAttribute("breadcrumbs", breadcrumb);
 				countProcedureView(renderRequest.getPortletSession(), themeDisplay, procedure);
 				String procedureJSONLD = getProcedureJSONLD(procedure, themeDisplay.getPortalURL() + themeDisplay.getURLCurrent());
+				Map<Locale, String> moreInformationMap = LocalizationUtil.getLocalizationMap(renderRequest.getPreferences(), "moreInformation");
+				String moreInformation = "";
+				if(moreInformationMap.containsKey(themeDisplay.getLocale())) {
+					moreInformation = moreInformationMap.get(themeDisplay.getLocale());
+					moreInformation = moreInformation.replace("[$PROCEDUREID$]", String.valueOf(procedure.getProcedureId()));
+				} 
+				if(moreInformation.isEmpty() && moreInformationMap.containsKey(LocaleUtil.getDefault())) {
+					moreInformation = moreInformationMap.get(LocaleUtil.getDefault());
+					moreInformation = moreInformation.replace("[$PROCEDUREID$]", String.valueOf(procedure.getProcedureId()));
+				}
+				renderRequest.setAttribute("moreInformation", moreInformation);
 				renderRequest.setAttribute("procedureJSONLD", procedureJSONLD);
 			}
 			renderRequest.setAttribute("procedure", procedure);

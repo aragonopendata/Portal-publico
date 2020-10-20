@@ -1,0 +1,176 @@
+{
+    "availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "Descripción de la política de cookies"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "descriptionCookiesPolicy",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "es_ES": "Título"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "titleCookie",
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Descripción de la cookie"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "html",
+                    "fieldNamespace": "ddm",
+                    "indexType": "text",
+                    "localizable": true,
+                    "name": "cookieDescription",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-text-html",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "Nombre de la cookie"
+                            },
+                            "options": [
+                                {
+                                    "value": "GOOGLE_ANALYTICS",
+                                    "label": {
+                                        "es_ES": "Google Analytics"
+                                    }
+                                },
+                                {
+                                    "value": "LAST_VISITED_PAGES",
+                                    "label": {
+                                        "es_ES": "Páginas más visitadas"
+                                    }
+                                },
+                                {
+                                    "value": "MARKETING",
+                                    "label": {
+                                        "es_ES": "Marketing"
+                                    }
+                                }
+                            ],
+                            "predefinedValue": {
+                                "es_ES": [
+                                    ""
+                                ]
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "keyword",
+                            "localizable": false,
+                            "multiple": false,
+                            "name": "cookieName",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "select"
+                        },
+                        {
+                            "label": {
+                                "es_ES": "Cookie configurable"
+                            },
+                            "predefinedValue": {
+                                "es_ES": false
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "boolean",
+                            "indexType": "keyword",
+                            "localizable": false,
+                            "name": "configurableCookie",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "checkbox"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": {
+                "es_ES": "Más información"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "infoCookies",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        }
+    ]
+}

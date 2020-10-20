@@ -164,6 +164,16 @@
                     top: 1.2rem;
                 }
             }
+            .language_translate{
+				color: white;
+			    background: transparent;
+			    border: 0;
+			    padding: 0 0rem 0 0;
+			    position: relative;
+			    text-transform: capitalize;
+			    outline: none;
+			    cursor: pointer;
+			}
             &__list{
                 position: absolute;
                 top: 4.5rem;

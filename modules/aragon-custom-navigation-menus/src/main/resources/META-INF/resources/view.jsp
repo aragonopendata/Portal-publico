@@ -107,9 +107,9 @@ long relatedCategoryId = GetterUtil.getLong(expandoBridge.getAttribute("related-
 				sectionTitle = LanguageUtil.format(request, "category-related-sections.child-pages.section-title", new Object[]{vocabulary.getTitle(locale), category.getTitle(locale)});
 			}
 			%>
-			<c:if test="<%=category != null%>">
+			<c:if test="<%=category != null && !currentLayoutChildren.isEmpty()%>">
 				<h2 id="titSubentradasInterior" class="oculto"><%=sectionTitle%></h2>
-				<section role="region" class="articulos-tema" aria-labelledby="titSubentradasInterior">
+				<section role="region" class="articulos-tema elementos-hijos" aria-labelledby="titSubentradasInterior">
 					<ul class="listado">
 						<%for (Layout currentLayoutChild : currentLayoutChildren) {%>
 							<li class="listado__item">

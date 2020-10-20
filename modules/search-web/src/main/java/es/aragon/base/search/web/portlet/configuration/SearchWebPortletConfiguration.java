@@ -31,6 +31,9 @@ public interface SearchWebPortletConfiguration {
 	public String selectedStructures();
 	
 	@Meta.AD(required = false)
+	public String selectedStructuresInPage();
+	
+	@Meta.AD(required = false)
 	public String selectedVocabularies();
 	
 	@Meta.AD(required = false)

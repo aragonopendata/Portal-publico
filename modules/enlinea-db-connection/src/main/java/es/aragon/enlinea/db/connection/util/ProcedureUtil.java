@@ -15,10 +15,7 @@ import java.sql.SQLException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -49,7 +46,7 @@ public class ProcedureUtil {
 			procedure.setCreateDate(new Date());
 			procedure.setModifiedDate(new Date());
 			procedure.setName(
-					treatName(loadStringFromOptions(resultSet, SQLQueryConstants.DENOMINACION_LC, SQLQueryConstants.DENOMINACION)));
+					loadStringFromOptions(resultSet, SQLQueryConstants.DENOMINACION_LC, SQLQueryConstants.DENOMINACION));
 			procedure.setKeywords(
 					loadString(resultSet, SQLQueryConstants.PALCLAVES).replaceAll(",", " ").replaceAll("  ", " "));
 			procedure.setDescription(
@@ -63,7 +60,14 @@ public class ProcedureUtil {
 			if(requirements.equals(observations)) {
 				procedure.setRequirementsAndObservations(requirements);
 			} else {
-				procedure.setRequirementsAndObservations(requirements + "<br>" + observations);
+				if(requirements.equals(getNoInformation())) {
+					procedure.setRequirementsAndObservations(observations);
+				} else if(observations.equals(getNoInformation())) {
+					procedure.setRequirementsAndObservations(requirements);
+				} else {
+					procedure.setRequirementsAndObservations(requirements + "<br>" + observations);
+				}
+				
 			}
 			procedure.setDocumentation(
 					replaceToHTMLTags(loadStringFromOptions(resultSet, SQLQueryConstants.DOCUMENTA_LC, SQLQueryConstants.DOCUMENTA)));
@@ -71,6 +75,9 @@ public class ProcedureUtil {
 					replaceToHTMLTags(loadStringFromOptions(resultSet, SQLQueryConstants.NORMATIVA_LC, SQLQueryConstants.NORMATIVA)));
 			procedure.setFromDate(resultSet.getDate(SQLQueryConstants.FECPRESENTACIONDESDE));
 			procedure.setToDate(resultSet.getDate(SQLQueryConstants.FECPRESENTACIONHASTA));
+			procedure.setUndefinedTerm(resultSet.getBoolean(SQLQueryConstants.PLAZOSINDEFINIR));
+			procedure.setPublishDate(resultSet.getDate(SQLQueryConstants.FECPUBLICACI));
+			procedure.setPresentationPlace(loadString(resultSet, SQLQueryConstants.LUGARPRESENTACION_LC));
 			procedure.setResolutionTime(
 					replaceToHTMLTags(loadStringFromOptions(resultSet, SQLQueryConstants.TIEMPOTRAMI_LC, SQLQueryConstants.TIEMPOTRAMI)));
 			procedure.setInLevel(resultSet.getInt(SQLQueryConstants.INNIVELACTUAL));
@@ -96,6 +103,11 @@ public class ProcedureUtil {
 		procedure.setDocumentation(GetterUtil.getString(document.get("documentation"), StringPool.BLANK));
 		procedure.setNormative(GetterUtil.getString(document.get("normative"), StringPool.BLANK));
 		try {
+			procedure.setPublishDate(document.getDate("displayDate"));
+		} catch (ParseException e) {
+			procedure.setFromDate(null);
+		}
+		try {
 			procedure.setFromDate(document.getDate("fromDate"));
 		} catch (ParseException e) {
 			procedure.setFromDate(null);
@@ -105,7 +117,9 @@ public class ProcedureUtil {
 		} catch (ParseException e) {
 			procedure.setToDate(null);
 		}
+		procedure.setUndefinedTerm(GetterUtil.getBoolean(document.get("undefinedTerm"), false));
 		procedure.setResolutionTime(GetterUtil.getString(document.get("resolutionTime"), StringPool.BLANK));
+		procedure.setPresentationPlace(GetterUtil.getString(document.get("presentationPlace"), StringPool.BLANK));
 		procedure.setInLevel(GetterUtil.getInteger(document.get("inLevel"), 1));
 		procedure.setOnlineURL(GetterUtil.getString(document.get("onlineURL"), StringPool.BLANK));
 		procedure.setResponsibleDepartment(GetterUtil.getString(document.get("responsibleDepartment"), StringPool.BLANK));
@@ -121,14 +135,13 @@ public class ProcedureUtil {
 		return procedure;
 	}
 	
-	public static Procedure parseProcedureByTopicFromDB(ResultSet resultSet) {
+	public static Procedure parseProcedureForReportFromDB(ResultSet resultSet, Set<String> friendlyURLs) {
 		try {
 			Procedure procedure = new Procedure();
 			procedure.setProcedureId(resultSet.getLong(SQLQueryConstants.SIGNATURA));
 			procedure.setName(
-					treatName(loadStringFromOptions(resultSet, SQLQueryConstants.DENOMINACION_LC, SQLQueryConstants.DENOMINACION)));
-			procedure.setFromDate(resultSet.getDate(SQLQueryConstants.FECPRESENTACIONDESDE));
-			procedure.setToDate(resultSet.getDate(SQLQueryConstants.FECPRESENTACIONHASTA));
+					loadStringFromOptions(resultSet, SQLQueryConstants.DENOMINACION_LC, SQLQueryConstants.DENOMINACION));
+			procedure.setFriendlyURL(generateFriendlyURL(procedure.getName(), friendlyURLs));
 			return procedure;
 		} catch (SQLException e) {
 			log.error("Error parsing procedure information", e);
@@ -181,9 +194,13 @@ public class ProcedureUtil {
 		} else if(Validator.isNotNull(option2)  && !option2.isEmpty()) {
 			return option2;
 		} else {
-			ResourceBundle resourceBundle = ResourceBundleUtil.getBundle("content.Language", ProcedureUtil.class);
-			return LanguageUtil.get(resourceBundle, "no-information");
+			return getNoInformation();
 		}
+	}
+	
+	private static String getNoInformation() {
+		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle("content.Language", ProcedureUtil.class);
+		return LanguageUtil.get(resourceBundle, "no-information");
 	}
 	
 	private static String loadString(ResultSet resultSet, String column) throws SQLException {
@@ -204,64 +221,11 @@ public class ProcedureUtil {
 		return newText;
 	}
 	
-	private static String treatName(String str) {
-		if(Validator.isNull(str)) {
-			return StringPool.BLANK;
-		}
-		
-		str = StringUtil.lowerCase(str);
-		
-		List<String> excepcionesFirstLetter = new ArrayList<>(Arrays.asList("espa\u00f1a","espana","arag\u00f3n",
-				"aragon","zaragoza","huesca","teruel","garcipollera","ejulve",
-				"maestrazgo","tortosa","beceite","vi\u00f1amala","benasque","goya"));
-		
-		List<String> excepcionesUpperCase = new ArrayList<>(Arrays.asList("pymes","(pac)",
-				"(earea)","igear","o.c.m.","(ecai)","(vtc)","(vspc)","(vs)","(vpc)","(mpc)","(vt)",
-				"(ot)","u.e.","(vd)","(proa)","(adia)","(gnl)","(iai)","(repia)",
-				"(fse)","a.t.r.i.a.s","iseal","glp","iass","ico/iaf","(mile)","(itv)",
-				"ico","a)","b)","c)","d)"));
-		
-		StringBuilder treatedStr = new StringBuilder();
-		String[] tokens = StringUtil.split(str, " ");
-		for(String token : tokens) {
-			if(treatedStr.length() != 0) {
-				treatedStr.append(" ");
-			}
-			String treatedToken = token;
-			if(excepcionesFirstLetter.contains(treatedToken)) {
-				treatedToken = StringUtil.upperCaseFirstLetter(treatedToken);
-			}
-			if(excepcionesUpperCase.contains(treatedToken)) {
-				treatedToken = StringUtil.upperCase(treatedToken);
-			}
-			if(treatedToken.equals("Aragon")) {
-				treatedToken = "Arag\u00f3n";
-			}
-			if(treatedToken.equals("innoempresa")) {
-				treatedToken = "InnoEmpresa";
-			}
-			treatedStr.append(treatedToken);
-		}
-		str = treatedStr.toString();
-		
-		str = str.replace("montes universales", "Montes universales");
-		str = str.replace("los circos", "Los circos");
-		str = str.replace("orihuela del tremedal", "Orihuela del tremedal");
-		str = str.replace("\u00e1ngela l\u00f3pez jim\u00e9nez", "\u00c1ngela L\u00f3pez Jim\u00e9nez");
-		
-		str = str.replace("(mdl y mdp)", "(MDL Y MDP)");
-		str = str.replace("itc ep-5", "ITC EP-5");
-		
-		str = StringUtil.upperCaseFirstLetter(str);
-		
-		return str;
-	}
-	
 	private static String treatOnlineURL(String str) {
 		if(Validator.isNotNull(str) && !str.isEmpty() && str.contains("/ett")) {
 			str = BASE_URL + str;
 		}
-		if(!str.startsWith("https://") || !str.startsWith("http://")) {
+		if(Validator.isNotNull(str) && !str.isEmpty() && !str.startsWith("https://") && !str.startsWith("http://")) {
 			str = "http://" + str;
 		}
 		return str;
@@ -287,7 +251,7 @@ public class ProcedureUtil {
 			i++;
 			auxName = name + "-" + i; 
 		}
-		return name;
+		return auxName;
 	}
 	
 }

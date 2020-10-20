@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassName;
@@ -44,9 +45,11 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
+import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -55,6 +58,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -69,6 +73,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -76,6 +82,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.portlet.MimeResponse;
@@ -89,13 +97,13 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.portlet.WindowStateException;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
+import es.aragon.base.aragon_utilities.constants.AragonUtilitiesConstant;
 import es.aragon.base.crawler.model.Page;
 import es.aragon.base.crawler.model.RootPage;
 import es.aragon.base.crawler.service.RootPageLocalService;
@@ -157,6 +165,8 @@ public class SearchWebPortlet extends MVCPortlet {
 		long[] defaultFilters = StringUtil.split(portletPreferences.getValue("defaultFilters", String.valueOf(configuration.defaultFilters())), 0L);
 		long[] selectedAssetTypes = StringUtil.split(portletPreferences.getValue("selectedAssetTypes", String.valueOf(configuration.selectedAssetTypes())), 0L);
 		String[] selectedStructures = StringUtil.split(portletPreferences.getValue("selectedStructures", String.valueOf(configuration.selectedStructures())));
+		String[] selectedStructuresInPage = StringUtil.split(portletPreferences.getValue("selectedStructuresInPage", String.valueOf(configuration.selectedStructuresInPage())));
+		Arrays.sort(selectedStructuresInPage);
 		long[] selectedVocabularies = StringUtil.split(portletPreferences.getValue("selectedVocabularies", String.valueOf(configuration.selectedVocabularies())), 0L);
 		long[] facetedVocabularies = StringUtil.split(portletPreferences.getValue("facetedVocabularies", String.valueOf(configuration.facetedVocabularies())), 0L);
 
@@ -171,15 +181,17 @@ public class SearchWebPortlet extends MVCPortlet {
 		ClassName journalArticleClassName = ClassNameLocalServiceUtil.fetchClassName(JournalArticle.class.getName());
 		ClassName assetCategoryClassName = ClassNameLocalServiceUtil.fetchClassName(AssetCategory.class.getName());
 		ClassName pageClassName = ClassNameLocalServiceUtil.fetchClassName(PAGE_CLASS_NAME_VALUE);
-		ClassName classNameProcedure = ClassNameLocalServiceUtil.fetchClassName("es.aragon.enlinea.db.connection.dao.Procedure");
+		ClassName procedureClassName = ClassNameLocalServiceUtil.fetchClassName("es.aragon.enlinea.db.connection.dao.Procedure");
 		//Search default by journal article and organizations.
 		String searchType = ParamUtil.getString(renderRequest, "searchType", "any");
 		if( searchType.equals("any")){
-			searchType = String.valueOf(journalArticleClassName.getClassNameId()) + StringPool.DASH + String.valueOf(assetCategoryClassName.getClassNameId());
+			searchType = String.valueOf(journalArticleClassName.getClassNameId()) 
+					+ StringPool.DASH + String.valueOf(assetCategoryClassName.getClassNameId())
+					+ StringPool.DASH + String.valueOf(procedureClassName.getClassNameId());
 		}
 		if ( searchType.contains(String.valueOf(journalArticleClassName.getClassNameId())) && !searchType.contains(String.valueOf(assetCategoryClassName.getClassNameId()))){
 			searchType = searchType + StringPool.DASH + String.valueOf(assetCategoryClassName.getClassNameId());
-		}		
+		}
 		
 		//Treat searchText
 		if (Validator.isNotNull(searchText) && !searchText.isEmpty()) {
@@ -188,7 +200,7 @@ public class SearchWebPortlet extends MVCPortlet {
 			searchText = searchText.replaceAll("0x2e", ".");
 			htmlFriendlySearchedText = HtmlUtil.escape(searchText);
 			searchText = cleanString(searchText);
-			searchText = searchText.replaceAll("[^a-zA-Z0-9ñ\\- ]","");
+            searchText = searchText.replaceAll("[^a-zA-Z0-9\\u00f1\\u00d1\\- ]","");
 		}
 		// Treat selectedCategories
 		long[] selectedCategoriesArray = StringUtil.split(selectedCategories, "-", 0L);
@@ -205,10 +217,7 @@ public class SearchWebPortlet extends MVCPortlet {
 			if(!(selectedPortalsToSearch == null || selectedPortalsToSearch.equals(StringPool.BLANK))) {
 				selectedPortalsToSearchArray = Arrays.stream(selectedPortalsToSearch.split(",")).mapToLong(Long::parseLong).toArray();
 			}
-			
 		}
-
-
 		long[] selectedAssetTypesArray = StringUtil.split(searchType, "-", 0L);
 		List<Long>  selectedAssetTypesArrayList  = new ArrayList<>();
 		for ( long selectedAssetType: selectedAssetTypes) {
@@ -230,29 +239,32 @@ public class SearchWebPortlet extends MVCPortlet {
 				selectedAssetTypes = ArrayUtil.append(selectedAssetTypes, pageClassName.getClassNameId());
 			}
 		}
-		//Treat procedure search defaults	
+		//Treat procedure search defaults
 		AssetVocabulary termsVocabulary = assetVocabularyLocalService.fetchGroupVocabulary(themeDisplay.getScopeGroupId(), "Plazos");
 		if(Validator.isNotNull(termsVocabulary)) {
 			AssetCategory inTerm = assetCategoryLocalService.fetchCategory(
 					themeDisplay.getScopeGroupId(), 0L, "En plazo", termsVocabulary.getVocabularyId());
 			AssetCategory outOfTime = assetCategoryLocalService.fetchCategory(
 					themeDisplay.getScopeGroupId(), 0L, "Fuera de plazo", termsVocabulary.getVocabularyId());
-			if(Validator.isNotNull(inTerm) && Validator.isNotNull(outOfTime)) {
+			AssetCategory pendingTerm = assetCategoryLocalService.fetchCategory(
+					themeDisplay.getScopeGroupId(), 0L, "Pendiente de definir", termsVocabulary.getVocabularyId());
+			if(Validator.isNotNull(inTerm) && Validator.isNotNull(outOfTime) && Validator.isNotNull(pendingTerm)) {
 				List<Long> selectedAssetTypesList = Arrays.stream(selectedAssetTypesArray).boxed().collect(Collectors.toList());
 				List<Long> selectedCategoriesList = Arrays.stream(selectedCategoriesArray).boxed().collect(Collectors.toList());
-				if(selectedAssetTypesList.contains(classNameProcedure.getClassNameId())) {
+				if(selectedAssetTypesList.contains(procedureClassName.getClassNameId())) {
 					List<Long> selectedVocabulariesList = Arrays.stream(selectedVocabularies).boxed().collect(Collectors.toList());
 					if(!selectedVocabulariesList.contains(termsVocabulary.getVocabularyId())) {
 						selectedVocabulariesList.add(termsVocabulary.getVocabularyId());
 						selectedVocabularies = selectedVocabulariesList.stream().mapToLong(l -> l).toArray();
 					}
-					if(selectedAssetTypesList.size() == 1) {
-						if(!selectedCategoriesList.contains(inTerm.getCategoryId()) &&
-								!selectedCategoriesList.contains(outOfTime.getCategoryId())) {
-							selectedCategoriesList.add(inTerm.getCategoryId());
-							selectedCategoriesList.add(outOfTime.getCategoryId());
-							selectedCategoriesArray = selectedCategoriesList.stream().mapToLong(l -> l).toArray();
-						}
+					if(selectedAssetTypesList.size() == 1
+							&& !selectedCategoriesList.contains(inTerm.getCategoryId())
+							&& !selectedCategoriesList.contains(outOfTime.getCategoryId())
+							&& !selectedCategoriesList.contains(pendingTerm.getCategoryId())) {
+						selectedCategoriesList.add(inTerm.getCategoryId());
+						selectedCategoriesList.add(outOfTime.getCategoryId());
+						selectedCategoriesList.add(pendingTerm.getCategoryId());
+						selectedCategoriesArray = selectedCategoriesList.stream().mapToLong(l -> l).toArray();
 					}
 				} else {
 					if(selectedCategoriesList.contains(inTerm.getCategoryId())) {
@@ -260,6 +272,9 @@ public class SearchWebPortlet extends MVCPortlet {
 					}
 					if(selectedCategoriesList.contains(outOfTime.getCategoryId())) {
 						selectedCategoriesList.remove(outOfTime.getCategoryId());
+					}
+					if(selectedCategoriesList.contains(pendingTerm.getCategoryId())) {
+						selectedCategoriesList.remove(pendingTerm.getCategoryId());
 					}
 					selectedCategoriesArray = selectedCategoriesList.stream().mapToLong(l -> l).toArray();
 				}
@@ -319,7 +334,7 @@ public class SearchWebPortlet extends MVCPortlet {
 		//Search for hits
 		Hits hits = SearchFactory.search(searchContext, searchDTO, allWordsMustMatch);
 		//Change hits structure to show them as results
-		List<HitAdapter> hitAdapterList = getHitAdapters(hits, themeDisplay);
+		List<HitAdapter> hitAdapterList = getHitAdapters(hits, themeDisplay, selectedStructuresInPage);
 		//Calculate total pages
 		int totalPages = (int) Math.ceil((double) hits.getLength() / displayedElements);
 		if(totalPages > ELASTIC_MAX_RESULTS / displayedElements) {
@@ -420,14 +435,14 @@ public class SearchWebPortlet extends MVCPortlet {
 		super.serveResource(resourceRequest, resourceResponse);
 	}
 	
-	private List<HitAdapter> getHitAdapters(Hits hits, ThemeDisplay themeDisplay) {
+	private List<HitAdapter> getHitAdapters(Hits hits, ThemeDisplay themeDisplay, String[] selectedStructuresInPage) {
 		List<HitAdapter> hitAdapterList = new ArrayList<>();
 		for (Document document : hits.getDocs()) {
 			String className = document.get("entryClassName");
 			long classPK = Long.parseLong(document.get("entryClassPK"));
 			if (className.equalsIgnoreCase(JournalArticle.class.getName())) {
 				// Journal Article element
-				HitAdapter hitAdapter = getHitAdapterFromJournalArticle(classPK, document, themeDisplay);
+				HitAdapter hitAdapter = getHitAdapterFromJournalArticle(classPK, document, themeDisplay, selectedStructuresInPage);
 				if (hitAdapter != null) {
 					hitAdapterList.add(hitAdapter);
 				}
@@ -444,12 +459,13 @@ public class SearchWebPortlet extends MVCPortlet {
 					hitAdapterList.add(hitAdapter);
 				}
 			} else if (className.equalsIgnoreCase(PAGE_CLASS_NAME_VALUE)) {
-				// AssetCategory
+				// Page
 				HitAdapter hitAdapter = getHitAdapterFromExternalPortalPage(classPK, document, themeDisplay);
 				if (hitAdapter != null) {
 					hitAdapterList.add(hitAdapter);
 				}
-			} else if (className.equalsIgnoreCase("es.aragon.enlinea.db.connection.dao.Procedure")) { 				// Procedure
+			} else if (className.equalsIgnoreCase("es.aragon.enlinea.db.connection.dao.Procedure")) {
+				// Procedure
 				HitAdapter hitAdapter = getHitAdapterFromProcedure(classPK, document, themeDisplay);
 				if (hitAdapter != null) {
 					hitAdapterList.add(hitAdapter);
@@ -464,7 +480,7 @@ public class SearchWebPortlet extends MVCPortlet {
 		return hitAdapterList;
 	}
 	
-	private HitAdapter getHitAdapterFromJournalArticle(long classPK, Document document, ThemeDisplay themeDisplay) {
+	private HitAdapter getHitAdapterFromJournalArticle(long classPK, Document document, ThemeDisplay themeDisplay, String[] selectedStructuresInPage) {
 		HitAdapter hitAdapter = null;
 		JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(classPK);
 		if (journalArticle != null) {
@@ -473,10 +489,45 @@ public class SearchWebPortlet extends MVCPortlet {
 			if (Validator.isNull(snippetLocalizedTitle)) {
 				snippetLocalizedTitle = journalArticle.getTitle(locale);
 			}
-			String articleFullURL = _freemarkerUtilities.getArticleFullURL(journalArticle, locale);
+			String url = StringPool.BLANK;
+			if(Arrays.binarySearch(selectedStructuresInPage, journalArticle.getDDMStructureKey()) >= 0) {
+				//search page
+				DynamicQuery dynamicQuery = portletPreferencesLocalService.dynamicQuery();
+				dynamicQuery.add(PropertyFactoryUtil.forName("companyId").eq(journalArticle.getCompanyId()));
+				dynamicQuery.add(PropertyFactoryUtil.forName("portletId").like("com_liferay_journal_content_web_portlet_JournalContentPortlet%"));
+				dynamicQuery.add(PropertyFactoryUtil.forName("preferences").like("%<preference><name>articleId</name><value>" + journalArticle.getArticleId() + "</value></preference>%"));
+				List<com.liferay.portal.kernel.model.PortletPreferences> portletPreferences = portletPreferencesLocalService.dynamicQuery(dynamicQuery);
+				for(com.liferay.portal.kernel.model.PortletPreferences portletPreference : portletPreferences) {
+					Layout layout = layoutLocalService.fetchLayout(portletPreference.getPlid());
+					if(Validator.isNotNull(layout) && layout.getGroupId() == themeDisplay.getScopeGroupId()) {
+						url = layout.getFriendlyURL(locale);
+						break;
+					}
+				}
+				if(url.isEmpty()) {
+					return hitAdapter;
+				}
+			} else {
+				url = _freemarkerUtilities.getArticleFullURL(journalArticle, locale);
+			}
 			long assetEntryId = getAssetEntryId(journalArticle.getModelClassName(), classPK);
 			List<String> categories = getCategories(journalArticle.getGroupId(), JournalArticle.class.getName(), journalArticle.getResourcePrimKey(), locale); 
-			hitAdapter = new HitAdapter(snippetLocalizedTitle, journalArticle.getDisplayDate(), articleFullURL, assetEntryId, StringPool.BLANK, categories, JournalArticle.class.getName());
+			hitAdapter = new HitAdapter(snippetLocalizedTitle, journalArticle.getDisplayDate(), url, assetEntryId, StringPool.BLANK, categories, JournalArticle.class.getName());
+
+			ClassName className = ClassNameLocalServiceUtil.fetchClassName(JournalArticle.class.getName());
+			String contentType = "";
+			String documentTypeStr="";
+			if(Validator.isNotNull(className)) {
+				ResourceBundle resourceBundle = ResourceBundleUtil.getBundle("content.Language",themeDisplay.getLocale(), SearchWebPortlet.class);
+				contentType = HtmlUtil.escape(LanguageUtil.get(resourceBundle,"filters."+className.getValue()));
+			}
+			List<String> documentTypeList = getCategoriesDocument(journalArticle.getGroupId(), JournalArticle.class.getName(), classPK, locale);
+			if (documentTypeList != null && !documentTypeList.isEmpty()) {
+				hitAdapter.setDocumentType(documentTypeList);
+			}
+			
+			hitAdapter.setContentType(contentType);
+
 		}
 		return hitAdapter;
 	}
@@ -501,6 +552,17 @@ public class SearchWebPortlet extends MVCPortlet {
 					"_blank",
 					getCategories(dlFileEntry.getGroupId(), FileEntry.class.getName(), dlFileEntry.getPrimaryKey(), themeDisplay.getLocale()),
 					DLFileEntry.class.getName());
+				String contentType = "";
+				ClassName className = ClassNameLocalServiceUtil.fetchClassName(DLFileEntry.class.getName());
+				if(Validator.isNotNull(className)) {
+					String classNameResource = ResourceActionsUtil.getModelResource(themeDisplay.getLocale(), className.getValue());
+					contentType = HtmlUtil.escape(classNameResource);
+				}
+				List<String> documentTypeList = getCategoriesDocument(fileEntry.getGroupId(), DLFileEntry.class.getName(), classPK, themeDisplay.getLocale());
+				if (documentTypeList != null && !documentTypeList.isEmpty()) {
+					hitAdapter.setDocumentType(documentTypeList);
+				}
+				hitAdapter.setContentType(contentType);
 			} catch (PortalException e) {
 				log.error("Error getting fileEntry URL", e);
 			}
@@ -549,6 +611,7 @@ public class SearchWebPortlet extends MVCPortlet {
 				"",
 				categories,
 				Page.class.getName());
+			
 		}
 		return hitAdapter;
 	}
@@ -574,11 +637,12 @@ public class SearchWebPortlet extends MVCPortlet {
 	}
 	
 	private HitAdapter getHitAdapterFromProcedure(long classPK, Document document, ThemeDisplay themeDisplay) {
+		HitAdapter hitAdapter = null;
 		String title = GetterUtil.getString(document.get("name"), StringPool.BLANK);
 		long groupId = GetterUtil.getLong(document.get("groupId"), 0);
 		String friendlyURL = GetterUtil.getString(document.get("friendlyURL"), StringPool.BLANK);
 		long[] categoryIds = GetterUtil.getLongValues(document.getValues(Field.ASSET_CATEGORY_IDS), new long[] {});
-		return new HitAdapter(
+		hitAdapter = new HitAdapter(
 				title,
 				null,
 				getProcedureURL(themeDisplay, friendlyURL),
@@ -586,6 +650,13 @@ public class SearchWebPortlet extends MVCPortlet {
 				StringPool.BLANK,
 				getCategoriesFromIds(categoryIds, groupId, themeDisplay.getLocale()),
 				"es.aragon.enlinea.db.connection.dao.Procedure");
+		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle("content.Language",themeDisplay.getLocale(),SearchWebPortlet.class);
+		String contentType = LanguageUtil.get(resourceBundle, "results.procedure");
+		List<String> listPlazosCategories = getCategoriesPlazos(categoryIds, groupId, themeDisplay.getLocale());
+		hitAdapter.setDocumentType(listPlazosCategories);
+		hitAdapter.setContentType(contentType);
+		return hitAdapter;
+		
 	}
 	
 	private HitAdapter getHitAdapterFromAssetEntry(String className, long classPK, Document document, ThemeDisplay themeDisplay) {
@@ -623,6 +694,17 @@ public class SearchWebPortlet extends MVCPortlet {
 				"",
 				getCategories(themeDisplay.getLayout().getGroupId(), className, classPK, locale),
 				AssetEntry.class.getName());
+			String contentType = "";
+			ClassName classNameAsset = ClassNameLocalServiceUtil.fetchClassName(AssetEntry.class.getName());
+			if(Validator.isNotNull(classNameAsset)) {
+				String classNameResource = ResourceActionsUtil.getModelResource(themeDisplay.getLocale(), classNameAsset.getValue());
+				contentType = HtmlUtil.escape(classNameResource);
+			}
+			List<String> documentTypeList = getCategoriesDocument(themeDisplay.getScopeGroupId(), AssetEntry.class.getName(), classPK, themeDisplay.getLocale());
+			if (documentTypeList != null && !documentTypeList.isEmpty()) {
+				hitAdapter.setDocumentType(documentTypeList);
+			}
+			hitAdapter.setContentType(contentType);
 		}
 		return hitAdapter;
 	}
@@ -644,6 +726,11 @@ public class SearchWebPortlet extends MVCPortlet {
 						vocabularyFacets = new ArrayList<>();
 					}
 					vocabularyFacets.add(new AbstractMap.SimpleEntry<AssetCategory, Integer>(assetCategory, termCollector.getFrequency()));
+					  Collections.sort(vocabularyFacets, new Comparator<Entry<AssetCategory, Integer>>() {
+				            public int compare(Entry<AssetCategory, Integer> o1, Entry<AssetCategory, Integer> o2) {
+				            	return o1.getKey().getTitle().compareTo(o2.getKey().getTitle());
+				            }
+				        });
 					facets.put(assetCategory.getVocabularyId(), vocabularyFacets);
 				}
 			}
@@ -713,15 +800,39 @@ public class SearchWebPortlet extends MVCPortlet {
 	}
 	
 	public List<String> getCategories(long groupId, String className, long classPK, Locale locale) {
-		List<String> categories = new ArrayList<>();
+		List<String> categoriesOrganizations = new ArrayList<>();
+		List<String> categoriesTheme= new ArrayList<>();
+		List<String> categories= new ArrayList<>();
 		List<AssetCategory> assetCategories = assetCategoryLocalService.getCategories(className, classPK);
 		if (assetCategories != null && !assetCategories.isEmpty()) {
 			// Solo mostraremos las categorias de los vocabularios Temas y Organismos
 			AssetVocabulary vocabularyTemas = assetVocabularyLocalService.fetchGroupVocabulary(groupId, "Temas");
 			AssetVocabulary vocabularyOrganismos = assetVocabularyLocalService.fetchGroupVocabulary(groupId, "Organismos");
 			for(AssetCategory assetCategory : assetCategories) {
-				if((Validator.isNotNull(vocabularyTemas) && assetCategory.getVocabularyId() == vocabularyTemas.getVocabularyId()) ||
-					(Validator.isNotNull(vocabularyOrganismos) && assetCategory.getVocabularyId() == vocabularyOrganismos.getVocabularyId())){
+//				if((Validator.isNotNull(vocabularyTemas) && assetCategory.getVocabularyId() == vocabularyTemas.getVocabularyId()) ||
+//					(Validator.isNotNull(vocabularyOrganismos) && assetCategory.getVocabularyId() == vocabularyOrganismos.getVocabularyId())){
+//					categories.add(assetCategory.getTitle(locale));
+//				}
+				if((Validator.isNotNull(vocabularyTemas) && assetCategory.getVocabularyId() == vocabularyTemas.getVocabularyId())){
+					categoriesTheme.add(assetCategory.getTitle(locale));
+				}else if (Validator.isNotNull(vocabularyOrganismos) && assetCategory.getVocabularyId() == vocabularyOrganismos.getVocabularyId()) {
+					categoriesOrganizations.add(assetCategory.getTitle(locale));
+				}
+			}
+		}
+		categories.addAll(categoriesTheme);
+		categories.addAll(categoriesOrganizations);
+		return categories;
+	}
+	
+	public List<String> getCategoriesDocument(long groupId, String className, long classPK, Locale locale) {
+		List<String> categories= new ArrayList<>();
+		List<AssetCategory> assetCategories = assetCategoryLocalService.getCategories(className, classPK);
+		if (assetCategories != null && !assetCategories.isEmpty()) {
+			// Solo mostraremos las categorias de los vocabularios Temas y Organismos
+			AssetVocabulary vocabularyDocument = assetVocabularyLocalService.fetchGroupVocabulary(groupId, AragonUtilitiesConstant.VOCABULARY_NAME_DOCUMENT_TYPE_ES);
+			for(AssetCategory assetCategory : assetCategories) {
+				if((Validator.isNotNull(vocabularyDocument) && assetCategory.getVocabularyId() == vocabularyDocument.getVocabularyId())){
 					categories.add(assetCategory.getTitle(locale));
 				}
 			}
@@ -741,6 +852,22 @@ public class SearchWebPortlet extends MVCPortlet {
 					((Validator.isNotNull(vocabularyTemas) && assetCategory.getVocabularyId() == vocabularyTemas.getVocabularyId()) ||
 					(Validator.isNotNull(vocabularyOrganismos) && assetCategory.getVocabularyId() == vocabularyOrganismos.getVocabularyId()))){
 					categories.add(assetCategory.getTitle(locale));
+				}
+			}
+		}
+		return categories;
+	}
+	public List<String> getCategoriesPlazos(long[] categoryIds, long groupId, Locale locale) {
+		List<String> categories = new ArrayList<>();
+		if(categoryIds.length > 0) {
+			// Solo mostraremos las categorias de los vocabularios Plazos
+			AssetVocabulary vocabularyPlazos = assetVocabularyLocalService.fetchGroupVocabulary(groupId, "Plazos");
+			if (Validator.isNotNull(vocabularyPlazos)) {
+				for(long categoryId : categoryIds) {
+					AssetCategory assetCategory = assetCategoryLocalService.fetchAssetCategory(categoryId);
+					if(Validator.isNotNull(assetCategory) && assetCategory.getVocabularyId() == vocabularyPlazos.getVocabularyId()){
+						categories.add(assetCategory.getTitle(locale));
+					}
 				}
 			}
 		}
@@ -786,7 +913,10 @@ public class SearchWebPortlet extends MVCPortlet {
 		org.w3c.dom.Element canonical = renderResponse.createElement("link");
 		canonical.setAttribute("rel", "canonical");
 		canonical.setAttribute("href", canonicalURL);
-		renderResponse.addProperty(MimeResponse.MARKUP_HEAD_ELEMENT, canonical);
+		if(!themeDisplay.getURLCurrent().contains("/buscador")) {
+			renderResponse.addProperty(MimeResponse.MARKUP_HEAD_ELEMENT, canonical);
+
+		}
 		
 		if(currentPage - 1 >= 0) {
 			String prevURL = actual.replace(page + urlPage, page + (currentPage-1));
@@ -833,5 +963,8 @@ public class SearchWebPortlet extends MVCPortlet {
 	
 	@Reference
 	private RootPageLocalService rootPageLocalService;
+	
+	@Reference
+	private PortletPreferencesLocalService portletPreferencesLocalService;
 	
 }

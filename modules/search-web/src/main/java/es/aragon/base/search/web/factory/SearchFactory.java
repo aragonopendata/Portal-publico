@@ -110,9 +110,8 @@ public class SearchFactory {
 				facetConfiguration.setWeight(1.0);
 				//Set the default limit of 10 facets
 				JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-				jsonObject.put("maxTerms", 200);
+				jsonObject.put("maxTerms", 1000);
 				facetConfiguration.setDataJSONObject(jsonObject);
-				
 				SimpleFacetFactory simpleFacetFactory = new SimpleFacetFactory();
 				Facet facet = simpleFacetFactory.newInstance(searchContext);
 				facet.setFacetConfiguration(facetConfiguration);
@@ -411,9 +410,11 @@ public class SearchFactory {
 					BooleanFilter assetCategoryFilter = new BooleanFilter();
 					//Adds only organismos categories
 					AssetVocabulary organismosVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(searchDTO.getThemeDisplay().getSiteGroupId(), "Organismos");
-					if (Validator.isNotNull(organismosVocabulary)) {
+					AssetVocabulary municipalitiesVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(searchDTO.getThemeDisplay().getSiteGroupId(), "Municipios");
+					if (Validator.isNotNull(organismosVocabulary) && Validator.isNotNull(municipalitiesVocabulary)) {
 						assetCategoryFilter.addRequiredTerm("entryClassName", className.getValue());
-						assetCategoryFilter.addTerm("assetVocabularyId", String.valueOf(organismosVocabulary.getVocabularyId()), BooleanClauseOccur.MUST);	
+						assetCategoryFilter.addTerm("assetVocabularyId", String.valueOf(organismosVocabulary.getVocabularyId()), BooleanClauseOccur.SHOULD);	
+						assetCategoryFilter.addTerm("assetVocabularyId", String.valueOf(municipalitiesVocabulary.getVocabularyId()), BooleanClauseOccur.SHOULD);	
 					}
 					//Adds assetCategory filter to the global filter
 					filter.add(assetCategoryFilter, BooleanClauseOccur.SHOULD);

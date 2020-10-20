@@ -1,0 +1,17 @@
+dependencies {
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.service"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay", name:"com.liferay.dynamic.data.mapping.api"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+	compileOnly group: "javax.ws.rs", name: "javax.ws.rs-api"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "org.osgi", name: "org.osgi.service.jaxrs", version: "1.0.0"
+	compileOnly project(":modules:categories-custom-properties-sb:categories-custom-properties-sb-api")
+	compileOnly project(':modules:aragon-utilities')
+}
+

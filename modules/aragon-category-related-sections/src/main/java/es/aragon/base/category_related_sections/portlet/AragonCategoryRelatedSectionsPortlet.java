@@ -3,6 +3,7 @@ package es.aragon.base.category_related_sections.portlet;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
+import com.liferay.journal.model.JournalArticle;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.model.ClassName;
@@ -12,12 +13,14 @@ import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.taglib.ui.JournalArticleTag;
 
 import java.io.IOException;
 import java.util.Map;
@@ -139,6 +142,7 @@ public class AragonCategoryRelatedSectionsPortlet extends MVCPortlet {
 	
 	private PortletURL getSearcherURL(RenderRequest renderRequest, long plid, long relatedCategoryId, long[] filters) {
 		PortletURL portletURL =  PortletURLFactoryUtil.create(renderRequest, "es_aragon_base_search_web_SearchWebPortlet", plid, PortletRequest.RENDER_PHASE);
+		ClassName journalArticleClassName = ClassNameLocalServiceUtil.fetchClassName(JournalArticle.class.getName());
     	try {
     		portletURL.setWindowState(LiferayWindowState.NORMAL);
 		} catch (WindowStateException e) {
@@ -153,7 +157,7 @@ public class AragonCategoryRelatedSectionsPortlet extends MVCPortlet {
     	for(long filter : filters) {
     		selectedCategories.append("-" + filter);
     	}
-    	portletURL.setParameter("searchType", "any");
+    	portletURL.setParameter("searchType", String.valueOf(journalArticleClassName.getClassNameId()));
     	portletURL.setParameter("selectedCategories", selectedCategories.toString());
     	portletURL.setParameter("currentPage", "0");
     	return portletURL;

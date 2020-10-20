@@ -1,0 +1,36 @@
+.dga-view{
+	.msg-alert-advertisement{
+		background-color: rgba(250, 153, 2, 0.2);
+		font-size: 15px; 
+		width: 100%; 
+		padding:20px 0;
+		justify-content: center;
+		align-items: center;
+		display: inline-flex;
+		text-align: center;
+		.btn-access-news{
+			padding: 0.5rem 2rem;
+			margin-left: 4rem;
+		}
+		p{
+			margin-top: 0;
+    		margin-bottom: 0;
+    	}
+	}
+}
+@media (max-width: 768px) {
+	.dga-view{
+        .msg-alert-advertisement{
+        	margin: 5px 0;
+   			display: block;
+   			.btn-access-news{
+				padding: 0.5rem 2rem;
+				margin-left: 0rem;
+				margin-top: 1rem;
+			}
+			p{
+				margin: 15px 20px 0 20px;
+    		}
+        }
+    }
+}

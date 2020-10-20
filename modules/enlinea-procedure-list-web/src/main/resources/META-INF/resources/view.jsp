@@ -38,9 +38,12 @@
 							</c:choose>
 							<p class="col-xs-4 col-md-2 m-0 p-0 text-center">
 								<c:choose>
+									<c:when test="${procedure.isUndefinedTerm()}">
+										<liferay-ui:message key="undefined-term" />
+									</c:when>
 									<c:when test="${procedure.isInTerm()}">
 										<liferay-ui:message key="in-term" />
-										<c:if test="${not empty procedure.getToDate()}">
+										<c:if test="${not empty  procedure.getToDateFormatted()}">
 											<span class="plazo"><liferay-ui:message key="in-term-to" arguments="${procedure.getToDateFormatted()}"/></span>
 										</c:if>
 									</c:when>
@@ -62,7 +65,7 @@
 								</c:otherwise>
 							</c:choose>
 							<c:choose>
-								<c:when test="${procedure.getInLevel() < 3}">
+								<c:when test="${procedure.getInLevel() < 3 || procedure.isUndefinedTerm()}">
 									<div class="col-xs-4 col-md-2">
 										<span class="icon w-100 d-block text-center"><img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-close.svg" alt="#"></span>
 									</div>

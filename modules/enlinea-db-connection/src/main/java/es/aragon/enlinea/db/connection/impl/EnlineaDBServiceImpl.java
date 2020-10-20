@@ -102,10 +102,13 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 			}
 			if(companyId != 0 && groupId != 0 && Validator.isNotNull(user)) {
 				loadProcedures(connection, companyId, groupId, user, proceduresHM);
-				loadTopics(connection, groupId, proceduresHM);
-				loadProfiles(connection, groupId, proceduresHM);
-				loadOrganizations(connection, groupId, proceduresHM);
-				loadTerms(groupId, user, proceduresHM);
+				if(!proceduresHM.isEmpty()) {
+					log.info(proceduresHM.size() + " procedures retrieved from database");
+					loadTopics(connection, groupId, proceduresHM);
+					loadProfiles(connection, groupId, proceduresHM);
+					loadOrganizations(connection, groupId, proceduresHM);
+					loadTerms(groupId, user, proceduresHM);
+				}
 			}
 		}
 		return new ArrayList<>(proceduresHM.values());
@@ -127,7 +130,12 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 							groupId, user.getTimeZone(), user.getUserId());
 					Procedure previousVersion = getProcedure(searchContext, procedure.getProcedureId());
 					if(Validator.isNotNull(previousVersion)) {
-						procedure.setFriendlyURL(previousVersion.getFriendlyURL());
+						Procedure procedureByFriendlyURL = getProcedure(searchContext, previousVersion.getFriendlyURL());
+						if(Validator.isNotNull(procedureByFriendlyURL) && procedureByFriendlyURL.getProcedureId() != procedure.getProcedureId()) {
+							log.info("Hidden procedure found " + procedure.getProcedureId() + ", replaced friendlyURL from " + previousVersion.getFriendlyURL() + " to " + procedure.getFriendlyURL());
+						} else {
+							procedure.setFriendlyURL(previousVersion.getFriendlyURL());
+						}
 					}
 					proceduresHM.put(procedure.getProcedureId(), procedure);
 					friendlyURLs.add(procedure.getFriendlyURL());
@@ -221,18 +229,34 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 				String department = procedure.getResponsibleDepartment();
 				if(Validator.isNotNull(department) && !department.isEmpty()) {
 					DynamicQuery dynamicQuery = assetCategoryLocalService.dynamicQuery()
-							.add(RestrictionsFactoryUtil.like("name", "%" + department))
+							.add(RestrictionsFactoryUtil.like("name", "%" + department + "%"))
 							.add(RestrictionsFactoryUtil.eq("groupId", groupId))
 							.add(RestrictionsFactoryUtil.eq("parentCategoryId", 0L));
 					List<AssetCategory> assetCategories = assetCategoryLocalService.dynamicQuery(dynamicQuery);
-					if(assetCategories.size() > 1) {
-						log.info("Found more than one category in organismos matching " + department);
+					if(assetCategories.isEmpty()) {
+						log.info("No category found in organismos matching " + department);
 						log.info("Please check categories of organismos from procedure " + procedure.getName());
+					} else if(assetCategories.size() > 1) {
+						if(department.toLowerCase().startsWith("presidencia")) {
+							List<AssetCategory> assetCategoriesAux = new ArrayList<>();
+							for(AssetCategory assetCategory : assetCategories) {
+								if(!assetCategory.getName().toLowerCase().contains("vicepresidencia")) {
+									assetCategoriesAux.add(assetCategory);
+									break;
+								}
+							}
+							assetCategories = assetCategoriesAux;
+						} else {
+							log.info("Found more than one category in organismos matching " + department);
+							log.info("Please check categories of organismos from procedure " + procedure.getName());
+						}
 					}
 					for(AssetCategory assetCategory : assetCategories) {
 						if(!procedure.containsCategoryId(assetCategory.getCategoryId())) {
 							procedure.addCategoryId(assetCategory.getCategoryId());
 							procedure.addCategoryTitle(assetCategory.getTitle("es_ES", true));
+							procedure.setResponsibleDepartment(assetCategory.getTitle("es_ES", true));
+							break;
 						}
 					}
 				}
@@ -252,9 +276,17 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 					groupId, 0L, "En plazo", assetVocabulary.getVocabularyId());
 			AssetCategory outOfTime = assetCategoryLocalService.fetchCategory(
 					groupId, 0L, "Fuera de plazo", assetVocabulary.getVocabularyId());
-			if(Validator.isNotNull(inTerm) && Validator.isNotNull(outOfTime)) {
+			AssetCategory pendingTerm = assetCategoryLocalService.fetchCategory(
+					groupId, 0L, "Pendiente de definir", assetVocabulary.getVocabularyId());
+			if(Validator.isNull(inTerm) || Validator.isNull(outOfTime) || Validator.isNull(pendingTerm)) {
+				addTermCategories(assetVocabulary, user, groupId);
+			}
+			if(Validator.isNotNull(inTerm) && Validator.isNotNull(outOfTime) && Validator.isNotNull(pendingTerm)) {
 				for(Procedure procedure : proceduresHM.values()) {
-					if(procedure.isInTerm()) {
+					if(procedure.isUndefinedTerm()) {
+						procedure.addCategoryId(pendingTerm.getCategoryId());
+						procedure.addCategoryTitle(pendingTerm.getTitle("es_ES", true));
+					} else if(procedure.isInTerm()) {
 						procedure.addCategoryId(inTerm.getCategoryId());
 						procedure.addCategoryTitle(inTerm.getTitle("es_ES", true));
 					} else {
@@ -287,19 +319,34 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 	}
 	
 	private void addTermCategories(AssetVocabulary assetVocabulary, User user, long groupId) {
-		Map<Locale, String> inTermTitleMap = new HashMap<>();
-		inTermTitleMap.put(LocaleUtil.SPAIN, "En plazo");
-		inTermTitleMap.put(LocaleUtil.US, "In term");
-		Map<Locale, String> outOfTimeTitleMap = new HashMap<>();
-		outOfTimeTitleMap.put(LocaleUtil.SPAIN, "Fuera de plazo");
-		outOfTimeTitleMap.put(LocaleUtil.US, "Out of time");
 		try {
-			assetCategoryLocalService.addCategory(
-					user.getUserId(), groupId, 0L, inTermTitleMap, inTermTitleMap, 
-					assetVocabulary.getVocabularyId(), new String[0], new ServiceContext());
-			assetCategoryLocalService.addCategory(
-					user.getUserId(), groupId, 0L, outOfTimeTitleMap, outOfTimeTitleMap, 
-					assetVocabulary.getVocabularyId(), new String[0], new ServiceContext());
+			if(Validator.isNull(assetCategoryLocalService.fetchCategory(
+					groupId, 0L, "En plazo", assetVocabulary.getVocabularyId()))) {
+				Map<Locale, String> inTermTitleMap = new HashMap<>();
+				inTermTitleMap.put(LocaleUtil.SPAIN, "En plazo");
+				inTermTitleMap.put(LocaleUtil.US, "In term");
+				assetCategoryLocalService.addCategory(
+						user.getUserId(), groupId, 0L, inTermTitleMap, inTermTitleMap, 
+						assetVocabulary.getVocabularyId(), new String[0], new ServiceContext());
+			}
+			if(Validator.isNull(assetCategoryLocalService.fetchCategory(
+					groupId, 0L, "Fuera de plazo", assetVocabulary.getVocabularyId()))) {
+				Map<Locale, String> outOfTimeTitleMap = new HashMap<>();
+				outOfTimeTitleMap.put(LocaleUtil.SPAIN, "Fuera de plazo");
+				outOfTimeTitleMap.put(LocaleUtil.US, "Out of time");
+				assetCategoryLocalService.addCategory(
+						user.getUserId(), groupId, 0L, outOfTimeTitleMap, outOfTimeTitleMap, 
+						assetVocabulary.getVocabularyId(), new String[0], new ServiceContext());
+			}
+			if(Validator.isNull(assetCategoryLocalService.fetchCategory(
+					groupId, 0L, "Pendiente de definir", assetVocabulary.getVocabularyId()))) {
+				Map<Locale, String> undefinedTermTitleMap = new HashMap<>();
+				undefinedTermTitleMap.put(LocaleUtil.SPAIN, "Pendiente de definir");
+				undefinedTermTitleMap.put(LocaleUtil.US, "Pending to define");
+				assetCategoryLocalService.addCategory(
+						user.getUserId(), groupId, 0L, undefinedTermTitleMap, undefinedTermTitleMap, 
+						assetVocabulary.getVocabularyId(), new String[0], new ServiceContext());
+			}
 		} catch (PortalException e) {
 			log.error("Error adding categories to terms vocabulary");
 		}
@@ -439,6 +486,14 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 	
 	public Procedure getProcedure(HttpServletRequest httpRequest, String friendlyURL) {
 		SearchContext searchContext = SearchContextFactory.getInstance(httpRequest);
+		Procedure procedure = getProcedure(searchContext, friendlyURL);
+		if(Validator.isNotNull(procedure)) {
+			procedure.setDocuments(getDocumentsByProcedure(httpRequest, procedure.getProcedureId()));
+		}
+		return procedure;
+	}
+	
+	private Procedure getProcedure(SearchContext searchContext, String friendlyURL) {
 		searchContext.setStart(0);
 		searchContext.setEnd(1);
 		BooleanQuery booleanQuery = new BooleanQueryImpl();
@@ -451,7 +506,6 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 			if(Validator.isNotNull(hits) && hits.getLength() > 0) {
 				Procedure procedure = ProcedureUtil.parseProcedureFromES(hits.getDocs()[0]);
 				if(procedure.getFriendlyURL().equals(friendlyURL)) {
-					procedure.setDocuments(getDocumentsByProcedure(httpRequest, procedure.getProcedureId()));
 					return procedure;
 				} else {
 					log.error("No procedure exists with friendlyURL " + friendlyURL);
@@ -470,7 +524,7 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 		SearchContext searchContext = SearchContextFactory.getInstance(httpRequest);
 		searchContext.setStart(0);
 		searchContext.setEnd(size);
-		searchContext.setSorts(new Sort("viewCount_String_sortable", true), new Sort("name_String_sortable", false));
+		searchContext.setSorts(new Sort("inTerm_String_sortable", true), new Sort("viewCount_String_sortable", true), new Sort("name_String_sortable", false));
 		searchContext.setScoresThreshold(20);
 		BooleanQuery booleanQuery = new BooleanQueryImpl();
 		BooleanFilter filter = new BooleanFilter();
@@ -494,15 +548,16 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 	
 	public List<Procedure> getRelatedProcedures(HttpServletRequest httpRequest, long procedureId, String keywords) {
 		List<Procedure> procedures = new ArrayList<>();
+		if(Validator.isNull(keywords) || keywords.isEmpty()) {
+			return procedures;
+		}
 		SearchContext searchContext = SearchContextFactory.getInstance(httpRequest);
 		searchContext.setStart(0);
 		searchContext.setEnd(5);
 		searchContext.setSorts(new Sort("_score", Sort.SCORE_TYPE, true), new Sort("name_String_sortable", false));
 		searchContext.setScoresThreshold(20);
 		BooleanQuery booleanQuery = new BooleanQueryImpl();
-		if(Validator.isNotNull(keywords) && !keywords.isEmpty()) {
-			booleanQuery.addRequiredTerm("name", keywords);
-		}
+		booleanQuery.addRequiredTerm("name", keywords);
 		BooleanFilter filter = new BooleanFilter();
 		filter.addTerm("procedureId", String.valueOf(procedureId), BooleanClauseOccur.MUST_NOT);
 		filter.addRequiredTerm("entryClassName", Procedure.class.getName());
@@ -513,7 +568,8 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 				for(com.liferay.portal.kernel.search.Document document : hits.getDocs()) {
 					Procedure procedure = new Procedure();
 					procedure.setProcedureId(GetterUtil.getLong(document.get("procedureId"), 0));
-					procedure.setName(GetterUtil.getString(document.get("name"), ""));
+					procedure.setName(GetterUtil.getString(document.get("name"), StringPool.BLANK));
+					procedure.setFriendlyURL(GetterUtil.getString(document.get("friendlyURL"), StringPool.BLANK));
 					procedures.add(procedure);
 				}
 			}
@@ -524,11 +580,51 @@ public class EnlineaDBServiceImpl implements EnlineaDBService {
 		return procedures;
 	}
 	
+	public Map<Procedure, String> getProcedureReport() {
+		Map<Procedure, String> report = new LinkedHashMap<>();
+		Connection connection = connect();
+		if(connection != null) {
+			long companyId = 0;
+			long groupId = 0;
+			User user = null;
+			try {
+				companyId = companyLocalService.getCompanyByWebId(configuration.get("default.company")).getCompanyId();
+				groupId = groupLocalService.getFriendlyURLGroup(companyId, configuration.get("default.group")).getGroupId();
+				user = userLocalService.getDefaultUser(companyId);
+			} catch (PortalException e) {
+				log.error("Error obtaining companyId, groupId or userId", e);
+			}
+			if(companyId != 0 && groupId != 0 && Validator.isNotNull(user)) {
+				Set<String> friendlyURLs = new HashSet<>();
+				try {
+					ResultSet resultSet = connection.createStatement().executeQuery("SELECT SIGNATURA, DENOMINACION, DENOMINACION_LC FROM " + configuration.get("db.scheme") + ".DESFOR_V_SEDE_PROC P");
+					while(resultSet.next()) {
+						Procedure procedure = ProcedureUtil.parseProcedureForReportFromDB(resultSet, friendlyURLs);
+						if(Validator.isNotNull(procedure)) {
+							SearchContext searchContext = SearchContextFactory.getInstance(
+									new long[0], new String[0], new HashMap<>(), 
+									companyId, StringPool.BLANK, null, user.getLocale(),
+									groupId, user.getTimeZone(), user.getUserId());
+							Procedure previousVersion = getProcedure(searchContext, procedure.getProcedureId());
+							if(Validator.isNotNull(previousVersion) && !previousVersion.getFriendlyURL().equals(procedure.getFriendlyURL())) {
+								report.put(procedure, previousVersion.getFriendlyURL());
+							}
+							friendlyURLs.add(procedure.getFriendlyURL());
+						}
+					}
+				} catch (SQLException e) {
+					log.error("Error executing getProcedureReport query", e);
+				}
+			}
+		}
+		return report;
+	}
+	
 	private List<Document> getDocumentsByProcedure(HttpServletRequest httpRequest, long procedureId) {
 		List<Document> documents = new ArrayList<>();
 		SearchContext searchContext = SearchContextFactory.getInstance(httpRequest);
 		searchContext.setStart(0);
-		searchContext.setEnd(10);
+		searchContext.setEnd(100);
 		searchContext.setSorts(new Sort("order_Number_sortable", false), new Sort("name_String_sortable", false));
 		searchContext.setScoresThreshold(20);
 		BooleanQuery booleanQuery = new BooleanQueryImpl();

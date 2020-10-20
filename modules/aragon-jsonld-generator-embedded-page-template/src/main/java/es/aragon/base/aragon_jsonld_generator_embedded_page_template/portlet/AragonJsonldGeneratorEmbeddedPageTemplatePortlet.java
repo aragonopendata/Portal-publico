@@ -27,6 +27,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import es.aragon.base.aragon_jsonld_generator_embedded_page_template.constants.AragonJsonldGeneratorEmbeddedPageTemplatePortletKeys;
+import es.aragon.base.aragon_utilities.constants.AragonUtilitiesConstant;
 import es.aragon.base.jsonld_generator.api.JSONLDGenerator;
 
 
@@ -67,7 +68,7 @@ public class AragonJsonldGeneratorEmbeddedPageTemplatePortlet extends MVCPortlet
 					AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(categoryId);
 					if (Validator.isNotNull(category)) {
 						AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(category.getVocabularyId());
-						if (Validator.isNotNull(vocabulary)) {
+						if (Validator.isNotNull(vocabulary) && !vocabulary.getTitle(themeDisplay.getLocale()).equals(AragonUtilitiesConstant.VOCABULARY_NAME_PROFILES_ES)){
 							jsonLD = jsonLDGenerator.getVocabularyFromJsonLD(vocabulary, category, LocaleUtil.SPAIN, themeDisplay);
 						}
 					}
@@ -78,6 +79,7 @@ public class AragonJsonldGeneratorEmbeddedPageTemplatePortlet extends MVCPortlet
 		}else {
 			_log.info("Not found layout");
 		}
+		
 		renderRequest.setAttribute("jsonLD", jsonLD);
 		
 		super.render(renderRequest, renderResponse);

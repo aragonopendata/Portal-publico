@@ -67,6 +67,7 @@ public class SearchWebPortletConfigurationAction extends DefaultConfigurationAct
         }
         String selectedAssetTypes = ParamUtil.getString(actionRequest, "selectedAssetTypes");
         String selectedStructures = ParamUtil.getString(actionRequest, "selectedStructures");
+        String selectedStructuresInPage = ParamUtil.getString(actionRequest, "selectedStructuresInPage");
         String selectedVocabularies = ParamUtil.getString(actionRequest, "selectedVocabularies");
         String facetedVocabularies = ParamUtil.getString(actionRequest, "facetedVocabularies");
         String checkedAssetType = ParamUtil.getString(actionRequest, "checkedAssetType");
@@ -80,6 +81,7 @@ public class SearchWebPortletConfigurationAction extends DefaultConfigurationAct
         preferences.setValue("defaultFilters", defaultFilters);
         preferences.setValue("selectedAssetTypes", selectedAssetTypes);
         preferences.setValue("selectedStructures", selectedStructures);
+        preferences.setValue("selectedStructuresInPage", selectedStructuresInPage);
         preferences.setValue("selectedVocabularies", selectedVocabularies);
         preferences.setValue("facetedVocabularies", facetedVocabularies);
         preferences.setValue("checkedAssetType", checkedAssetType);

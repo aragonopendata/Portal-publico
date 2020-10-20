@@ -84,6 +84,10 @@ public class TownWebPortlet extends MVCPortlet {
 					if (categoryPropery.getKey().equals(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_HABITANTES)) {
 						renderRequest.setAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_HABITANTES, categoryPropery.getText());
 					}
+					if (categoryPropery.getKey().equals(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_CODIGO_MUN)) {
+						String urlOpenData = "https://opendata.aragon.es/pool/detalles?url=municipio-"+categoryPropery.getText();
+						renderRequest.setAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_CODIGO_MUN, urlOpenData);
+					}
 				}
 			}
 		}

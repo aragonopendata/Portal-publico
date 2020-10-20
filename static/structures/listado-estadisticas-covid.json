@@ -1,0 +1,220 @@
+{
+    "availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "URL documento CSV"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "documentURL",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "es_ES": "Título"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "titleStatics",
+            "readOnly": false,
+            "repeatable": true,
+            "required": true,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Emparejamiento columna CSV"
+                    },
+                    "options": [
+                        {
+                            "value": "casos_confirmados",
+                            "label": {
+                                "es_ES": "casos_confirmados"
+                            }
+                        },
+                        {
+                            "value": "ingresos_hospitalarios",
+                            "label": {
+                                "es_ES": "ingresos_hospitalarios"
+                            }
+                        },
+                        {
+                            "value": "ingresos_uci",
+                            "label": {
+                                "es_ES": "ingresos_uci"
+                            }
+                        },
+                        {
+                            "value": "altas_hospitalarias",
+                            "label": {
+                                "es_ES": "altas_hospitalarias"
+                            }
+                        },
+                        {
+                            "value": "incremento_casos_diarios",
+                            "label": {
+                                "es_ES": "incremento_casos_diarios"
+                            }
+                        },
+                        {
+                            "value": "fallecimientos",
+                            "label": {
+                                "es_ES": "fallecimientos"
+                            }
+                        },
+                        {
+                            "value": "confirmados_cada_100000",
+                            "label": {
+                                "es_ES": "confirmados_cada_100000"
+                            }
+                        },
+                        {
+                            "value": "porcentaje_ingresos_hospitalarios",
+                            "label": {
+                                "es_ES": "porcentaje_ingresos_hospitalarios"
+                            }
+                        },
+                        {
+                            "value": "tasa_letalidad",
+                            "label": {
+                                "es_ES": "tasa_letalidad"
+                            }
+                        },
+                        {
+                            "value": "positivo_pruebas_pcr",
+                            "label": {
+                                "es_ES": "positivo_pruebas_pcr"
+                            }
+                        },
+                        {
+                            "value": "pruebas_pcr_realizadas",
+                            "label": {
+                                "es_ES": "pruebas_pcr_realizadas"
+                            }
+                        }
+                    ],
+                    "predefinedValue": {
+                        "es_ES": [
+                            ""
+                        ]
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": false,
+                    "multiple": false,
+                    "name": "csv_column",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "select"
+                },
+                {
+                    "label": {
+                        "es_ES": "Imagen"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "image",
+                    "fieldNamespace": "ddm",
+                    "indexType": "",
+                    "localizable": false,
+                    "name": "icono",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": true,
+                    "showLabel": true,
+                    "type": "ddm-image"
+                },
+                {
+                    "label": {
+                        "es_ES": "Dato estadístico"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": "Solo rellenar si no lee información de un CSV"
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "dataStatics",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Fuente"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "fuente",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": true,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        }
+    ]
+}

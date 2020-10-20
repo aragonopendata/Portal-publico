@@ -144,24 +144,27 @@ public class AragonCategoriesImporterPortlet extends MVCPortlet {
 		String expandoAttribute = "load-categories-status-process";
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
-			AssetVocabulary assetVocabulary = AssetVocabularyLocalServiceUtil.getGroupVocabulary(themeDisplay.getScopeGroupId(), nameVocabularyToImport);
-			ExpandoBridge expandoBridge = assetVocabulary.getExpandoBridge();
-			//create expando if not exist
-			if (!expandoBridge.hasAttribute(expandoAttribute)) {
-				try {
-					expandoBridge.addAttribute(expandoAttribute,false);
-				} catch (Exception e) {
-					_log.error("There was an error adding the expando attribute: " + e.toString());
+			AssetVocabulary assetVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(themeDisplay.getScopeGroupId(), nameVocabularyToImport);
+			ExpandoBridge expandoBridge = null;
+			if (Validator.isNotNull(assetVocabulary)) {
+				expandoBridge = assetVocabulary.getExpandoBridge();
+				//create expando if not exist
+				if (!expandoBridge.hasAttribute(expandoAttribute)) {
+					try {
+						expandoBridge.addAttribute(expandoAttribute,false);
+					} catch (Exception e) {
+						_log.error("There was an error adding the expando attribute: " + e.toString());
+					}
 				}
-			}
-			//set permission update to ExpandoColumn
-			expandoBridge.setAttributeDefault(expandoAttribute, StringPool.BLANK);
-			expandoBridge.setClassName(AssetVocabulary.class.getName());
-			expandoBridge.setClassPK(assetVocabulary.getVocabularyId());
-			if (!allCategories) {
-				expandoBridge.setAttribute(expandoAttribute, "Importando categor\u00EDas de " + assetVocabulary.getTitle(themeDisplay.getLocale()),false);
-			} else {
-				expandoBridge.setAttribute(expandoAttribute, "Importando todas las categor\u00EDas",false);
+				//set permission update to ExpandoColumn
+				expandoBridge.setAttributeDefault(expandoAttribute, StringPool.BLANK);
+				expandoBridge.setClassName(AssetVocabulary.class.getName());
+				expandoBridge.setClassPK(assetVocabulary.getVocabularyId());
+				if (!allCategories) {
+					expandoBridge.setAttribute(expandoAttribute, "Importando categor\u00EDas de " + assetVocabulary.getTitle(themeDisplay.getLocale()),false);
+				} else {
+					expandoBridge.setAttribute(expandoAttribute, "Importando todas las categor\u00EDas",false);
+				}
 			}
 			long latestRegisteredLegistureId = LegislaturesUtil.getLatestRegisteredLegistureId();
 			//String legislaturaIdFilter = ParamUtil.getString(actionRequest, null);
@@ -171,14 +174,16 @@ public class AragonCategoriesImporterPortlet extends MVCPortlet {
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
 				String dateString = dateFormat.format(new Date());
-				//Modify the expando value when the import process is finished
-				if (!allCategories) {
-					expandoBridge.setAttribute(expandoAttribute, "Finalizado el proceso de importaci\u00F3n de "
-							+ assetVocabulary.getTitle(themeDisplay.getLocale()) + " a d\u00EDa " + dateString,false);
-				} else {
-					expandoBridge.setAttribute(expandoAttribute,
-							"Finalizado el proceso de importaci\u00F3n de todas las categor\u00EDas a d\u00EDa "
-									+ dateString,false);
+				if (Validator.isNotNull(expandoBridge)) {
+					//Modify the expando value when the import process is finished
+					if (!allCategories) {
+						expandoBridge.setAttribute(expandoAttribute, "Finalizado el proceso de importaci\u00F3n de "
+								+ assetVocabulary.getTitle(themeDisplay.getLocale()) + " a d\u00EDa " + dateString,false);
+					} else {
+						expandoBridge.setAttribute(expandoAttribute,
+								"Finalizado el proceso de importaci\u00F3n de todas las categor\u00EDas a d\u00EDa "
+										+ dateString,false);
+					}
 				}
 				String redirect = ParamUtil.getString(actionRequest, "redirect", null);
 				if (Validator.isNotNull(redirect)) {
@@ -372,7 +377,7 @@ public class AragonCategoriesImporterPortlet extends MVCPortlet {
 			//Delete vocabulary categories historic registries 
 			if (Validator.isNotNull(menuId)) {
 				_log.info("Deleting " + menuId + " categories registries");
-				AssetVocabulary assetVocabulary = _assetVocabularyLocalService.getGroupVocabulary(themeDisplay.getScopeGroupId(), menuId);
+				AssetVocabulary assetVocabulary = _assetVocabularyLocalService.fetchGroupVocabulary(themeDisplay.getScopeGroupId(), menuId);
 				if (Validator.isNotNull(assetVocabulary)) {
 					CategoriesImporterUtil.cleanImportCategoryRegistry(assetVocabulary.getVocabularyId());
 				}

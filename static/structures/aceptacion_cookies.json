@@ -27,6 +27,29 @@
             "required": false,
             "showLabel": true,
             "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "es_ES": "Enlace a la página para el botón de preferencias de cookies"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "url_button_preferences",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
         }
     ]
 }

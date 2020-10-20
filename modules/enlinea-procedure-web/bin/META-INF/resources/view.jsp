@@ -20,10 +20,10 @@
 			</div>
 		</nav>
 	</section>
-	<h1 class="h1-interior">
+	<h1 class="h1-interior readSpeakerOrigin">
 		<div class="container">${procedure.getName()}</div>
 	</h1>
-	<div class="container">
+	<div class="container readSpeakerOrigin">
 		<div class="row">
 			<div class="col-12 pt-5 pb-5">
 				<p>${procedure.getDescription()}</p>
@@ -48,7 +48,7 @@
 			</section>
 		</div>
 	</div>
-	<section class="u-padding-bottom-6">
+	<section class="u-padding-bottom-6 readSpeakerOrigin">
 		<nav class="asociados--autoheight" role="navigation">
 			<div class="container">
 				<ul class="asociados__listado">

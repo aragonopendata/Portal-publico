@@ -244,35 +244,60 @@ AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabular
 </nav>
 <!-- Information process creation layouts and load categories-->
 <% 
-ExpandoBridge expandoBridgeVocabulary = vocabulary.getExpandoBridge();
-String statusProcessClassCreateLayout= StringPool.BLANK;
-String statusCreateLayout = StringPool.BLANK;
-if (Validator.isNotNull(expandoBridgeVocabulary)){
-	statusCreateLayout = GetterUtil.getString(expandoBridgeVocabulary.getAttribute("create-layout-status-process", Boolean.FALSE), statusCreateLayout);
-	if (statusCreateLayout.contains("Generando")){
-		statusProcessClassCreateLayout = "alert alert-danger";
-	}else{
-		statusProcessClassCreateLayout = "alert alert-success";
-	}
-	if(!statusCreateLayout.equals(StringPool.BLANK) && Validator.isNotNull(statusCreateLayout)){
-	%>
-	<div class="<%=statusProcessClassCreateLayout%>" role="alert"><%=statusCreateLayout %></div>
-	<%
-	}
-}
-String statusProcessClassLoadCategories= StringPool.BLANK;
-String statusLoadCategories = StringPool.BLANK;
-if (Validator.isNotNull(expandoBridgeVocabulary)){
-	statusLoadCategories = GetterUtil.getString(expandoBridgeVocabulary.getAttribute("load-categories-status-process", Boolean.FALSE), statusLoadCategories);
-	if (statusLoadCategories.contains("Importando")){
-		statusProcessClassLoadCategories = "alert alert-danger";
-	}else{
-		statusProcessClassLoadCategories = "alert alert-success";
-	}
-	if(!statusLoadCategories.equals(StringPool.BLANK) && Validator.isNotNull(statusLoadCategories)){
-	%>
-	<div class="<%=statusProcessClassLoadCategories%>" role="alert"><%=statusLoadCategories %></div>
-	<%
+if (Validator.isNotNull(vocabulary)){
+	ExpandoBridge expandoBridgeVocabulary = vocabulary.getExpandoBridge();
+
+	String statusProcessClassCreateLayout= StringPool.BLANK;
+	String statusCreateLayout = StringPool.BLANK;
+	String statusProcessClassLoadCategories= StringPool.BLANK;
+	String statusLoadCategories = StringPool.BLANK;
+	String statusDeleteUnusedCategories = StringPool.BLANK;
+	if (Validator.isNotNull(expandoBridgeVocabulary)){
+		statusCreateLayout = GetterUtil.getString(expandoBridgeVocabulary.getAttribute("create-layout-status-process", Boolean.FALSE), statusCreateLayout);
+		statusLoadCategories = GetterUtil.getString(expandoBridgeVocabulary.getAttribute("load-categories-status-process", Boolean.FALSE), statusLoadCategories);
+		statusDeleteUnusedCategories = GetterUtil.getString(expandoBridgeVocabulary.getAttribute("delete-unused-category-status-process", Boolean.FALSE), statusDeleteUnusedCategories);
+		
+		if (statusCreateLayout.contains("Generando")){
+			statusProcessClassCreateLayout = "alert alert-danger alert-dismissible fade show";
+		}else{
+			statusProcessClassCreateLayout = "alert alert-success alert-dismissible fade show";
+		}
+		if(!statusCreateLayout.equals(StringPool.BLANK) && Validator.isNotNull(statusCreateLayout)){%>
+			<div class="<%=statusProcessClassCreateLayout%>" role="alert"><%=statusCreateLayout %>
+	  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    			<span aria-hidden="true">×</span>
+	  			</button>
+			</div>
+		<%
+		}
+		
+		if (statusLoadCategories.contains("Importando")){
+			statusProcessClassLoadCategories = "alert alert-danger alert-dismissible fade show";
+		}else{
+			statusProcessClassLoadCategories = "alert alert-success alert-dismissible fade show";
+		}
+		if(!statusLoadCategories.equals(StringPool.BLANK) && Validator.isNotNull(statusLoadCategories)){%>
+			<div class="<%=statusProcessClassLoadCategories%>" role="alert"><%=statusLoadCategories %>
+	  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    			<span aria-hidden="true">×</span>
+	  			</button>
+			</div>
+		<%
+		}
+		
+		if (statusDeleteUnusedCategories.contains("Eliminando")){
+			statusProcessClassLoadCategories = "alert alert-danger alert-dismissible fade show";
+		}else{
+			statusProcessClassLoadCategories = "alert alert-success alert-dismissible fade show";
+		}
+		if(!statusDeleteUnusedCategories.equals(StringPool.BLANK) && Validator.isNotNull(statusDeleteUnusedCategories)){%>
+  		<div class="<%=statusProcessClassLoadCategories%>" role="alert"><%=statusDeleteUnusedCategories %>
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    			<span aria-hidden="true">×</span>
+  			</button>
+		</div>
+		<%
+		}
 	}
 }
 %>

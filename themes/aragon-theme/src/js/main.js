@@ -1,11 +1,9 @@
 AUI().ready(
     //This function gets loaded when all the HTML, not including the portlets, is loaded.
     function() {
-      checkCookiesGoogleAnalytics();
+      moveDivYui3();
       registerVisitedPage();
       assignBackURL();
-      analyticsJsonLDG();
-      
     }
 );
 
@@ -41,36 +39,15 @@ function assignBackURL() {
     );    
   }
 }
-
 /**
- * Disabled google analytics if user refuse this cookies
+ * Change position item because it given error accessibility
  * @returns
  */
-function checkCookiesGoogleAnalytics(){
-	var cookiesAcceptedCookieName = getCookie("COOKIES_ACCEPTED");
-	var googleAnalyticsId = $("#googleAnalyticsId").val();
-	if (googleAnalyticsId != "" && googleAnalyticsId != null){
-		if (cookiesAcceptedCookieName.indexOf("GOOGLE_ANALYTICS-0") != -1 || cookiesAcceptedCookieName == ""){
-			window['ga-disable-'+googleAnalyticsId] = true;
-		}
+function moveDivYui3(){
+	var divYui3 = $('#yui3-css-stamp');
+	if (divYui3 != null){
+		$("body").append(divYui3);
 	}
-}
-/**
- * Analytics function to get the Organism name, and the web that it comes from
- *
- * */
-
-function analyticsJsonLDG(){
-    if (typeof ga === "function"){
-	    var organisms = document.getElementById('organisms');
-	    if(organisms != null && organisms.value != ''){
-	      var organismsArray = organisms.value.split("-SEPARATOR-");
-	      for(var indice = 0; indice <organismsArray.length; indice++){
-	        var pathname = window.location.pathname;
-	        ga('send', 'event', 'organisms_views', organismsArray[indice],  pathname);
-	      }
-	    }
-    }
 }
 
 /**
@@ -157,8 +134,13 @@ function registerVisitedPage() {
 	if (cookiesAcceptedCookieName.indexOf("LAST_VISITED_PAGES-1") != -1 || cookiesAcceptedCookieName == ""){
 		//Gets current page title
 		var currentPageTitle = document.title;
+		var url = document.location.href;
 		if (currentPageTitle.lastIndexOf('.') != -1) {
 			currentPageTitle = currentPageTitle.substring(0, currentPageTitle.lastIndexOf('.'));
+		}
+		if(url.indexOf('?') != -1){
+			var indexUrl = url.indexOf('?');
+			url = url.substring(0, indexUrl );
 		}
 		//Saves the current page title in the cookie if is not "Inicio" or "Estado" 
 		if (currentPageTitle != "Inicio" && currentPageTitle != "Estado") {
@@ -170,6 +152,7 @@ function registerVisitedPage() {
 			if (lastVisitedPagesCookie != "") {
 				//Gets the last visited pages value separated by '|'
 				var lastVisitedPagesList = lastVisitedPagesCookie.split('|');
+				
 				//Deletes the current page from list if exists
 				for (var i = 0; i < lastVisitedPagesList.length; i++) {
 					var lastVisitedPageEntry = lastVisitedPagesList[i].trim();
@@ -183,7 +166,7 @@ function registerVisitedPage() {
 					}
 				}
 				//Adds the current page in the first position of the cookie value
-				lastVisitedPagesCookie = encodeURIComponent(currentPageTitle) + titleValueSeparator + document.location;
+				lastVisitedPagesCookie = encodeURIComponent(currentPageTitle) + titleValueSeparator + url;
 				//Adds the previous pages to the cookie value (4 max)
 				if (lastVisitedPagesList != null && lastVisitedPagesList.length > 0) {
 					var visitedPagesCount = 0;
@@ -195,7 +178,7 @@ function registerVisitedPage() {
 					}
 				}
 			} else {
-				lastVisitedPagesCookie = encodeURIComponent(currentPageTitle) + titleValueSeparator + document.location;
+				lastVisitedPagesCookie = encodeURIComponent(currentPageTitle) + titleValueSeparator + url;	
 			}
 			//Saves the cookie in the browser
 			setCookie(LAST_VISITED_PAGES, lastVisitedPagesCookie, 30);
@@ -822,7 +805,7 @@ var mainApp = (function(){
 	 * Toggle para listados de enlaces de enlinea
 	 */
 	var slideToggleCustom = function () {
-		$('.en-linea').find('[data-control-collapse]').on('click', function () {
+		$('.en-linea').not('.preguntas-frecuentes-list').find('[data-control-collapse]').on('click', function () {
 			var et = $(this).data('control-collapse');
 			var ec = $('[data-content-collapse="' + et + '"]');
 			if ($(this).attr("aria-expanded") === "false") {
@@ -835,6 +818,38 @@ var mainApp = (function(){
 				$(ec).slideUp(500, function () {
 					$(et).removeClass('active');
 					$(ec).removeClass('active');
+				});
+				$(this).attr("aria-expanded", "false");
+			}
+		});
+	}
+	
+	/**
+	 * Toggle para listados de preguntas frecuentes
+	 */
+	var slideTogglePreguntasFrecuentes = function () {
+		$('.preguntas-frecuentes-list').find('[data-control-collapse]').on('click', function () {
+			var et = $(this).data('control-collapse');
+			var ec = $('[data-content-collapse="' + et + '"]');
+			if ($(this).attr("aria-expanded") === "false") {
+				$('.preguntas-frecuentes-list').find('[aria-expanded=true]').each(function() {
+					var et = $(this).data('control-collapse');
+					var ec = $('[data-content-collapse="' + et + '"]');
+					$(ec).slideUp(500, function () {
+						$(et).removeClass('show');
+						$(ec).removeClass('show');
+					});
+					$(this).attr("aria-expanded", "false");
+				});
+				$(ec).slideDown(500, function () {
+					$(et).addClass('show');
+					$(ec).addClass('show');
+				});
+				$(this).attr("aria-expanded", "true");
+			} else {
+				$(ec).slideUp(500, function () {
+					$(et).removeClass('show');
+					$(ec).removeClass('show');
 				});
 				$(this).attr("aria-expanded", "false");
 			}
@@ -912,6 +927,9 @@ var mainApp = (function(){
     slideToggleCustom : function(){
       slideToggleCustom();
     },
+	slideTogglePreguntasFrecuentes : function(){
+      slideTogglePreguntasFrecuentes();
+    },
     slideToggleFooterClean: function(){
     	slideToggleFooterClean();
     }
@@ -937,6 +955,7 @@ $(document).ready(function() {
     mainApp.stickyBar();
     mainApp.slideToggleFooter();
     mainApp.slideToggleCustom();
+	mainApp.slideTogglePreguntasFrecuentes();
     mainApp.slideToggleFooterClean();
     // Evitamos inicializar la función cuando el slider no esté implementado en la página cargada
     if($('.swiper-wrapper').hasClass('my-gallery') == true){
@@ -961,64 +980,10 @@ $(document).ready(function() {
       mainApp.slideToggleFooterClean();
       if($(window).width() > 767){
         $('html,body').removeClass('noScroll-busq');
-
       }
     });
-
-    
-
 });
 
-/* Analytics function, event to show download data, and click on the viewers links*/
-if (typeof ga === "function"){
-  $(document).ready(function() {
-    $("a").click(function(){
-      var href = $(this).attr('href');
-      if(href==undefined || href==null){
-        href = "";
-      }
-       var arrayExtensiones = [".rar", ".zip", ".exe", ".pdf",
-        ".doc", ".xls", ".xlxs",".mkv",".3g2", ".3gp",
-        ".m4v", ".mov", ".mpeg", ".rm", ".wmv",
-        ".ppt",".pptx", ".mp3", ".mp4", ".txt", ".7z",
-        ".bz2", ".tar", ".gz", ".tgz", ".avi", 
-        ".wma", ".flv", ".mpg", ".wmv", ".odt",
-        ".png", ".docx", ".mpa", ".ogg", ".wav",
-        ".wpl",".arj",".deb", ".pkg", ".rar", 
-        ".rpm", ".pps", ".jpg",".jpeg",".rtf", ".wpd"] 
-      for(var i in arrayExtensiones){
-        if(href.indexOf(arrayExtensiones[i])!= -1){
-          var pathname = window.location.pathname;
-          var extension= arrayExtensiones[i];
-          ga('send', 'event', 'download_data',"Title: " +  $(this).text() +", Ext: " + extension, pathname);
-        }
-      }
-       if(href.indexOf("aplicacionesportalaragon.aragon.es/visores/inagageo.html") != -1) {
-    	   ga('send', 'event', 'external_services','Visores', 'Visor INAGAGEO desde: ' + window.location.pathname);
-       }else if(href.indexOf("aplicacionesportalaragon.aragon.es/visores/inaga_visor.html") != -1) {
-    	   ga('send', 'event', 'external_services','Visores', 'Visor cartografía de informes INFOSIG: ' + window.location.pathname);
-       }else if(href.indexOf("aplicacionesportalaragon.aragon.es/visores/inaga_participacion_publica.html") != -1){
-    	   ga('send', 'event', 'external_services','Visores', 'Visor Expedientes INAGA en Exposición Pública / Anuncio Público: ' + window.location.pathname);
-       }else if(href.indexOf("aplicacionesportalaragon.aragon.es/visores/inaga_resolucion_publica.html") != -1){
-    	   ga('send', 'event', 'external_services','Visores', 'Visor Resoluciones Públicas de Expedientes INAGA: ' + window.location.pathname);
-      
-       }else if(href.indexOf("aplicacionesportalaragon.aragon.es/visores/inaga_cotos_caza.html") != -1){
-    	   ga('send', 'event', 'external_services','Visores', 'Visor INAGA del Registro de Terrenos Cinegéticos: ' + window.location.pathname);
-       }else if(href.indexOf("aplicacionesportalaragon.aragon.es/visores/inartc_cotos_historico.html") != -1){
-    	   ga('send', 'event', 'external_services','Visores', ' Visor INAGA de límites de Terrenos Cinegeticos (histórico) : ' + window.location.pathname);
-       }else if(href.indexOf("aplicacionesportalaragon.aragon.es/visores/inaga_rtc_tematico.html") != -1){
-    	   ga('send', 'event', 'external_services','Visores', 'Visor Temático de Cotos de Caza: ' + window.location.pathname);
-       
-       }else if(href.indexOf("aplicacionesportalaragon.aragon.es/visores/inajab.html") != -1){
-    	   ga('send', 'event', 'external_services','Visores', 'Visor INAGA de siniestralidad causada por especies cinegéticas: ' + window.location.pathname);
-       }else if(href.indexOf("https://aplicacionesportalaragon.aragon.es/visores/inaga_explotaciones_ganaderas.html") != -1){
-    	   ga('send', 'event', 'external_services','Visores', 'Visor de Explotaciones Ganaderas: ' + window.location.pathname);
-       }else if(href.indexOf("mov-brs-01.aragon.es/TABL/azul/azul_tablon_home.html") != -1){
-      	  ga('send', 'event', 'external_services','Tablón de Anuncios', 'Tablón de Anuncios de Información General : ' + window.location.pathname);
-       }   
-    });
-  });
-}
 
 function extractExtension(href){
     var extension= href.split("/");

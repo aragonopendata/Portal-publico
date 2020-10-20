@@ -97,7 +97,9 @@ public class SchedulerTaskReCrawl {
 					try {
 						crawler.initReCrawling(previousPages);
 						
-						PageLocalServiceUtil.deleteChildPages(page, false);
+						for(Page prevPage : previousPages) {
+							PageLocalServiceUtil.deletePage(prevPage);
+						}
 						
 						crawler.start();
 					} catch (IOException e) {

@@ -28,6 +28,7 @@ import java.util.List;
 
 import es.aragon.base.crawler.constants.PageConstants;
 import es.aragon.base.crawler.model.Page;
+import es.aragon.base.crawler.model.RootPage;
 import es.aragon.base.crawler.service.base.PageLocalServiceBaseImpl;
 
 /**
@@ -218,11 +219,16 @@ public class PageLocalServiceImpl extends PageLocalServiceBaseImpl {
 			}
 		}
 		
+		
 		// If is a rootPage's page delete it's rootPage too
 		if (Validator.isNull(page.getParentPageId())) {
 			long rootPageId = rootPageLocalService.getRootPageId(page.getPageId());
-			try {
-				rootPageLocalService.deleteRootPage(rootPageId);
+			try {			
+				RootPage rootPage = rootPageLocalService.deleteRootPage(rootPageId);
+				
+				//PageIndexerNeeds companyId, Page does not have comanyId, send data throw rootPageId
+				// Lvl 0 pages always hace parentPageId = 0, we control this part. case in PageIndexer
+				page.setRootPageId(rootPage.getCompanyId());
 			} catch (PortalException e) {
 				log.error("Error deleting root page with ID '" + rootPageId + "':", e);
 			}

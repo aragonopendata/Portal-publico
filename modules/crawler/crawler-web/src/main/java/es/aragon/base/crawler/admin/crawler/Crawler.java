@@ -179,6 +179,7 @@ public class Crawler extends Thread {
 						Set<Integer> currentCategories = new HashSet<>();
 						currentCategories.addAll(Arrays.asList(Arrays.stream(currentPage.getCategoryIds().split(","))
 								.map(Object::toString)
+								.filter(item -> !item.equals(""))
 								.map(Integer::valueOf)
 								.toArray(Integer[]::new)));
 						

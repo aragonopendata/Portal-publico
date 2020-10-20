@@ -89,7 +89,7 @@ public class CategoriesImporterUtil {
 						}
 						//Tramites
 						if (vocabularyName == null || (vocabularyName != null && vocabularyName.equals(AragonUtilitiesConstant.VOCABULARY_NAME_PROCEDURES_ES))) {
-							TramitesUtil.importTramites(groupId, user.getUserId(), serviceContext);
+							TramitesUtil.importTramites(company.getCompanyId(),groupId, user.getUserId(), serviceContext);
 						}
 						//Personas
 						if (vocabularyName == null || (vocabularyName != null && vocabularyName.equals(AragonUtilitiesConstant.VOCABULARY_NAME_PEOPLE_ES))) {

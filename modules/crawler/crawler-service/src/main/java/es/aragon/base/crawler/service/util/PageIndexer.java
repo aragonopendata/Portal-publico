@@ -90,14 +90,24 @@ public class PageIndexer extends BaseIndexer<Page> {
 	@Override
 	protected void doDelete(Page page) throws Exception {
 		
-		RootPage rootPage;
+		RootPage rootPage = null;
 		if (Validator.isNotNull(page.getParentPageId())) {
 			rootPage = rootPageLocalService.getRootPage(page.getRootPageId());
 		}
 		else {
 			rootPage = rootPageLocalService.getRootPageByPageId(page.getPageId());
 		}
-		deleteDocument(rootPage.getCompanyId(), page.getPageId());
+		
+		if(Validator.isNull(rootPage)) {
+			// Treat case of level 0 pages, wich does not point to root Page, and on Delete RootPage is deleted before this.doDelete(..)
+			deleteDocument(page.getRootPageId(), page.getPageId());
+		} else {
+			deleteDocument(rootPage.getCompanyId(), page.getPageId());
+		}
+	}
+	
+	public void doDeletePageByCompanyIdAndPageId(long companyId, long pageId) throws Exception {
+		deleteDocument(companyId, pageId);
 	}
 	
 	public void doDeletePageDocumentAndChilds(Page page) throws Exception {

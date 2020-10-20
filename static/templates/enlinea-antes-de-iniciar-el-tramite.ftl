@@ -1,5 +1,5 @@
 <#if section.getSiblings()?has_content>
-	<div class="container text-center aside-tramites-block bg-gray inicio-tramites mb-5">
+	<div class="container text-center aside-tramites-block bg-gray inicio-tramites mb-5 readSpeakerOrigin">
 		<h2 class="text-left u-padding-top-1">
 			<a href="javascript:void(0)" data-control-collapse="${.vars['reserved-article-id'].data}-info-tramite-online" aria-expanded="false">
 				${.vars['reserved-article-title'].data}

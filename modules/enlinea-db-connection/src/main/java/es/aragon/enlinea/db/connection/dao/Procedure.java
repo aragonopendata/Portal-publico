@@ -131,6 +131,20 @@ public class Procedure {
 	public void setNormative(String normative) {
 		this.normative = normative;
 	}
+	public String getPresentationPlace() {
+		return presentationPlace;
+	}
+	
+	public void setPresentationPlace(String presentationPlace) {
+		this.presentationPlace = presentationPlace;
+	}
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
+	}
 	
 	public Date getFromDate() {
 		return fromDate;
@@ -145,7 +159,19 @@ public class Procedure {
 	}
 	
 	public String getToDateFormatted() {
-		return new SimpleDateFormat("dd/MM").format(toDate);
+		if(toDate != null) {
+			return new SimpleDateFormat("dd/MM").format(toDate);
+		} else {
+			return null;
+		}
+	}
+	
+	public String getToDateWithYearFormatted() {
+		if(toDate != null) {
+			return new SimpleDateFormat("dd/MM/yyyy").format(toDate);
+		} else {
+			return null;
+		}
 	}
 
 	public void setToDate(Date toDate) {
@@ -163,7 +189,15 @@ public class Procedure {
 				|| (fromDate != null && toDate != null && fromDate.before(now) && (toDate.after(today) || toDate.equals(today)))
 				|| (toDate == null && fromDate.before(now)));
 	}
-	
+
+	public boolean isUndefinedTerm() {
+		return undefinedTerm;
+	}
+
+	public void setUndefinedTerm(boolean undefinedTerm) {
+		this.undefinedTerm = undefinedTerm;
+	}
+
 	public String getResolutionTime() {
 		return resolutionTime;
 	}
@@ -285,14 +319,17 @@ public class Procedure {
 	private String requirementsAndObservations;
 	private String documentation;
 	private String normative;
+	private Date publishDate;
 	private Date fromDate;
 	private Date toDate;
+	private boolean undefinedTerm;
 	private String resolutionTime;
 	private int inLevel;
 	private String onlineURL;
 	private String responsibleDepartment;
 	private String responsibleDepartmentURL;
 	private String friendlyURL;
+	private String presentationPlace;
 	private List<Long> categoryIds;
 	private List<String> categoryTitles;
 	private List<Document> documents;

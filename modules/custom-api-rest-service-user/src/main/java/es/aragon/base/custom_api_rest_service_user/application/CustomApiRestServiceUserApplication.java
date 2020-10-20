@@ -1,0 +1,620 @@
+package es.aragon.base.custom_api_rest_service_user.application;
+
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalService;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.petra.string.CharPool;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.dao.jdbc.DataAccess;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroup;
+
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import es.aragon.base.aragon_utilities.constants.AragonUtilitiesConstant;
+import es.aragon.base.categories_custom_properties.model.CustomCategoryProperty;
+import es.aragon.base.categories_custom_properties.service.CustomCategoryPropertyLocalServiceUtil;
+
+/**
+ * @author migarcia
+ * Create API REST to dowload csv and json with information journalArticle from URL
+ * http://local.aragon.es:8080/o/custom-api-rest-services/contents/list-urls.csv?cod_siu=ORG11335&tema=305108&agregador=si&desde=20190710&hasta=20190717
+ * JSON-local: http://local.aragon.es:8080/o/custom-api-rest-services/contents-user/list-urls-user.json
+ * https://deswww.aragon.es:4163/o/custom-api-rest-services/contents-user/list-urls-user.csv?user=apiadministrador&password=AAAAoAAB9AD3ZKjG7Ez/2CpR5jNyIyFGZvLps+41farHV98m&tema=salud&documento=noticia&agregador=si&desde=20200103
+ */
+
+@ApplicationPath("/contents-user") 
+@Component(
+		immediate = true,
+		service = Application.class)
+public class CustomApiRestServiceUserApplication extends Application {
+
+	public Set<Object> getSingletons() {
+		return Collections.<Object>singleton(this);
+	}
+	/**
+	 * Create file csv with journal articles status = 0; groupId= 20127; template= contenido-final
+	 * @param fromDate optional value. Format ddMMYYY
+	 * @param toDate optional value. Formay ddMMYYY
+	 * @return string
+	 */
+	@GET
+	@Path("/list-urls-user.csv")
+	@Produces("text/csv; charset=UTF-8")
+	public Response getJournalArticle(
+			@Context HttpServletRequest request,
+			@QueryParam("user") String userEmail,
+			@QueryParam("password") String password,
+			@QueryParam("organismo") String organization,
+			@QueryParam("cod_siu") String cod_siu,
+			@QueryParam("tema") String topic,
+			@QueryParam("documento") String document,
+			@QueryParam("agregador") String visibility,
+			@QueryParam("desde") String fromDate,
+			@QueryParam("hasta") String toDate
+			){
+			try {
+				User userLogin = UserLocalServiceUtil.getUserByScreenName(COMPANY_ID, userEmail);
+				String passwordRepl = password;
+				if(password.contains(" ")) {
+					passwordRepl = password.replace(" ", "+");
+				}
+				if(Validator.isNotNull(userLogin)) {
+					//boolean isValidPassword = PasswordTrackerLocalServiceUtil.isSameAsCurrentPassword(userLogin.getUserId(), password);
+					boolean isValidPassword = userLogin.getPassword().equals(passwordRepl);
+					boolean hasRole = false;
+					List<UserGroup> groupsUser = userLogin.getUserGroups();
+					for (UserGroup groupUser : groupsUser) {
+						if(groupUser.getName().equals("Administraci\u00f3n")) {
+							hasRole = true;
+						}
+					}
+					if(hasRole && isValidPassword){
+						_log.info("INICIANDO PROCESO DE GENERACION DE CSV...");
+						long start = System.currentTimeMillis();
+						StringBundler sb = new StringBundler();
+						//Print header title
+						sb.append(Arrays.stream(COLUMN_NAMES).map(this::getCSVFormattedValue).collect(Collectors.joining(CSV_SEPARATOR)));
+						sb.append(CharPool.NEW_LINE);
+						//Get list ids asset entries with applied filters
+						List<String> listAssetEntryIds = getJournalArticles(organization, cod_siu, topic,document, visibility, fromDate, toDate);
+						for (String articleId : listAssetEntryIds ) {
+							try {
+								JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(GROUP_ID, articleId, 0);
+								buildJournalArticleInfo(organization, cod_siu, topic, document, visibility, sb, journalArticle);
+							} catch (PortalException e) {
+								_log.error("NO SE HA ENCONTRADO EL JOURNAL", e);
+							}
+							sb.setIndex(sb.index() - 1);
+							sb.append(CharPool.NEW_LINE);
+						}
+						long end = System.currentTimeMillis();
+						_log.info("FIN DE CREACION DEL FICHERO CSV");
+						_log.info("TIEMPO TOTAL PARA GENERARLO: "+ (end - start));
+						return Response.ok(sb.toString()).build();
+					}else {
+						_log.error("User not allowed");
+					}
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		return Response.serverError().status(503).entity("Server is busy, try it later").build();
+	}
+	
+	/**
+	 * Create file json with journal articles status = 0; groupId= 20127; template= contenido-final
+	 * @param organization optional value. Looking for by name organization
+	 * @param cod_siu optional value. Looking for by cod_siu organization
+	 * @param topic optional value. Looking for by name topic
+	 * @param visibility optional value. Value: Si o No
+	 * @param fromDate optional value. Format ddMMYYY
+	 * @param toDate optional value. Formay ddMMYYY
+	 * @return string
+	 */
+	@GET
+	@Path("/list-urls-user.json")
+	@Produces("{application/json}")
+	public Response getJournalArticleJson(
+			@QueryParam("user") String userEmail,
+			@QueryParam("password") String password,
+			@QueryParam("organismo") String organization,
+			@QueryParam("cod_siu") String cod_siu,
+			@QueryParam("tema") String topic,
+			@QueryParam("documento") String document,
+			@QueryParam("agregador") String visibility,
+			@QueryParam("desde") String fromDate,
+			@QueryParam("hasta") String toDate
+			){
+			long start = System.currentTimeMillis();
+			JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
+			JSONArray jsonArray1 = JSONFactoryUtil.createJSONArray();
+			try {
+				User userLogin = UserLocalServiceUtil.getUserByScreenName(COMPANY_ID, userEmail);
+				if(Validator.isNotNull(userLogin)) {
+					String passwordRepl = password;
+					if(password.contains(" ")) {
+						passwordRepl = password.replace(" ", "+");
+					}
+					boolean isValidPassword = userLogin.getPassword().equals(passwordRepl);
+					boolean hasRole = false;
+					List<UserGroup> groupsUser = userLogin.getUserGroups();
+					for (UserGroup groupUser : groupsUser) {
+						if(groupUser.getName().equals("Administraci\u00f3n")) {
+							hasRole = true;
+						}
+					}
+					if(hasRole && isValidPassword){
+						_log.info("INICIANDO PROCESO DE GENERACION DE JSON...");
+						for (int i = 0; i < COLUMN_NAMES.length; i++) {
+							jsonArray1.put(COLUMN_NAMES[i]);
+						}
+						jsonArray.put(jsonArray1);
+						List<String> listArticleId = getJournalArticles(organization, cod_siu, topic,document, visibility, fromDate, toDate);
+						if(!listArticleId.isEmpty()) {
+							for ( String articleId : listArticleId ) {
+								JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(GROUP_ID, articleId, 0);
+								if (Validator.isNotNull(journalArticle)){
+									JSONArray jsonArray2 = JSONFactoryUtil.createJSONArray();
+									LinkedList<String> listInformation = getListInformation(journalArticle, organization, cod_siu, topic, document, visibility);
+									if(listInformation!=null) {
+										for (int i = 0; i < listInformation.size(); i++) {
+											jsonArray2.put(listInformation.get(i));
+										}
+										jsonArray.put(jsonArray2);
+									}
+								}
+							}	
+						}
+						long end = System.currentTimeMillis();
+						long total = end - start;
+						_log.info("FIN DE CREACION DEL FICHERO JSON");
+						_log.info("TIEMPO TOTAL PARA GENERARLO: "+total);
+						return Response.ok(jsonArray.toJSONString()).build();
+					}
+				}
+			}catch (Exception e) {
+				_log.error("ERROR CREATE FILE JSON " + e.toString(), e);
+			}
+			return Response.serverError().status(503).entity("Server is busy, try it later").build();
+		}
+	/**
+	/**
+	 * @param organization
+	 * @param cod_siu
+	 * @param topic
+	 * @param visibility
+	 * @param sb
+	 * @param journalArticle
+	 */
+	private void buildJournalArticleInfo(String organization, String cod_siu, String topic, String document, String visibility,
+			StringBundler sb, JournalArticle journalArticle) {
+		try {
+			LinkedList<String>	listInformation = getListInformation(journalArticle, organization, cod_siu, topic, document, visibility);
+			if(listInformation!=null) {
+				for (int i = 0; i < listInformation.size(); i++) {
+					sb.append(getCSVFormattedValue(String.valueOf(listInformation.get(i)))).append(CSV_SEPARATOR);
+				}
+			}
+		} catch (PortalException e) {
+			_log.error("ERROR AL GENERAR LA LISTA CON INFORMACION DEL JOURNAL", e);
+		}
+	}
+
+	/**
+	 * Formatted csv with double quote
+	 * @param information receive from journal
+	 * @return string formatted
+	 */
+	protected String getCSVFormattedValue(String value) {
+		StringBundler sb = new StringBundler(3);
+		sb.append(CharPool.QUOTE);
+		sb.append(StringUtil.replace(value, CharPool.QUOTE, StringPool.DOUBLE_QUOTE));
+		sb.append(CharPool.QUOTE);
+		return sb.toString();
+	}
+	/**
+	 * Filter journal article by max version, structure and status approved
+	 * @param groupId
+	 * @return list Ids journal
+	 */
+	public List<String> getJournalArticles(String organization, String cod_siu, String topic, String document, String visibility, String fromDate, String toDate) {
+		List<String> listJournalArticleId = new ArrayList<>();
+		//String otherFilter = StringPool.BLANK;
+		String filterDate = StringPool.BLANK;
+		//Escape any code that can inyect something
+		if(Validator.isNotNull(organization)) {
+			organization = organization.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
+		}
+		if(Validator.isNotNull(cod_siu)) {
+			cod_siu = cod_siu.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
+		}
+		if(Validator.isNotNull(topic)) {
+			topic = topic.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
+		}
+		if(Validator.isNotNull(document)) {
+			document = document.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
+		}
+		if(Validator.isNotNull(visibility)) {
+			visibility = visibility.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
+		}
+		if(Validator.isNotNull(fromDate)) {
+			fromDate = fromDate.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
+			fromDate = formattedDate(fromDate, "00:00:00");
+		}
+		if(Validator.isNotNull(toDate)) {
+			toDate = toDate.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
+			toDate = formattedDate(toDate, "23:59:59");
+		}
+		try {
+			_log.info("LEYENDO JOURNALS...");
+			Connection mySQLConnection = DataAccess.getConnection();
+			Statement stmt = mySQLConnection.createStatement();
+			DDMStructure ddmStructure = fetchStructureByName(AragonUtilitiesConstant.STRUCTURE_NAME_CONTENIDO_FINAL, GROUP_ID);
+			String ddmStructureKey = ddmStructure.getStructureKey();
+			if(Validator.isNotNull(fromDate) && Validator.isNotNull(toDate)) {
+				filterDate = " AND statusDate >= '"+fromDate+"' AND statusDate <= '"+toDate+"' ";
+			} else if(Validator.isNotNull(fromDate)) {
+				filterDate = " AND  statusDate >= '"+fromDate+"' ";
+			} else if(Validator.isNotNull(toDate)) {
+				filterDate = " AND statusDate <= '"+toDate+"' ";
+			}
+			String query = "SELECT articleId " 
+					+ "FROM journalarticle "
+					+ "WHERE groupId = " + GROUP_ID + " "
+						+ "AND status = " + WorkflowConstants.STATUS_APPROVED + " "
+						+ "AND DDMStructureKey = " + ddmStructureKey + " "
+						+ filterDate
+						+ "AND (articleId,version) IN "
+							+ "( SELECT articleId, MAX(version) "
+							+ "FROM journalarticle "
+							+ "GROUP BY articleId "
+						+ ");";
+			_log.info("sql: " + query);
+			ResultSet resultSet = stmt.executeQuery(query);
+			while (resultSet.next()) {
+				if(!listJournalArticleId.contains(resultSet.getString("articleId"))) {
+					listJournalArticleId.add(resultSet.getString("articleId"));
+				}
+			}
+			_log.info("total results: "+listJournalArticleId.size());
+			stmt.close();
+			mySQLConnection.close();
+			_log.info("...FIN DE LA LECTURA DE JOURNALS");
+		} catch (Exception e) {
+			_log.error("NO SE HA PODIDO ESTABLECER LA CONEXION SQL O HAY UN ERROR EN LA CONSULTA", e);
+		}
+		return listJournalArticleId;
+	}
+	/**
+	 * Get structure by name
+	 * @param name of the structure that we are looking for 
+	 * @param groupId
+	 * @return object structure
+	 */
+	public DDMStructure fetchStructureByName(String name, long groupId) {
+		List<DDMStructure> ddmStructures = _ddmStructureLocalService.getStructures(groupId);
+		try {
+			Locale locale = PortalUtil.getSiteDefaultLocale(groupId);
+			if(Validator.isNotNull(ddmStructures)) {
+				for(DDMStructure ddmStructure : ddmStructures) {
+					if(name.equalsIgnoreCase(ddmStructure.getName(locale))) {
+						return ddmStructure;
+					}
+				}
+			}
+		} catch (Exception e) {
+			_log.error(e.toString());
+		}
+		return null;
+	}
+	/**
+	 * Create string formatted with information from journal
+	 * @param category with which the journal is categorized
+	 * @param categories value information
+	 * @param actual count current category number
+	 * @param numMax maxium number categories that appear
+	 * @return String formatted with categories
+	 */
+	private String formattedInformation(AssetCategory assetCategory, String categories,int actual, int numMax) {
+		if (actual <= numMax ) {
+			if (categories.equals(StringPool.BLANK )) {
+				categories = assetCategory.getTitle(LocaleUtil.SPAIN);
+			}else {
+				categories =categories + StringPool.COMMA + assetCategory.getTitle(LocaleUtil.SPAIN);
+			}
+		}
+		return categories;
+	}
+	/**
+	 * Get information and create list with all information by vocabulary and journal
+	 * @param journalArticle to get information
+	 * @param visibility 
+	 * @param topic 
+	 * @param cod_siu2 
+	 * @param organization 
+	 * @return list with information by journal
+	 * @throws PortalException
+	 */
+	private LinkedList<String> getListInformation(JournalArticle journalArticle, String organization, String cod_siu2, String topic, String document, String visibility) throws PortalException{
+		//Get vocabularies
+		AssetVocabulary vocabularyTopic = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_TOPICS_ES);
+		AssetVocabulary vocabularyProfile = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_PROFILES_ES);
+		AssetVocabulary vocabularyProcedures = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_PROCEDURES_ES);
+		AssetVocabulary vocabularyDocumentType = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_DOCUMENT_TYPE_ES);
+		AssetVocabulary vocabularyMunicipalities = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_MUNICIPALITIES_ES);
+		AssetVocabulary vocabularyOrganization = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZATIONS_ES);
+		AssetVocabulary vocabularyVisibility = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_VISIBILITY_IN_NAVIGATION_ES);
+		
+		//Declaration variables
+		//Declaration variables
+		String categoriesOrganizationsJournal = StringPool.BLANK;
+		String categoriesTopicsJournal = StringPool.BLANK;
+		String categoriesProfilesJournal = StringPool.BLANK;
+		String categoriesProceduresJournal = StringPool.BLANK;
+		String categoriesDocumentsTypeJournal = StringPool.BLANK;
+		String categoriesMunicipalitiesJournal = StringPool.BLANK;
+		String categoriesVisibilityJournal = "SI";
+		String cod_siu = StringPool.BLANK;
+		String datePublishString ="";
+		String url = "";
+		String title = "";
+		String email = "";
+		String description = "";
+		String dateCreateString="";
+		String dateModifyString="";
+		String dateReviewString="";
+		Date createDate = journalArticle.getCreateDate();
+		Date statusDate = journalArticle.getStatusDate();
+		Date displayDate = journalArticle.getDisplayDate();
+		Date reviewDate = journalArticle.getReviewDate();
+		LinkedList<String> listInformation = new LinkedList<>();
+
+
+		try {
+			//Create journal's information
+			User user = UserLocalServiceUtil.getUser(journalArticle.getUserId());
+			if (Validator.isNotNull(user)) {
+				email = user.getEmailAddress();
+			}
+			url = "www.aragon.es/-/"+String.valueOf(journalArticle.getUrlTitle(LocaleUtil.SPAIN));
+			title =  removeHtmlTags(String.valueOf(journalArticle.getTitle()));
+			description = HtmlUtil.stripHtml(removeHtmlTags(String.valueOf(journalArticle.getDescription())));
+			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	        format.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+	        if (Validator.isNotNull(createDate)) {
+	        	dateCreateString=format.format(createDate);
+	        }
+	        if( Validator.isNotNull(statusDate)) {
+	        	dateModifyString = format.format(statusDate);
+	        }
+	        if( Validator.isNotNull(reviewDate)) {
+	        	dateReviewString = format.format(reviewDate);
+	        }
+	        if(Validator.isNotNull(displayDate)) {
+	        	datePublishString = format.format(displayDate);
+	        }
+		} catch (Exception e) {
+			_log.error("ERROR AL RECOGER LA INFORMACION DEL JOURNAL", e);
+		}
+		
+		//Get journal's category
+		List<AssetCategory> journalCategories = _assetCategoryLocalService.getCategories(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+		if(Validator.isNotNull(journalCategories)) {
+			int nMunicipalities = 0, nProfiles= 0, nTopics = 0, nProcedures = 0, nDocumentType = 0, nOrganization = 0;
+			for (AssetCategory assetcategory :  journalCategories) {
+				//Topic
+				if(Validator.isNotNull(vocabularyTopic)) {
+					if(assetcategory.getVocabularyId() == vocabularyTopic.getVocabularyId()) {
+						nTopics++;
+						categoriesTopicsJournal = formattedInformation(assetcategory, categoriesTopicsJournal,nTopics, 4);
+					}
+				}
+				//Profile
+				if(Validator.isNotNull(vocabularyProfile)) {
+					if(assetcategory.getVocabularyId() == vocabularyProfile.getVocabularyId()) {
+						nProfiles++;
+						categoriesProfilesJournal = formattedInformation(assetcategory, categoriesProfilesJournal,nProfiles, 2);
+					}
+				}
+				//Procedures
+				if(Validator.isNotNull(vocabularyProcedures)) {
+					if(assetcategory.getVocabularyId() == vocabularyProcedures.getVocabularyId()) {
+						nProcedures++;
+						categoriesProceduresJournal = formattedInformation(assetcategory, categoriesProceduresJournal,nProcedures,4);
+					}
+				}
+				//Documents-type
+				if(Validator.isNotNull(vocabularyDocumentType)) {
+					if(assetcategory.getVocabularyId() == vocabularyDocumentType.getVocabularyId()) {
+						nDocumentType++;
+						categoriesDocumentsTypeJournal = formattedInformation(assetcategory, categoriesDocumentsTypeJournal,nDocumentType,1);
+					}
+				}
+				//Municipalities
+				if(Validator.isNotNull(vocabularyMunicipalities)) {
+					if(assetcategory.getVocabularyId() == vocabularyMunicipalities.getVocabularyId()) {
+						nMunicipalities++;
+						categoriesMunicipalitiesJournal = formattedInformation(assetcategory, categoriesMunicipalitiesJournal,nMunicipalities,2);
+					}
+				}
+				//Visibility
+				if(Validator.isNotNull(vocabularyVisibility)) {
+					if(assetcategory.getVocabularyId() == vocabularyVisibility.getVocabularyId()) {
+						categoriesVisibilityJournal = "NO";
+					}
+				}
+				//Organization
+				if(Validator.isNotNull(vocabularyOrganization)) {
+					if(assetcategory.getVocabularyId() == vocabularyOrganization.getVocabularyId()) {
+						nOrganization++;
+						categoriesOrganizationsJournal = formattedInformation(assetcategory, categoriesOrganizationsJournal,nOrganization,2);
+						//COD_SIU
+						if(nOrganization <= 2 ) {
+							CustomCategoryProperty customCategoryProperty = CustomCategoryPropertyLocalServiceUtil.fetchByCategoryIdAndKey(assetcategory.getCategoryId(), "COD_SIU");
+							if(Validator.isNotNull(customCategoryProperty)) {
+								if (cod_siu.equals(StringPool.BLANK)) {
+									cod_siu = customCategoryProperty.getText();
+								}else {
+									cod_siu = cod_siu+StringPool.COMMA + customCategoryProperty.getText();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		//create linkList with journal's information
+		if(Validator.isNotNull(cod_siu2)) {
+			if(!cod_siu.contains(cod_siu2)) {
+				return null;
+			}
+		}
+		
+		if(Validator.isNotNull(topic)) {
+			if(!categoriesTopicsJournal.toLowerCase().contains(topic.toLowerCase())) {
+				return null;
+			}
+		}
+		
+		if(Validator.isNotNull(document)) {
+			if(!categoriesDocumentsTypeJournal.toLowerCase().contains(document.toLowerCase())) {
+				return null;
+			}
+		}
+		
+		if(Validator.isNotNull(organization)) {
+			if(!categoriesOrganizationsJournal.toLowerCase().contains(organization.toLowerCase())) {
+				return null;
+			}
+		}
+		
+		if(Validator.isNotNull(visibility)) {
+			if(!categoriesVisibilityJournal.toLowerCase().contains(visibility.toLowerCase())) {
+				return null;
+			}
+		}
+		listInformation.add(title);
+		listInformation.add(description);
+		listInformation.add(url);
+		listInformation.add(email);
+		listInformation.add(dateCreateString);
+		listInformation.add(dateModifyString);
+		listInformation.add(datePublishString);
+		listInformation.add(dateReviewString);
+		listInformation.add(categoriesTopicsJournal);
+		listInformation.add(categoriesOrganizationsJournal);
+		listInformation.add(cod_siu);
+		listInformation.add(categoriesProfilesJournal);
+		listInformation.add(categoriesProceduresJournal);
+		listInformation.add(categoriesDocumentsTypeJournal);
+		listInformation.add(categoriesMunicipalitiesJournal);
+		listInformation.add(categoriesVisibilityJournal);
+		
+		return listInformation;
+		
+	}
+	/**
+	 * Remove html tag from title
+	 * @param html
+	 * @return
+	 */
+	public static String removeHtmlTags(String html){
+		html = HtmlUtil.getHtml().extractText(html);
+		return html;
+	}
+	/**
+	 * Formatted date
+	 * @param date
+	 * @param hour
+	 * @return
+	 */
+	public String formattedDate(String date, String hour) {
+		if(Validator.isNull(date) || date.length() != 8) {
+			return null;
+		}
+		String year = date.substring(0,4);
+		String month = date.substring(4,6);
+		String day = date.substring(6);
+		date = year+StringPool.DASH + month + StringPool.DASH + day + StringPool.SPACE + hour;
+		return date;
+	}
+
+//	private static String encript(String text) throws Exception {  
+//		Key aesKey = new SecretKeySpec(ENCRYPT_KEY.getBytes(), "AES");
+//		Cipher cipher = Cipher.getInstance("AES");
+//		cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+//		byte[] encrypted = cipher.doFinal(text.getBytes());
+//		return Base64.getEncoder().encodeToString(encrypted);
+//	}
+//     
+//    private static String decrypt(String encrypted) throws Exception {
+//		byte[] encryptedBytes=Base64.getDecoder().decode( encrypted.replace("\n", "") );
+//		Key aesKey = new SecretKeySpec(ENCRYPT_KEY.getBytes(), "AES");
+//		Cipher cipher = Cipher.getInstance("AES");
+//		cipher.init(Cipher.DECRYPT_MODE, aesKey);
+//		String decrypted = new String(cipher.doFinal(encryptedBytes));
+//		return decrypted;
+//    }
+
+	@Reference
+	private DDMStructureLocalService _ddmStructureLocalService;
+	@Reference
+	private AssetCategoryLocalService _assetCategoryLocalService;
+	/**
+	 * Log of the class
+	 */
+	private static final Log _log = LogFactoryUtil.getLog(CustomApiRestServiceUserApplication.class);
+	protected static final String[] COLUMN_NAMES = { "Titulo", "Resumen", "URL", "Email", "Fecha creacion", "Fecha de publicacion","Fecha revision", "Fecha de publicacion programada","Temas", "Organismos", "COD_SIU", "Perfiles", "Tramites", "Tipos de documento", "Lugar", "Agregador"};
+	public static final String CSV_SEPARATOR = ";";
+	public static final long GROUP_ID = 20127;
+	public static final long COMPANY_ID = 20100;
+	//private static String  ENCRYPT_KEY="3a5f362746egh1c2hha28293";
+	//https://8gwifi.org/CipherFunctions.jsp
+}

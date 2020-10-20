@@ -10,4 +10,5 @@ compileOnly group: "com.liferay", name:"com.liferay.layout.page.template.api"
 compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"	
 compileOnly group: "javax.portlet", name: "portlet-api"	
 compileOnly group: "org.osgi", name: "osgi.cmpn"
+compileOnly project(':modules:aragon-utilities')
 }

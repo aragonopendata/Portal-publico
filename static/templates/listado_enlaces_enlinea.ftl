@@ -17,12 +17,10 @@ Small Image: false
                         <#if getterUtil.getBoolean(cur_tema.blank.getData())>  
                             <#assign linkTarget = "target='_blank'">
                         </#if>
-                        <h2>
-	                        <a href="${cur_tema.enlace.getData()}" ${linkTarget} class="link">
-	                          	<div class="icon-theme" style="background-image: url('${cur_tema.icono.getData()}');"></div>
-	                            <span class="name">${cur_tema.getData()}</span>
-	                        </a>
-                    	</h2>
+                        <a href="${cur_tema.enlace.getData()}" ${linkTarget} class="link">
+                          	<div class="icon-theme" style="background-image: url('${cur_tema.icono.getData()}');"></div>
+                            <span class="name">${cur_tema.getData()}</span>
+                        </a>
                    	</li>
                     </#list>
                 </ul>

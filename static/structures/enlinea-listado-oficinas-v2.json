@@ -1,0 +1,392 @@
+{
+    "availableLanguageIds": [
+        "es_ES"
+    ],
+    "defaultLanguageId": "es_ES",
+    "fields": [
+        {
+            "label": {
+                "es_ES": "Descripcion"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "description",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "es_ES": "Pregunta"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "question",
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Respuesta"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "html",
+                    "fieldNamespace": "ddm",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "answer",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-text-html"
+                },
+                {
+                    "label": {
+                        "es_ES": "Mostrar listado de oficinas"
+                    },
+                    "predefinedValue": {
+                        "es_ES": false
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "boolean",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "isOfficeList",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "checkbox"
+                }
+            ]
+        },
+        {
+            "label": {
+                "es_ES": "Oficina"
+            },
+            "predefinedValue": {
+                "es_ES": ""
+            },
+            "style": {
+                "es_ES": ""
+            },
+            "tip": {
+                "es_ES": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "officeName",
+            "readOnly": false,
+            "repeatable": true,
+            "required": true,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Tipo de oficina"
+                    },
+                    "options": [
+                        {
+                            "value": "fnmt",
+                            "label": {
+                                "es_ES": "Oficina certificado digital  FNMT persona física"
+                            }
+                        },
+                        {
+                            "value": "clave",
+                            "label": {
+                                "es_ES": "Oficina clave permanente"
+                            }
+                        },
+                        {
+                            "value": "registro",
+                            "label": {
+                                "es_ES": "Oficina de registro"
+                            }
+                        },
+                        {
+                            "value": "departamento",
+                            "label": {
+                                "es_ES": "Departamento"
+                            }
+                        }
+                    ],
+                    "predefinedValue": {
+                        "es_ES": [
+                            ""
+                        ]
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "multiple": true,
+                    "name": "officeType",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "select"
+                },
+                {
+                    "label": {
+                        "es_ES": "Provincia"
+                    },
+                    "options": [
+                        {
+                            "value": "Huesca",
+                            "label": {
+                                "es_ES": "Huesca"
+                            }
+                        },
+                        {
+                            "value": "Teruel",
+                            "label": {
+                                "es_ES": "Teruel"
+                            }
+                        },
+                        {
+                            "value": "Zaragoza",
+                            "label": {
+                                "es_ES": "Zaragoza"
+                            }
+                        }
+                    ],
+                    "predefinedValue": {
+                        "es_ES": [
+                            ""
+                        ]
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": false,
+                    "multiple": false,
+                    "name": "provincia",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "select"
+                },
+                {
+                    "label": {
+                        "es_ES": "Municipio"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "municipio",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Dirección"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "direction",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "textarea"
+                },
+                {
+                    "label": {
+                        "es_ES": "Telefono"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": false,
+                    "name": "telephone",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Periodo"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": "p.e: Lunes a viernes"
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "period",
+                    "readOnly": false,
+                    "repeatable": true,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "Horario"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": "p.e: 9:00 a 14:00"
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "schedule",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        }
+                    ]
+                },
+                {
+                    "label": {
+                        "es_ES": "Oficina abierta"
+                    },
+                    "predefinedValue": {
+                        "es_ES": false
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "boolean",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "isOpenOffice",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "checkbox",
+                    "nestedFields": [
+                        {
+                            "label": {
+                                "es_ES": "URL cita previa"
+                            },
+                            "predefinedValue": {
+                                "es_ES": ""
+                            },
+                            "style": {
+                                "es_ES": ""
+                            },
+                            "tip": {
+                                "es_ES": ""
+                            },
+                            "dataType": "string",
+                            "indexType": "",
+                            "localizable": true,
+                            "name": "urlAppointment",
+                            "readOnly": false,
+                            "repeatable": false,
+                            "required": false,
+                            "showLabel": true,
+                            "type": "text"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

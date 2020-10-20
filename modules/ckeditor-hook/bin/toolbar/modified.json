@@ -34,7 +34,10 @@
     ],
     [  
         "Find",
-        "Replace"
+        "Replace",
+        "-",
+        "SpellChecker",
+        "Scayt"
     ],
     [  
         "Source"

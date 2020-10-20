@@ -1,4 +1,51 @@
 .dga-view{
+	  /* boton desplegable ver mas y menos */
+		.btn-view-more{
+		text-align: left;
+        font-family: "open_sans-bold",sans-serif;
+    	font-size: 1.8rem;
+    	text-decoration: none;
+    	cursor: pointer;
+	    top: 0;
+	    right: 0;
+	    position: relative;
+	    margin: auto;
+	    margin-top: 3rem;
+	    display: block;
+	    background-color: #F05442;
+	    border: 0.2rem solid #F05442;
+	    color: #000;
+	    text-transform: uppercase;
+	    border-radius: 0.5rem;
+	    padding: 1.4rem 6rem 1.4rem 1.4rem;
+	    line-height: 2rem;
+	    transition: all 300ms linear;
+	    font-weight: bold;
+	}
+	.btn-view-more::before{
+	    content: '\f107';
+	    font-family: 'fontawesome-alloy';
+	    position: absolute;
+	    top: 22px;
+	    left: 200px;
+	    font-size: 3rem;
+	    line-height: 2.6rem;
+	    color: #000;
+	    transform: translate(-50%,-50%) rotate(0);
+	    transition: all 300ms linear;
+	}
+	.btn-view-more[aria-expanded=true]::before {
+		top: 15px;
+	    left: 230px;
+    	transform: translate(-52%,-20%) rotate(180deg);
+    	color: #000;
+	}
+	.btn-view-more:focus {
+         outline:none;
+    }
+	.oculto{
+		display:none;
+	}
     /* módulo btn acceso más contenidos */
     .btn-module{
         .container{

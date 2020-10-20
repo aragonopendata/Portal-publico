@@ -1,0 +1,13 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.service"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.string"
+	compileInclude group: "org.jsoup", name: "jsoup", version: "1.8.3"
+	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.0"
+}

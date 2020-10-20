@@ -7,8 +7,14 @@
 			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-PFFGV26');
 		</script> 
 		<#-- End Google Tag Manager -->
+		<#-- Chart --> 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+		<#-- End Chart -->
 		<meta content="initial-scale=1.0, width=device-width" name="viewport" />
 		<meta charset="utf-8"/>
+		<#-- Font awesome  -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<#-- End Font awesome -->
 		<#-- Page title -->
 		<#if (html_title_format=="procedure")>
 			<title><@liferay.language_format arguments="${themeDisplay.getLayout().getName(locale)}" key="enlinea.procedure-title"/>. <@liferay.language key="aragon.portal-head-tag"/></title>
@@ -59,7 +65,6 @@
 			<div class="container-fluid dga-view" id="wrapper">
   				<#-- ACEPTACION DE COOKIES-->
   				<#if show_banner_cookies=="true">
-	  				<input id="googleAnalyticsId" type="hidden" value="${googleAnalyticsId}"/>
 	  				<#assign existCookieAcceptedCookies = false >
 	  				<#if request.getCookies()?? && request.getCookies()?has_content>
 						<#assign cookies = request.getCookies()>
@@ -174,6 +179,17 @@
 							</div>
 						</div>
 					</div>
+					<#assign show_warning_advertisement = freeMarkerUtilities.getThemeLayoutPropertyValue(themeDisplay.getLayout(), "show-warning-advertisement")/>
+					<#if show_warning_advertisement == "true">					
+						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
+						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupShowBorders", "false") />
+						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupShowBordersDefault", "false") />
+						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupUseCustomTitle", "false") />
+						<#assign theme_groupID = htmlUtil.escape(theme_display.getCompanyGroupId()?string) />
+						<#assign VOID = freeMarkerPortletPreferences.setValue("groupId", '${group_id}') />
+						<@liferay_portlet["runtime"] defaultPreferences="${freeMarkerPortletPreferences}" portletProviderAction=portletProviderAction.VIEW instanceId="msgAdvertisement" portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet" />
+						${freeMarkerPortletPreferences.reset()}
+					</#if>
 					<#if layout_header_style=="default">
 						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 						<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupShowBorders", "false") />

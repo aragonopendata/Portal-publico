@@ -36,15 +36,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.osgi.service.component.annotations.Component;
@@ -59,12 +60,14 @@ import es.aragon.base.semaphore.service.SemaphoreLocalServiceUtil;
 /**
  * @author migarcia
  * Create API REST to dowload csv and json with information journalArticle from URL
- * CSV-local: http://localhost:8080/o/custom-api-rest-services/contents/list-urls.csv?cod_siu=ORG11335&tema=305108&agregador=si&desde=20190710&hasta=20190717
- * JSON-local: http://localhost:8080/o/custom-api-rest-services/contents/list-urls.json
+ * CSV-local: http://local.aragon.es:8080/o/custom-api-rest-services/contents/list-urls.csv?cod_siu=ORG11335&tema=305108&agregador=si&desde=20190710&hasta=20190717
+ * JSON-local: http://local.aragon.es:8080/o/custom-api-rest-services/contents/list-urls.json
  */
 
 @ApplicationPath("/contents") 
-@Component(immediate = true, service = Application.class)
+@Component(
+		immediate = true,
+		service = Application.class)
 public class CustomApiRestServicesApplication extends Application {
 	public Set<Object> getSingletons() {
 		return Collections.<Object>singleton(this);
@@ -86,44 +89,44 @@ public class CustomApiRestServicesApplication extends Application {
 			@QueryParam("organismo") String organization,
 			@QueryParam("cod_siu") String cod_siu,
 			@QueryParam("tema") String topic,
+			@QueryParam("documento") String document,
 			@QueryParam("agregador") String visibility,
 			@QueryParam("desde") String fromDate,
 			@QueryParam("hasta") String toDate
 			){
-
-		Semaphore semaphore = SemaphoreLocalServiceUtil.addSemaphore(GROUP_ID, "custom-api-rest-services", 3);
-		if(SemaphoreLocalServiceUtil.semaphoreWait(semaphore)) {
-			try {
-				_log.info("INICIANDO PROCESO DE GENERACION DE CSV...");
-				long start = System.currentTimeMillis();
-				StringBundler sb = new StringBundler();
-				//Print header title
-				sb.append(Arrays.stream(COLUMN_NAMES).map(this::getCSVFormattedValue).collect(Collectors.joining(CSV_SEPARATOR)));
-				
-				sb.append(CharPool.NEW_LINE);
-				
-				//Get list ids asset entries with applied filters
-				List<String> listAssetEntryIds = getJournalArticles(organization, cod_siu, topic,visibility, fromDate, toDate);
-				
-				for (String articleId : listAssetEntryIds ) {
-					try {
-						JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(GROUP_ID, articleId, 0);
-						buildJournalArticleInfo(organization, cod_siu, topic, visibility, sb, journalArticle);
-					} catch (PortalException e) {
-						_log.error("NO SE HA ENCONTRADO EL JOURNAL", e);
-					}
-		
-					sb.setIndex(sb.index() - 1);
+			Semaphore semaphore = SemaphoreLocalServiceUtil.addSemaphore(GROUP_ID, "custom-api-rest-services", 3);
+			if(SemaphoreLocalServiceUtil.semaphoreWait(semaphore)) {
+				try {
+					_log.info("INICIANDO PROCESO DE GENERACION DE CSV...");
+					long start = System.currentTimeMillis();
+					StringBundler sb = new StringBundler();
+					//Print header title
+					sb.append(Arrays.stream(COLUMN_NAMES).map(this::getCSVFormattedValue).collect(Collectors.joining(CSV_SEPARATOR)));
+					
 					sb.append(CharPool.NEW_LINE);
+					
+					//Get list ids asset entries with applied filters
+					List<String> listAssetEntryIds = getJournalArticles(organization, cod_siu, topic,document, visibility, fromDate, toDate);
+					
+					for (String articleId : listAssetEntryIds ) {
+						try {
+							JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(GROUP_ID, articleId, 0);
+							buildJournalArticleInfo(organization, cod_siu, topic, document, visibility, sb, journalArticle);
+						} catch (PortalException e) {
+							_log.error("NO SE HA ENCONTRADO EL JOURNAL", e);
+						}
+			
+						sb.setIndex(sb.index() - 1);
+						sb.append(CharPool.NEW_LINE);
+					}
+					long end = System.currentTimeMillis();
+					_log.info("FIN DE CREACION DEL FICHERO CSV");
+					_log.info("TIEMPO TOTAL PARA GENERARLO: "+ (end - start));
+					return Response.ok(sb.toString()).build();
+				} finally {
+					SemaphoreLocalServiceUtil.semaphoreSignal(semaphore);
 				}
-				long end = System.currentTimeMillis();
-				_log.info("FIN DE CREACION DEL FICHERO CSV");
-				_log.info("TIEMPO TOTAL PARA GENERARLO: "+ (end - start));
-				return Response.ok(sb.toString()).build();
-			} finally {
-				SemaphoreLocalServiceUtil.semaphoreSignal(semaphore);
 			}
-		}
 		return Response.serverError().status(503).entity("Server is busy, try it later").build();
 	}
 	/**
@@ -134,10 +137,10 @@ public class CustomApiRestServicesApplication extends Application {
 	 * @param sb
 	 * @param journalArticle
 	 */
-	private void buildJournalArticleInfo(String organization, String cod_siu, String topic, String visibility,
+	private void buildJournalArticleInfo(String organization, String cod_siu, String topic, String document, String visibility,
 			StringBundler sb, JournalArticle journalArticle) {
 		try {
-			LinkedList<String>	listInformation = getListInformation(journalArticle, organization, cod_siu, topic, visibility);
+			LinkedList<String>	listInformation = getListInformation(journalArticle, organization, cod_siu, topic, document, visibility);
 			if(listInformation!=null) {
 				for (int i = 0; i < listInformation.size(); i++) {
 					sb.append(getCSVFormattedValue(String.valueOf(listInformation.get(i)))).append(CSV_SEPARATOR);
@@ -165,6 +168,7 @@ public class CustomApiRestServicesApplication extends Application {
 			@QueryParam("organismo") String organization,
 			@QueryParam("cod_siu") String cod_siu,
 			@QueryParam("tema") String topic,
+			@QueryParam("documento") String document,
 			@QueryParam("agregador") String visibility,
 			@QueryParam("desde") String fromDate,
 			@QueryParam("hasta") String toDate
@@ -181,13 +185,13 @@ public class CustomApiRestServicesApplication extends Application {
 				}
 				jsonArray.put(jsonArray1);
 				try {
-					List<String> listArticleId = getJournalArticles(organization, cod_siu, topic, visibility, fromDate, toDate);
+					List<String> listArticleId = getJournalArticles(organization, cod_siu, topic,document, visibility, fromDate, toDate);
 					if(!listArticleId.isEmpty()) {
 						for ( String articleId : listArticleId ) {
 							JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(GROUP_ID, articleId, 0);
 							if (Validator.isNotNull(journalArticle)){
 								JSONArray jsonArray2 = JSONFactoryUtil.createJSONArray();
-								LinkedList<String> listInformation = getListInformation(journalArticle, organization, cod_siu, topic, visibility);
+								LinkedList<String> listInformation = getListInformation(journalArticle, organization, cod_siu, topic, document, visibility);
 								if(listInformation!=null) {
 									for (int i = 0; i < listInformation.size(); i++) {
 										jsonArray2.put(listInformation.get(i));
@@ -229,7 +233,7 @@ public class CustomApiRestServicesApplication extends Application {
 	 * @param groupId
 	 * @return list Ids journal
 	 */
-	public List<String> getJournalArticles(String organization, String cod_siu, String topic, String visibility, String fromDate, String toDate) {
+	public List<String> getJournalArticles(String organization, String cod_siu, String topic, String document, String visibility, String fromDate, String toDate) {
 		List<String> listJournalArticleId = new ArrayList<>();
 		//String otherFilter = StringPool.BLANK;
 		String filterDate = StringPool.BLANK;
@@ -242,6 +246,9 @@ public class CustomApiRestServicesApplication extends Application {
 		}
 		if(Validator.isNotNull(topic)) {
 			topic = topic.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
+		}
+		if(Validator.isNotNull(document)) {
+			document = document.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
 		}
 		if(Validator.isNotNull(visibility)) {
 			visibility = visibility.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit} ]", "").trim();
@@ -388,7 +395,7 @@ public class CustomApiRestServicesApplication extends Application {
 	 * @return list with information by journal
 	 * @throws PortalException
 	 */
-	private LinkedList<String> getListInformation(JournalArticle journalArticle, String organization, String cod_siu2, String topic, String visibility) throws PortalException{
+	private LinkedList<String> getListInformation(JournalArticle journalArticle, String organization, String cod_siu2, String topic, String document, String visibility) throws PortalException{
 		//Get vocabularies
 		AssetVocabulary vocabularyTopic = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_TOPICS_ES);
 		AssetVocabulary vocabularyProfile = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(GROUP_ID, AragonUtilitiesConstant.VOCABULARY_NAME_PROFILES_ES);
@@ -413,9 +420,11 @@ public class CustomApiRestServicesApplication extends Application {
 		String description = "";
 		String dateCreateString="";
 		String dateModifyString="";
+		String dateReviewString="";
 		Date createDate = journalArticle.getCreateDate();
 		Date statusDate = journalArticle.getStatusDate();
 		Date displayDate = journalArticle.getDisplayDate();
+		Date reviewDate = journalArticle.getReviewDate();
 		LinkedList<String> listInformation = new LinkedList<>();
 		try {
 			//Create journal's information
@@ -426,6 +435,9 @@ public class CustomApiRestServicesApplication extends Application {
 	        format.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
 	        if (Validator.isNotNull(createDate)) {
 	        	dateCreateString=format.format(createDate);
+	        }
+	        if (Validator.isNotNull(reviewDate)) {
+	        	dateReviewString=format.format(reviewDate);
 	        }
 	        if( Validator.isNotNull(statusDate)) {
 	        	dateModifyString = format.format(statusDate);
@@ -516,6 +528,12 @@ public class CustomApiRestServicesApplication extends Application {
 			}
 		}
 		
+		if(Validator.isNotNull(document)) {
+			if(!categoriesDocumentsTypeJournal.toLowerCase().contains(document.toLowerCase())) {
+				return null;
+			}
+		}
+		
 		if(Validator.isNotNull(organization)) {
 			if(!categoriesOrganizationsJournal.toLowerCase().contains(organization.toLowerCase())) {
 				return null;
@@ -534,6 +552,7 @@ public class CustomApiRestServicesApplication extends Application {
 		listInformation.add(dateCreateString);
 		listInformation.add(dateModifyString);
 		listInformation.add(datePublishString);
+		listInformation.add(dateReviewString);
 		listInformation.add(categoriesTopicsJournal);
 		listInformation.add(categoriesOrganizationsJournal);
 		listInformation.add(cod_siu);
@@ -580,7 +599,7 @@ public class CustomApiRestServicesApplication extends Application {
 	 * Log of the class
 	 */
 	private static final Log _log = LogFactoryUtil.getLog(CustomApiRestServicesApplication.class);
-	protected static final String[] COLUMN_NAMES = { "Titulo", "Resumen", "URL","Fecha creacion", "Fecha de publicacion","Fecha de publicacion programada","Temas", "Organismos", "COD_SIU", "Perfiles", "Tramites", "Tipos de documento", "Lugar", "Agregador"};
+	protected static final String[] COLUMN_NAMES = { "Titulo", "Resumen", "URL", "Fecha creacion", "Fecha de publicacion","Fecha revision", "Fecha de publicacion programada","Temas", "Organismos", "COD_SIU", "Perfiles", "Tramites", "Tipos de documento", "Lugar", "Agregador"};
 	public static final String CSV_SEPARATOR = ";";
 	public static final long GROUP_ID = 20127;
 

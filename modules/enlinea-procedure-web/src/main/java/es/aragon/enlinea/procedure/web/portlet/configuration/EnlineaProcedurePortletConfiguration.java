@@ -17,4 +17,7 @@ public interface EnlineaProcedurePortletConfiguration {
 	@Meta.AD(required = false, deflt = "")
 	public String online();
 	
+	@Meta.AD(required = false, deflt = "")
+	public String moreInformation();
+	
 }

@@ -57,4 +57,57 @@ body {
     	white-space: unset !important;
     }
 }
-    
+/* Estilos para el ckEditor */
+.html-editor{
+   .p-custom-class{
+       padding: 1.5rem;
+       display: flow-root;
+       border-bottom: 2rem solid #ffffff;
+       background-color: #f2f2f2;
+   }
+   .p-custom-class-orange{
+       padding: 1.5rem;
+      	display: flow-root;
+       border: 0.2rem solid #fa9902;
+       border-radius: 1rem;
+   }
+   .p-custom-class-ylldark{
+       padding: 1.5rem;
+       display: flow-root;
+       border-bottom: 2rem solid #ffffff;
+       background-color: #fdcb33;
+   }
+   table{
+	    line-height: 2.52rem;
+	    width: 100%;
+	    margin: 3rem 0 0;
+	    th{
+	    	text-align: center;
+	    	background: #333;
+	    	font-family: "open_sans-semibold", sans-serif;
+	   	 	color: #fff;
+	    }
+   }
+	ol {
+	  list-style-type: none;
+	  counter-reset: item;
+	  margin: 0;
+	  padding: 0;
+	}
+	ol > li {
+	  display: table;
+	  counter-increment: item;
+	  margin-bottom: 0.6em;
+	}
+	ol > li:before {
+	  content: counters(item, ".") ". ";
+	  display: table-cell;
+	  padding-right: 0.6em;    
+	}
+	li ol > li {
+		margin: 0;
+	}
+	li ol > li:before {
+		content: counters(item, ".") " ";
+	}
+}

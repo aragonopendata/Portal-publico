@@ -7,6 +7,8 @@ import com.liferay.asset.display.page.service.AssetDisplayPageEntryLocalServiceU
 import com.liferay.asset.display.page.service.AssetDisplayPageEntryLocalServiceWrapper;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -22,10 +24,16 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+
+import java.util.List;
+import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import es.aragon.base.aragon_utilities.constants.AragonUtilitiesConstant;
 
 /**
  * 
@@ -123,7 +131,8 @@ public class AssetDisplayPageEntryServiceWrapper extends AssetDisplayPageEntryLo
 			log.error("Group '" + groupId + "' does not exist.");
 		}
 		JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(classPK);
-		if (journalArticle != null && group != null) {
+		DDMStructure ddmStructure = fetchStructureByName(AragonUtilitiesConstant.STRUCTURE_NAME_CONTENIDO_FINAL, group.getGroupId());
+		if (journalArticle != null && group != null && journalArticle.getDDMStructureKey().equals(ddmStructure.getStructureKey())) {
 			log.debug("JournalArticle with articleId " + journalArticle.getArticleId() + " found");
 			//Get expando column 'JOURNALS_PAGE'
 			String friendlyURL = getGroupExpandoValue(group, "JOURNALS_PAGE");
@@ -193,6 +202,28 @@ public class AssetDisplayPageEntryServiceWrapper extends AssetDisplayPageEntryLo
 			e.printStackTrace();
 		}
 		return result;
+	}
+	/**
+	 * Get structure by name
+	 * @param name of the structure that we are looking for 
+	 * @param groupId
+	 * @return object structure
+	 */
+	private DDMStructure fetchStructureByName(String name, long groupId) {
+		List<DDMStructure> ddmStructures = DDMStructureLocalServiceUtil.getStructures(groupId);
+		try {
+			Locale locale = PortalUtil.getSiteDefaultLocale(groupId);
+			if(Validator.isNotNull(ddmStructures)) {
+				for(DDMStructure ddmStructure : ddmStructures) {
+					if(name.equalsIgnoreCase(ddmStructure.getName(locale))) {
+						return ddmStructure;
+					}
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.toString());
+		}
+		return null;
 	}
 	
 	/**

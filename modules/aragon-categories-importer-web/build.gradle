@@ -29,6 +29,7 @@ dependencies {
 	compileOnly project(":modules:categories-custom-properties-sb:categories-custom-properties-sb-api")
 	compileOnly project(':modules:aragon-utilities')
 	compileOnly project(':modules:enlinea-admin-web')
+	compileOnly project(':modules:enlinea-db-connection')
 }
 
 configurations.compileInclude {

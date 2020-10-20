@@ -1,4 +1,20 @@
-<section class="en-linea tramite-body u-padding-bottom-4 u-padding-bottom-sm-6">
+<%@page import="com.liferay.portal.kernel.util.Validator"%>
+<section class="en-linea tramite-body u-padding-bottom-4 u-padding-bottom-sm-6 readSpeakerOrigin">
+	<c:set var="procedureURL" value="${procedure.getOnlineURL()}"/>
+	<c:if test = "${fn:contains(procedureURL, 'aplicaciones.aragon.es/tramitar/registro-electronico-general-aragon/identificacion')}">
+	  	<hr class="warning-line">
+	    <div class="warning-message">
+	    	<img class="warning-icon" alt="" src="${themeDisplay.getPathThemeImages()}/dga/warning-full.svg">
+	    	<div class="warning-text">
+	    		<liferay-ui:message key="detail.warning-header" />
+	    		<a class="info-video" href="https://youtu.be/eq-n_DdqeGI" target="_blank" title="Se abre en una nueva pestaña">
+	    			<img alt="Video YouTube" class="icon-theme" src="/o/aragon-theme/images/dga/icons/icon-yt-red.svg">
+	    			<span class="pl-3 font-weight-normal"><liferay-ui:message key="detail.warning-header-yt" /></span>
+	    		</a>
+	    	</div>
+	    </div>
+		<hr class="warning-line">
+   	</c:if>	
 	<ol class="list">
 		<li class="list__item">
 			<p class="title">
@@ -46,17 +62,26 @@
 				<div class="pt-5 pb-5">
 					<c:choose>
 						<c:when test="${procedure.getInLevel() == 4}">
-							<%
-								Map<Locale, String> onlineMap = LocalizationUtil.getLocalizationMap(portletPreferences, "online");
-								String localizedOnline = "";
-								if(onlineMap.containsKey(themeDisplay.getLocale())) {
-									localizedOnline = onlineMap.get(themeDisplay.getLocale());
-								}
-								if(localizedOnline.isEmpty() && onlineMap.containsKey(LocaleUtil.getDefault())) {
-									localizedOnline = onlineMap.get(LocaleUtil.getDefault());
-								}
-							%>
-							<p><%= localizedOnline %></p>
+							<c:choose>
+								<c:when test="${not empty procedure.getPresentationPlace()}">
+									<p>${procedure.getPresentationPlace()}</p>	
+								</c:when>
+								<c:otherwise>
+									<%
+										Map<Locale, String> onlineMap = LocalizationUtil.getLocalizationMap(portletPreferences, "online");
+										String localizedOnline = "";
+										if(onlineMap.containsKey(themeDisplay.getLocale())) {
+											localizedOnline = onlineMap.get(themeDisplay.getLocale());
+										}
+										if(localizedOnline.isEmpty() && onlineMap.containsKey(LocaleUtil.getDefault())) {
+											localizedOnline = onlineMap.get(LocaleUtil.getDefault());
+										}
+									%>
+									<c:if test="<%=Validator.isNotNull(localizedOnline)%>">
+										<p><%= localizedOnline %></p>
+									</c:if>
+								</c:otherwise> 
+							</c:choose>
 						</c:when>
 						<c:when test="${procedure.getInLevel() == 3}">
 							<%
@@ -69,7 +94,9 @@
 									localizedPresentialAndOnline = presentialAndOnlineMap.get(LocaleUtil.getDefault());
 								}
 							%>
-							<p><%= localizedPresentialAndOnline %></p>
+							<c:if test="<%=Validator.isNotNull(localizedPresentialAndOnline)%>">
+								<p><%= localizedPresentialAndOnline %></p>
+							</c:if>
 						</c:when>
 						<c:otherwise>
 							<%
@@ -82,9 +109,23 @@
 									localizedPresential = presentialMap.get(LocaleUtil.getDefault());
 								}
 							%>
-							<p><%= localizedPresential %></p>
+							<c:if test='<%=Validator.isNotNull(localizedPresential) && !localizedPresential.equals("")%>'>
+								<p><%=localizedPresential %></p>
+							</c:if>
 						</c:otherwise>
 					</c:choose>
+				</div>
+			</div>
+		</li>
+		<li class="list__item">
+			<p class="title">
+				<a href="javascript:void(0)" data-control-collapse="list-mas-informacion" aria-expanded="false">
+					<liferay-ui:message key="detail.more-information" />
+				</a>
+			</p>
+			<div class="info collapse" data-content-collapse="list-mas-informacion" id="list-mas-informacion">
+				<div class="pt-5 pb-5">
+					<p>${moreInformation}</p>
 				</div>
 			</div>
 		</li>

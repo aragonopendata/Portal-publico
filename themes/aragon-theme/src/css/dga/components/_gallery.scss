@@ -27,6 +27,19 @@
                     color: $dga_darkblack;
                     text-align: center;
                 }
+                &.link-menu{
+                	min-height: 10rem;                   
+                    background-color: #ffffff;
+                    border-radius: .5rem;
+                    border: $dga_rojo 5px solid;
+                    margin-right: 45px;
+                    padding: 1.5rem 2rem;
+				    display: flex;
+				    flex-wrap: wrap;
+				    justify-content: flex-start;
+				    align-items: center;
+				    position: relative;
+                 }
                 .web,
                 .document{
                     font-family: $openSansBold;
@@ -39,6 +52,23 @@
                     width: 90%;
                     color: $dga_darkblack;
                     word-break: break-word;
+                }
+                .web-menu{
+					font-family: "open_sans-bold", sans-serif;                           
+                    color: $dga_darkblack;   		   				                                  				    				    
+					width: calc(100% - 10rem);
+				    position: relative;
+				    display: block;
+				    margin-left: 1.5rem;
+                }
+                 .web-no-icon{
+                    font-family: "open_sans-bold", sans-serif;
+                	color: $dga_darkblack;
+                  	width: 100%;
+    			  	text-align: center;
+      			  	margin-left: 0;
+      			  	position: relative;
+				    display: block;
                 }
                 .document{
                     position: absolute;

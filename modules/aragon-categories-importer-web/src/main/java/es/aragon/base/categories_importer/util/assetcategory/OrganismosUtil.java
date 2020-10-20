@@ -163,6 +163,12 @@ public class OrganismosUtil {
 						//Email
 						String email = organismoJSONArray.getString(17);
 						categoryDTO.addCustomProperty(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_EMAIL, email);
+						//WebPageTitle
+						String webPageTitle = organismoJSONArray.getString(18);
+						categoryDTO.addCustomProperty(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_WEB_PAGE_TITLE, webPageTitle);
+						//WebPage
+						String webPage = organismoJSONArray.getString(19);
+						categoryDTO.addCustomProperty(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_WEB_PAGE, webPage);
 						//Add category to list
 						categoriesDTOList.add(categoryDTO);
 					}

@@ -10,10 +10,6 @@ JournalWebOverrideFragmentUtil journalWebOverrideFragmentUtil = new JournalWebOv
 <%-- Hide components to non admin users --%>
 <c:if test="<%=!permissionChecker.isOmniadmin()%>">
 	<style>
-		#portlet_com_liferay_journal_web_portlet_JournalPortlet #structureAndTemplate  {
-			display: none;
-			visibility: hidden;
-		}
 		#portlet_com_liferay_journal_web_portlet_JournalPortlet #displayPage  {
 			display: none;
 			visibility: hidden;

@@ -80,7 +80,6 @@ public class CKEditorDynamicInclude implements DynamicInclude {
 			
 			while(entriesEnum.hasMoreElements()) {
 				URL url = entriesEnum.nextElement();
-				
 				if (url.getPath().contains("CKEditorOverride.js")) {
 					InputStream inputStream = url.openStream();
 					inputStream = modifyContent(inputStream);

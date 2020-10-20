@@ -183,6 +183,9 @@
                     color: $dga_black;
                     padding:1rem 0 1.5rem 3rem;
                     text-decoration: none;
+                    .name-como{
+                    	font-size:2rem;
+                    }
                     &::before{
                         content: '';
                         width: 1.0rem;

@@ -56,6 +56,12 @@ for(Long vocabularyId : vocabularyIds){
 	}
 }
 
+Collections.sort(listCategoriesFacets, new Comparator<AssetCategory>() {
+    @Override
+    public int compare(AssetCategory o1, AssetCategory o2) {
+        return o1.getTitle().compareTo(o2.getTitle());
+    }
+});
 //WE GET SELECTED VOCABULARIES
 
 List<KeyValuePair> selectedVocabularyIds = new ArrayList<KeyValuePair>();
@@ -87,7 +93,6 @@ for(int i = 0; i < vocabularyIdsList.length; i++){
 	}
 }
 %>
-
 <c:if test="<%=listCategoriesFacets != null && !listCategoriesFacets.isEmpty()%>">		
 	<section class="u-padding-bottom-6">
 	     <nav class="asociados" aria-label="<%=LanguageUtil.get(request, "es.aragon.related_categories.view.label.linked.menus")%>" role="navigation">
@@ -99,6 +104,7 @@ for(int i = 0; i < vocabularyIdsList.length; i++){
 						for (String checkedVocabularyId : filteredVocabularyIdList) {	
 							if (checkedVocabularyId.equals(String.valueOf(vocabulary.getKey())) ) {
 								String cssClass = "item";
+								
 								if (numCol==3) {
 									cssClass = cssClass + " col-xs-12 col-md-4";
 								} else {
@@ -111,7 +117,7 @@ for(int i = 0; i < vocabularyIdsList.length; i++){
 											<%for (AssetCategory category : listCategoriesFacets) {%>
 												<c:if test="<%=(category.getVocabularyId() == Long.valueOf(vocabulary.getKey())) %>">
 													<li class="submenu-listado__item">
-														<a href="<%=freemarkerUtilities.getAssetCategoryURL(request, category.getCategoryId(), true)%>" class="link"><%=category.getTitle(defaultSiteLocale) %></a>
+														<a href="<%=freemarkerUtilities.getAssetCategoryURL(request, category.getCategoryId(), true)%>" class="link"><%=category.getTitle(locale) %></a>
 													</li>
 												</c:if>
 											<%}%>

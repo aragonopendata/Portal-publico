@@ -7,7 +7,9 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -58,6 +60,8 @@ public interface FreemarkerUtilities {
 	
 	public String getSearcherUrl(Group group);
 	
+    public String getProcedureClassNameId();
+	
 	public String getGroupExpandoAttributeValue(long groupId, String expandoAttributeName);
 
 	public List<String[]> getLastProcedures(HttpServletRequest request, long groupId);
@@ -73,8 +77,6 @@ public interface FreemarkerUtilities {
 	public String getAssetCategoryURL(HttpServletRequest request, long assetCategoryId, boolean addCurrentPageCategory);
 
 	public String getTranslatedContentUrl(String urlOrigin, long groupId, Locale locale);
-	
-	public String getReadSpeakerURL(String originElementId, String currentURL, Locale locale);
 
 	public Locale getLocale(String localeId);
 	
@@ -83,4 +85,31 @@ public interface FreemarkerUtilities {
 	public String getOpenDataURLFromJournal(JournalArticle journalArticle);
 	
 	public void incrementViewCounter(long resourcePrimaryKey, long userId);
+
+	public String getCustomTitleProcedures(AssetCategory categoryProcedure, Locale locale);
+
+	public String getArticleCategoriesNotices(JournalArticle journalArticle, Locale locale);
+
+	public String getLastPublishDate(JournalArticle journalArticle, String format);
+
+	public String getGoogleAnalyticsId(ThemeDisplay themeDisplay);
+	
+	/**
+	 * Returns a theme property value from given layout. Searchs the value in ancestor layouts if is not defined in the given one
+	 * @param layout Layout
+	 * @param propertyName Property name
+	 * @return Theme property value from given layout
+	 */
+	public String getThemeLayoutPropertyValue(Layout layout, String propertyName);
+
+	public boolean viewCoronavirusMenu(long groupId, JournalArticle journalArticle, Locale locale, String vocabularyName,
+			String categoryTitle);
+	
+	public boolean isTranslated(ThemeDisplay themeDisplay, Locale locale);
+
+	public List<JSONObject> getQuestionAnswerTemplate(String[] codeHtml);
+
+	public Map<String, Map<String, String>> getMunicipalitiesLinksMap(long groupId, HttpServletRequest request, Locale locale,
+			String nameVocabulary);
+
 }

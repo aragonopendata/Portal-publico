@@ -20,6 +20,7 @@
 			<setting configurable="true" key="show-banner-cookies" options="true,false" type="select" value="true" />
 			<setting configurable="true" key="show-warning-alert" options="true,false" type="select" value="false" />
 			<setting configurable="true" key="warning-alert-msg" type="text" value="" />
+			<setting configurable="true" key="show-warning-advertisement" options="true,false" type="checkbox" value="false" />
 		</settings>
 		<portlet-decorator id="barebone" name="Barebone">
 			<default-portlet-decorator>true</default-portlet-decorator>

@@ -128,7 +128,7 @@
                 		</button>
 	                    <div class="clearfix"></div>
 	                    <div class="filtrado-container">
-	                    	<form action="javascript:void(0)" method="get" id="<portlet:namespace/>search_fm" name="<portlet:namespace/>search_fm" onsubmit="onClickSearchOrFilter()">
+	                    	<form action="javascript:void(0)" method="get" id="<portlet:namespace/>search_fm" onsubmit="onClickSearchOrFilter()">
 		                    	<p class="intro">
 		                    		<c:choose>
 										<c:when test="<%= helpMessage != null && !helpMessage.isEmpty() %>">
@@ -152,7 +152,7 @@
 		                       	</div>
 		                       	<div class="date">
 		                          	<fieldset>
-			                          	<legend class="date__title"><liferay-ui:message key="publish-date" />:</legend>
+			                          	<legend class="date__title"><liferay-ui:message key="filters.publish.date" />:</legend>
 			                          	<div class="row">
 			                            	<div class="date-container col-xs-12">
 			                            		<label for="textDesde" class="date__input-label"><liferay-ui:message key="filters.from"/></label>
@@ -180,7 +180,7 @@
 		                       			<c:if test="${not empty vocabulary}">
 		                       			<c:set var="vocabularyTitle" value="${fn:toUpperCase(fn:substring(vocabulary.getTitle(themeDisplay.getLocale()), 0, 1))}${fn:toLowerCase(fn:substring(vocabulary.getTitle(themeDisplay.getLocale()), 1,fn:length(vocabulary.getTitle(themeDisplay.getLocale()))))}" />
 		                       				<c:choose>
-				                       			<c:when test="${facetedVocabularies.get(selectedVocabularyId) != null}">
+				                       			<c:when test="${facetedVocabularies.get(selectedVocabularyId) != null}">				                   
 				                       				<c:if test="${not empty facetedVocabularies.get(selectedVocabularyId)}">
 				                       					<div class="categoria">
 				                       					<a href="#vocabulary_${vocabulary.getVocabularyId()}"  class="categoria__title arrow-open js-arrow-open" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="vocabulary_${vocabulary.getVocabularyId()}" aria-label="Mostrar ${vocabulary.getName()}" data-label-closed="Mostrar ${vocabulary.getName()}" data-label-opened="Ocultar ${vocabulary.getName()}">${vocabularyTitle}</a>
@@ -254,14 +254,18 @@
 		                        	<c:if test="${not empty externalPortals}">
 			                       		<!-- filter to search in external portals crawled results --> 
 				                       	<div class="categoria portal-externo">                       		
-				                       		<a href="#buscarEn" class="categoria__title arrow-open js-arrow-open" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="buscarEn" aria-label="Mostrar buscar en" data-label-closed="Mostrar buscar en" data-label-opened="Ocultar buscar en"><%=LanguageUtil.get(request, "label.search-in")%></a>
+					                       		<div class="title-crowler">
+													<input type="checkbox" class="check-item__check" id="<portlet:namespace/>allWebs" data-id="allWebs" ${selectedPortalToSearchList != "" ? "checked" : ""}>		
+													<label class="check-item__label categoria__title " for="<portlet:namespace/>allWebs" style="margin-left: 1rem;">Otras webs</label>
+													<a href="#buscarEn" class="arrow-open js-arrow-open" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="buscarEn" aria-label="Mostrar buscar en" data-label-closed="Mostrar buscar en" data-label-opened="Ocultar buscar en"></a>
+												</div>
 				                       		<fieldset>
 												<legend class="oculto">Filtro para buscar en portales externos</legend>
 												<ul class="categoria__listado listado collapse u-padding-left-0" id="buscarEn">
 													 <c:forEach items="${externalPortals}" var="rootPage"> 
 														<li class="listado__item check-item">
 															<div class="cont-item js-check-item">
-																<input type="checkbox" class="check-item__check check-portal-search" id="portal_${rootPage.getRootPageId()}" data-id="${rootPage.getRootPageId()}" ${selectedPortalToSearchList.contains(rootPage.getRootPageId()) ? "checked" : ""}>
+																<input type="checkbox" class="check-item__check check-portal-search" id="portal_${rootPage.getRootPageId()}" name="<portlet:namespace/>externalWebs" data-id="${rootPage.getRootPageId()}" ${selectedPortalToSearchList.contains(rootPage.getRootPageId()) ? "checked" : ""}>
 																<label class="check-item__label" for="portal_${rootPage.getRootPageId()}">${rootPage.getAlias()}</label>
 															</div>
 														</li>
@@ -309,11 +313,22 @@
 												<%linkTitle = "title='Se abre en ventana nueva'";%>
 											</c:if>
 											<a href="${articleURL}" class="link" target="${hitAdapter.getTarget()}" <%=linkTitle%>>
-				            					<span class="title">${hitAdapter.getTitle()}</span>
+				            					<span class="title pb-0">${hitAdapter.getTitle()}</span>
 				            				</a>
 				            				<c:choose>
-				            					<c:when test = "${fn:contains(hitAdapter.getTitle(), themeDisplay.getPortalURL())}">
-				            						<p><span class="date">${hitAdapter.getDisplayDate()}</span></p>
+				            					<c:when test = "${fn:contains(hitAdapter.getTitle(), themeDisplay.getPortalURL())}">				            							            									            							<ul class="categories pt-0">
+		            								<c:if test="${not empty hitAdapter.getContentType()}"> 
+														<li class="categories__item"><span class="name">${hitAdapter.getContentType()}</span></li> 
+													</c:if>
+													<c:if test="${not empty hitAdapter.getDocumentType()}">
+														 <c:forEach items="${hitAdapter.getDocumentType()}" var="documentType">
+														 	<li class="categories__item"><span class="name">${documentType}</span></li>
+														 </c:forEach>
+													</c:if>
+													</ul>
+													<c:if test="${not empty hitAdapter.getDisplayDate()}">
+		 												<p><span class="date">${hitAdapter.getDisplayDate()}</span></p> 
+		 											</c:if>	
 				            					</c:when>
 				            					<c:otherwise>
 												<%
@@ -330,8 +345,20 @@
 														}
 													}
 													
-												%>
-				            						<p><span class="date"><%=dateAndRootPageValue %> </span></p>
+												%>			            						
+			            							<ul class="categories pt-0">
+			            								<c:if test="${not empty hitAdapter.getContentType()}"> 
+															<li class="categories__item"><span class="name">${hitAdapter.getContentType()}</span></li> 
+														</c:if>
+														<c:if test="${not empty hitAdapter.getDocumentType()}">
+															 <c:forEach items="${hitAdapter.getDocumentType()}" var="documentType">
+															 	<li class="categories__item"><span class="name">${documentType}</span></li>
+															 </c:forEach>
+														</c:if>
+													</ul>
+													<c:if test="<%=Validator.isNotNull(dateAndRootPageValue)%>">
+		 												<p><span class="date"><%=dateAndRootPageValue %></span></p> 
+		 											</c:if>				            										            							            									            			
 				            					</c:otherwise>
 			            					</c:choose>
 			                                <c:if test="${not empty hitAdapter.getCategories()}">
@@ -396,17 +423,6 @@ if (selectedCategoriesIds != null && !selectedCategoriesIds.isEmpty()) {
 
 %>
 <script>
-
-	/* Analytics function , event to show search data */
-	if (typeof ga === "function"){
-		$(document).ready(function() {
-			var searchedText = $("#searchText")[0].value;
-		    if(searchedText != null && searchedText != ""){
-		    	var pathname = window.location.pathname;
-		    	ga('send', 'event', 'search_results', searchedText , ${totalResults} + " resultados con la url "+  pathname);		    
-		    }
-		});
-	}
 
 	var originalSelectedCategories = '<%=selectedCategoriesIdsString%>'.split(',');
 
@@ -478,11 +494,38 @@ if (selectedCategoriesIds != null && !selectedCategoriesIds.isEmpty()) {
  	/**
  	*	Deploy external urls component when loading the page
  	*/
- 	 $(document).ready(function($) {
+	$(document).ready(function($) {
 		if($('input[class$= "check-portal-search"]').is(':checked')){
-			$('a[href^= "#buscarEn"]').click();	
+			$('a[href^= "#buscarEn"]').click();
+			$("#<portlet:namespace/>allWebs").prop("checked", true);
+		}else{
+			$("#<portlet:namespace/>allWebs").prop("checked", false);
+		}
+		/**
+		* Check all external pages
+		*/
+		$("#<portlet:namespace/>allWebs").on("click", function() {
+			  $(".check-portal-search").prop("checked", this.checked);
+			}); 
+		var searchedText = $("#searchText")[0].value; 
+		if(searchedText != null && searchedText != ""){ 
+			dataLayer.push({ 
+				'event': 'internalsearch', 
+				'search': searchedText, 
+				'results': ${totalResults} 
+			}); 
 		}
 	});
+	/**
+	* When marking an individual check, I also mark a general check
+	*/
+    $(".check-portal-search").on("click", function() {
+		if($('input[class$= "check-portal-search"]').is(':checked')){
+			$("#<portlet:namespace/>allWebs").prop("checked", true);
+		}else{
+			$("#<portlet:namespace/>allWebs").prop("checked", false);
+		}
+      });
 	/**
 	* Prevents the standard onsubmit function
 	*/

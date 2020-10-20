@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "es_ES": "API Key"
+                "es_ES": "Información del mapa"
             },
             "predefinedValue": {
                 "es_ES": ""
@@ -17,15 +17,16 @@
             "tip": {
                 "es_ES": ""
             },
-            "dataType": "string",
-            "indexType": "keyword",
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "",
             "localizable": true,
-            "name": "apiKey",
+            "name": "informacionMapa",
             "readOnly": false,
             "repeatable": false,
-            "required": true,
+            "required": false,
             "showLabel": true,
-            "type": "text"
+            "type": "ddm-text-html"
         },
         {
             "label": {
@@ -41,7 +42,7 @@
                 "es_ES": ""
             },
             "dataType": "string",
-            "indexType": "text",
+            "indexType": "",
             "localizable": true,
             "name": "officeName",
             "readOnly": false,
@@ -50,6 +51,75 @@
             "showLabel": true,
             "type": "text",
             "nestedFields": [
+                {
+                    "label": {
+                        "es_ES": "Provincia"
+                    },
+                    "options": [
+                        {
+                            "value": "Huesca",
+                            "label": {
+                                "es_ES": "Huesca"
+                            }
+                        },
+                        {
+                            "value": "Teruel",
+                            "label": {
+                                "es_ES": "Teruel"
+                            }
+                        },
+                        {
+                            "value": "Zaragoza",
+                            "label": {
+                                "es_ES": "Zaragoza"
+                            }
+                        }
+                    ],
+                    "predefinedValue": {
+                        "es_ES": [
+                            ""
+                        ]
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": false,
+                    "multiple": false,
+                    "name": "provincia",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": true,
+                    "showLabel": true,
+                    "type": "select"
+                },
+                {
+                    "label": {
+                        "es_ES": "Municipio"
+                    },
+                    "predefinedValue": {
+                        "es_ES": ""
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": false,
+                    "name": "municipio",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": true,
+                    "showLabel": true,
+                    "type": "text"
+                },
                 {
                     "label": {
                         "es_ES": "Dirección"
@@ -71,57 +141,7 @@
                     "repeatable": false,
                     "required": true,
                     "showLabel": true,
-                    "type": "textarea",
-                    "nestedFields": [
-                        {
-                            "label": {
-                                "es_ES": "Latitud"
-                            },
-                            "predefinedValue": {
-                                "es_ES": ""
-                            },
-                            "style": {
-                                "es_ES": ""
-                            },
-                            "tip": {
-                                "es_ES": "Si no se introduce latitud y longitud la oficina no aparecerá marcada en el mapa"
-                            },
-                            "dataType": "double",
-                            "fieldNamespace": "ddm",
-                            "indexType": "keyword",
-                            "localizable": false,
-                            "name": "latitude",
-                            "readOnly": false,
-                            "repeatable": false,
-                            "required": false,
-                            "showLabel": true,
-                            "type": "ddm-decimal"
-                        },
-                        {
-                            "label": {
-                                "es_ES": "Longitud"
-                            },
-                            "predefinedValue": {
-                                "es_ES": ""
-                            },
-                            "style": {
-                                "es_ES": ""
-                            },
-                            "tip": {
-                                "es_ES": "Si no se introduce latitud y longitud la oficina no aparecerá marcada en el mapa"
-                            },
-                            "dataType": "double",
-                            "fieldNamespace": "ddm",
-                            "indexType": "keyword",
-                            "localizable": false,
-                            "name": "longitude",
-                            "readOnly": false,
-                            "repeatable": false,
-                            "required": false,
-                            "showLabel": true,
-                            "type": "ddm-decimal"
-                        }
-                    ]
+                    "type": "textarea"
                 },
                 {
                     "label": {
@@ -137,12 +157,12 @@
                         "es_ES": ""
                     },
                     "dataType": "string",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": false,
                     "name": "telephone",
                     "readOnly": false,
                     "repeatable": false,
-                    "required": true,
+                    "required": false,
                     "showLabel": true,
                     "type": "text"
                 },
@@ -160,12 +180,12 @@
                         "es_ES": "p.e: Lunes a viernes"
                     },
                     "dataType": "string",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "period",
                     "readOnly": false,
                     "repeatable": true,
-                    "required": true,
+                    "required": false,
                     "showLabel": true,
                     "type": "text",
                     "nestedFields": [
@@ -196,7 +216,53 @@
                 },
                 {
                     "label": {
+                        "es_ES": "Tipo de oficina"
+                    },
+                    "options": [
+                        {
+                            "value": "registro",
+                            "label": {
+                                "es_ES": "Oficina de registro"
+                            }
+                        },
+                        {
+                            "value": "clave",
+                            "label": {
+                                "es_ES": "Oficina clave permanente"
+                            }
+                        },
+                        {
+                            "value": "fnmt",
+                            "label": {
+                                "es_ES": "Oficina certificado digital  FNMT persona física"
+                            }
+                        }
+                    ],
+                    "predefinedValue": {
+                        "es_ES": [
+                            ""
+                        ]
+                    },
+                    "style": {
                         "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": false,
+                    "multiple": true,
+                    "name": "officeType",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "select"
+                },
+                {
+                    "label": {
+                        "es_ES": "URL cita previa"
                     },
                     "predefinedValue": {
                         "es_ES": ""
@@ -207,16 +273,38 @@
                     "tip": {
                         "es_ES": ""
                     },
-                    "dataType": "",
-                    "fieldNamespace": "ddm",
-                    "indexType": "keyword",
-                    "localizable": true,
-                    "name": "separator",
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": false,
+                    "name": "urlAppointment",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "ddm-separator"
+                    "type": "text"
+                },
+                {
+                    "label": {
+                        "es_ES": "Oficina abierta"
+                    },
+                    "predefinedValue": {
+                        "es_ES": false
+                    },
+                    "style": {
+                        "es_ES": ""
+                    },
+                    "tip": {
+                        "es_ES": ""
+                    },
+                    "dataType": "boolean",
+                    "indexType": "",
+                    "localizable": false,
+                    "name": "isOpenOffice",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "checkbox"
                 }
             ]
         }

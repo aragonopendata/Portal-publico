@@ -6,7 +6,8 @@ Structure Key: ENLINEA_INFO_AYUDA
 Cacheable: true
 Small Image: false
 -->
-<div class="aside-block-module">
+
+<div class="aside-block-module readSpeakerOrigin">
 	<h2>${.vars['reserved-article-title'].data}</h2>
 	<#if linkTitle.getSiblings()?has_content>
 	<ul>

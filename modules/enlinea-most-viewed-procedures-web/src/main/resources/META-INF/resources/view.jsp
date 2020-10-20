@@ -29,7 +29,7 @@
 					<li class="col-xs-12 listado__item">
 						<a href="${topicalityURL}" class="link">
 							<div class="icon">
-								<img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-actualidad.svg" alt="">
+								<img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-actualidad.svg" alt="Icono de actualidad">
 							</div>
 							<p class="name"><liferay-ui:message key="topicality"/></p>
 						</a>
@@ -37,7 +37,7 @@
 					<li class="col-xs-12 listado__item">
 						<a href="${documentsURL}" class="link">
 							<div class="icon">
-								<img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-documents.svg">
+								<img src="${themeDisplay.getPathThemeImages()}/dga/icons/icon-documents.svg" alt="Icono de documento">
 							</div>
 							<p class="name"><liferay-ui:message key="documents"/></p></span>
 						</a>

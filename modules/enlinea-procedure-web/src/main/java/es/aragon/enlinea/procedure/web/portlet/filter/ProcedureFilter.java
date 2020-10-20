@@ -15,7 +15,6 @@ import com.liferay.portal.kernel.servlet.BaseFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.TimeZoneUtil;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -36,9 +35,12 @@ import es.aragon.enlinea.procedure.web.portlet.route.ProcedureFriendlyURLMapper;
  * @author Asier Guillo
  */
 @Component(
+	enabled = true,
 	immediate = true, 
 	property = {
 		"servlet-context-name=",
+		"dispatcher=FORWARD",
+		"dispatcher=REQUEST",
 		"servlet-filter-name=Procedure Filter",
 		"url-pattern=/*",
 		"url-regex-ignore-pattern=^/html/.+\\.(css|gif|html|ico|jpg|js|png)(\\?.*)?$"
@@ -60,11 +62,15 @@ public class ProcedureFilter extends BaseFilter {
 		if(requestURI.contains(PATTERN)) {
 			String friendlyURL = requestURI.substring(requestURI.lastIndexOf(PATTERN) + PATTERN.length());
 			if(!existsProcedure(request, friendlyURL)) {
-				String redirect = PortalUtil.getPortalURL(request) + Portal.PATH_MAIN + "/portal/status";
-				response.sendRedirect(redirect);
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			} else {
+				processFilter(
+						ProcedureFilter.class.getName(), request, response, filterChain);
 			}
+		} else {
+			processFilter(
+					ProcedureFilter.class.getName(), request, response, filterChain);
 		}
-		super.processFilter(request, response, filterChain);
 	}
 	
 	private boolean existsProcedure(HttpServletRequest request, String friendlyURL) {

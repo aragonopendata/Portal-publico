@@ -1,0 +1,1041 @@
+.ocultovisual{
+	text-indent: -999em;
+    height: 0;
+    margin: 0;
+}
+
+/* Plantilla banner */
+.banner-icon{
+	background-color: rgba(27,128,157,0.2);
+	color: #333333;
+	padding: 33px 103px 33px 190px;
+	margin-top: 25px;
+}
+
+.banner-icon.banner-icon-question {
+	background-color: rgba(250,153,2,0.2);
+	background-image: url('../images/dga/icons/icon-banner-question.png');
+	background-repeat: no-repeat;
+	background-position: 91px center;
+}
+
+.banner-icon.banner-icon-folder {
+	background-color: rgba(240,84,66,0.2);
+	background-image: url('../images/dga/icons/icon-banner-folder.png');
+	background-repeat: no-repeat;
+	background-position: 91px center;
+}
+
+.banner-icon.banner-icon-telephone {
+	background-image: url('../images/dga/icons/icon-banner-phone.png');
+	background-repeat: no-repeat;
+	background-position: 91px center;
+}
+
+@media (max-width: 750px) {
+	.banner-icon.banner-icon-question,
+	.banner-icon.banner-icon-folder,
+	.banner-icon.banner-icon-telephone {
+		background-position: center 20px;
+		padding: 70px 20px 20px 20px;
+		font-size: 1.6rem;
+		line-height: 2.5rem;
+		background-size: 9%;
+	}
+}
+
+.banner-icon a {
+	color: #333;
+	text-decoration: underline;
+}
+
+.banner-icon a:hover {
+	text-decoration: none;
+}
+
+/* Plantilla preguntas frecuentes */
+.dga-view .en-linea.tramite-body--como.preguntas-frecuentes-list .list__item::before {
+	border: 0;
+	border-radius: 0;
+	width: 0;
+	text-align: inherit;
+	color: #000000;
+	content: counter(item) ". ";
+	padding-left: 2rem;
+	
+}
+
+.dga-view .en-linea.tramite-body--como.preguntas-frecuentes-list .list__item .title a {
+	margin-left: 0;
+	padding-left: 5.6rem;
+	padding-right: 7rem;
+}
+
+.dga-view .en-linea.tramite-body.preguntas-frecuentes-list .list__item .title a::after {
+	right: 2rem;
+	content: '\f067';
+}
+
+.dga-view .en-linea.tramite-body.preguntas-frecuentes-list .list__item .title a[aria-expanded=true]::after {
+	transform: none;
+	transition: none;
+	content: '\f068';
+	right: 3.5rem;
+}
+
+@media (max-width: 576px){
+
+	.dga-view .en-linea.tramite-body.tramite-body--como.preguntas-frecuentes-list .info p,
+	.dga-view .en-linea.tramite-body.tramite-body--como.preguntas-frecuentes-list .info li {
+	   text-align: left!important;
+	}
+
+}
+
+@media (max-width: 768px) {
+	.dga-view .en-linea.tramite-body--como.preguntas-frecuentes-list .list__item .info {
+		padding-left: 25px;
+		padding-right: 25px;
+	}
+}
+
+.dga-view .en-linea.tramite-body.preguntas-frecuentes-list .info a {
+	color: #0050a4;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+.dga-view .preguntas-frecuentes-list .detail-news-module__body-news__description{
+	margin-bottom: 0;
+}
+
+/* Plantilla chatbot */
+.chatbot-container {
+	bottom: 0;
+	position: fixed;
+	z-index: 10;
+	width: 100%;
+	.container{
+		position: relative;
+	}
+	.chatbot-icon-close, .chatbot-icon-open {
+		border: solid #ff4605 4px;
+		border-radius: 50%;
+		background-color: white;
+		height: 4rem;
+		padding: 0 0 0 2px;
+		position: absolute;
+		width: 4rem;
+		text-align: center
+	}
+	.chatbot-open {
+		bottom: 0;
+		position: absolute;
+		right: 0;
+		width: 25.5rem;
+		display: none;
+		max-width: 30%;
+		.chatbot-icon-close {
+			right: 3rem;
+			top: 2rem;
+			padding: 0 !important;
+			span {
+				display: block;
+				height: 100%;
+				width: 100%;
+				img {
+					transform: rotate(45deg);
+					width: 1.7rem;
+					margin-left: 2px;
+				}
+			}
+		}
+	}
+	.chatbot-close {
+		bottom: 0;
+		position: absolute;
+		right: 3rem;
+		display:block;
+		width: auto;
+		.chatbot-icon-open {
+			left: 7.5rem;
+			top: -1rem;
+			img {
+				width: 1.7rem;
+			}
+		}
+	}
+}
+
+/* Plantilla parrafo */
+.content-parrafo {
+	margin: 25px 0;
+}
+
+.dga-view .content-parrafo .detail-news-module__body-news__description{
+	margin-bottom: 0;
+}
+
+
+@media (max-width: 576px){
+
+	.dga-view .content-parrafo .detail-news-module__body-news__description p,
+	.dga-view .content-parrafo .detail-news-module__body-news__description li{	
+		text-align: left!important;
+	}
+}
+
+/* Plantilla COVID Carousel */
+.carousel-enlaces-covid {
+	border-style: solid;
+	border-width: 5px;
+	border-color: #c77a02;
+	background-color: #f7f7f7;
+	padding: 2rem 0;
+}
+
+.carousel-enlaces-covid .swiper-slide {
+	background-color: #FFF !important;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #c77a02;
+	border-radius: 0 !important;
+	text-transform: uppercase;
+	min-height: 10rem !important;
+	max-height: 15rem !important;
+	font-size: 1.4rem;
+	line-height: 2rem;
+	padding: 1.5rem 2rem;
+}
+
+.carousel-enlaces-covid .swiper-slide .web {
+	padding-left: 9rem;
+}
+
+.carousel-enlaces-covid .swiper-slide .web:hover,
+.carousel-enlaces-covid .swiper-slide .web:focus{
+    outline: none;
+    text-decoration: underline;
+
+}
+
+.carousel-enlaces-covid .swiper-slide .icon-theme.icon-big {
+	height: 6.5rem;
+	width: 7.5rem;
+}
+
+.carousel-enlaces-covid .swiper-button-disabled {
+	display: none;
+}
+
+.carousel-enlaces-covid .swiper-button-next, 
+.carousel-enlaces-covid .swiper-button-prev{
+    width: 44px;
+}
+
+@media (max-width: 370px) {
+	.carousel-enlaces-covid .swiper-slide .icon-theme.icon-big {
+		height: 6.5rem;
+		width: 5rem;
+	}
+
+
+	.dga-view .carousel-enlaces-covid .gallery-module .swiper-container .swiper-slide .web {
+		width: 95%;
+		font-size: 1.3rem;
+		line-height: 1.8rem;
+	}
+
+
+	.carousel-enlaces-covid .swiper-slide .web {
+		padding-left: 6.5rem;
+	}
+}
+
+/* Plantilla COVID Detalle */
+.links-list-covid-detalle {
+	justify-content: center;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 0;
+	list-style: none;
+	padding: 0;
+	margin-top: 25px;
+}
+
+.links-list-covid-detalle li a {
+		border: solid 3px #C77A02;
+		padding: 3rem 5rem;
+		display: block;
+		margin-bottom: 20px;
+	}
+
+.links-list-covid-detalle li a img {
+		display: block;
+		clear: both;
+		margin: 0 auto;
+}
+
+.links-list-covid-detalle li a .name {
+	text-align: center;
+	clear: both;
+	color: #333333;
+	display: block;
+	margin-top: 55px;
+	font-weight: bold;
+
+}
+
+.links-list-covid-detalle li a:hover,
+.links-list-covid-detalle li a:focus {
+	color: #333333;
+	text-decoration: underline;
+}
+
+.links-list-covid-detalle li a {
+ 	border: solid 3px #c77a02;
+	padding: 2rem;
+	display: block;
+	margin-bottom: 20px;
+	font-size: 1.6rem;
+	min-height: 216px;
+
+}
+.links-list-covid-detalle li a .name {
+	text-align: center;
+	clear: both;
+	color: #333;
+	display: block;
+	margin-top: 14px;
+	font-weight: bold;
+	font-size: 1.6rem;
+	line-height: 2.5rem;
+ }
+
+.portlet-journal-content .journal-content-article .links-list-covid-detalle img {
+	max-width: 40%;
+}
+
+@media (min-width: 768px) and (max-width: 860px){
+	.portlet-journal-content .journal-content-article .links-list-covid-detalle img {
+	    max-width: 55%;
+	}
+
+	.links-list-covid-detalle li a .name {
+		font-size: 1.4rem;
+	    line-height: 2rem;
+	}
+
+	.links-list-covid-detalle li a{
+		min-height: 185px;
+	}
+
+}
+
+@media (max-width: 576px){
+	.links-list-covid-detalle li a .name {
+		text-align: center;
+		clear: both;
+		color: #333;
+		display: block;
+		margin-top: 9px;
+		font-weight: bold;
+	}
+
+	.links-list-covid-detalle li a {
+		border: solid 3px #c77a02;
+		padding: 1rem 3rem;
+		display: block;
+		margin-bottom: 20px;
+		min-height: initial;
+	}
+
+	.portlet-journal-content .journal-content-article .links-list-covid-detalle img {
+		max-width: 33%;
+	}
+}
+
+/* Plantilla COVID Home */
+.links-list-covid-home {
+	background-color: #f7f7f7;
+	border: solid 5px #c77a02;
+	padding: 10px 0;
+	margin-bottom: 60px;
+}
+
+.links-list-covid-home ul {
+	justify-content: center;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 0;
+	list-style: none;
+	padding: 0;
+}
+
+.links-list-covid-home li a {
+	background-color: #FFF;
+	border: solid 3px #c77a02;
+	font-weight: bold;
+	min-height: 10rem;
+	max-height: 15rem;
+	font-size: 1.4rem;
+	line-height: 2.4rem;
+	padding: 3.5rem 2.5rem;
+	margin-bottom: 20px;
+	display: block;
+	height: auto;
+	position: relative;
+	overflow: hidden;
+	&.is-big{
+		font-size: 1.9rem;
+		padding: 2.5rem 2.5rem;
+	}
+
+}
+.links-list-covid-home li a:hover .name,
+.links-list-covid-home li a:focus .name {
+	text-decoration: underline;
+    outline: none;
+}
+
+
+.links-list-covid-home li a .name {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 90%;
+	color: #000;
+	word-break: break-word;
+	padding-left: 8rem;
+	&.big{
+		padding-left: 16rem;
+	}
+}
+
+.links-list-covid-home .icon-theme {
+	height: 6rem;
+	width: 6rem;
+	&.icon-big{
+		height: 8rem;
+		width: 8rem;
+	}
+
+}
+.banner-home-covid19 {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 0;
+	list-style: none;
+	padding: 0;
+	margin-bottom: 20px;
+	align-items: center;
+	text-align: center;
+	font-family: Arial;
+	font-weight: bold;
+}
+
+.covid19-consulta {
+	font-size: 2.1rem;
+
+}
+
+.covid19-consulta a{
+	
+	color:#333333;
+	text-decoration: underline;
+}
+
+.covid19-phone {
+	color: #f75253;
+	font-size: 4.3rem;
+	line-height: 5rem;
+	font-weight: bold;
+
+	a{
+		color: #f75253;
+		cursor: initial;
+		text-decoration: none;
+	}
+}
+
+.covid19-info-text {
+	font-weight: bold;
+	font-size: 2.8rem;
+}
+
+.covid-custom-link{
+		color: #212529;
+		text-decoration: underline;
+}
+
+@media (max-width: 1200px) {
+	.covid19-phone {
+		font-size: 3.6rem;
+	}
+}
+@media (max-width: 992px) {
+	.covid19-phone {
+		font-size: 2.6rem;
+	}
+}
+@media (max-width: 767px) {
+	.covid19-phone {
+		font-size: 4.5rem;
+	}
+}
+
+/* ----- 5 items por fila  */
+@media (min-width: 992px){
+	.links-list-covid-home .col-lg-3 {
+	    flex: 0 0 20%;
+	    max-width: 20%;
+	}
+}
+
+@media (min-width: 990px) and (max-width: 1100px) {
+	.links-list-covid-home li a {
+	    font-size: 1.3rem;
+	    line-height: 2rem;
+	    padding: 3.5rem 2.0rem;
+    }
+
+
+    .links-list-covid-home li a .name {
+    	width: 100%;
+    	left: 45%;
+    }
+
+
+    .links-list-covid-home .icon-theme {
+	    height: 5rem;
+	    width: 5rem;
+	}
+}
+
+
+@media (min-width: 991px) and (max-width: 1470px){
+
+    .links-list-covid-home .icon-theme {
+        height: 5rem;
+        width: 5rem;
+    }
+
+    .links-list-covid-home li a {
+        font-size: 1.2rem;
+        line-height: 2.0rem;
+    }
+
+}
+
+
+/* -----Banner consulta  */
+.covid19-consulta {
+		display: block;
+		padding: 0 2rem;
+}
+.covid19-consulta .banner-icon.banner-icon-question {
+	background-color: #146176;
+	background-image: url('data:image/png;base64,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');
+}
+.covid19-consulta .banner-icon.banner-icon-question a {
+	color:#FFF;
+	text-decoration: underline;
+	&.title-ayudas-alquiler{
+		position:relative;
+		display:block;
+		top:30%;
+	}
+	&.icon-situacion-actual{
+		border: solid #ffffff 2px;
+    	font-weight: bold;
+    	min-height: 10rem;
+    	max-height: 15rem;
+    	line-height: 2.4rem;
+    	display: block;
+    	height: auto;
+    	position: relative;
+    	overflow: hidden;
+    	text-decoration: none;
+    	.icon-theme.icon-big {
+    		height: 12rem;
+    		width: 12rem;
+    	}
+    	.name{
+    		font-family: Arial;
+    		position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%,-50%);
+		    width: 90%;
+		    color: #ffffff;
+		    word-break: break-word;
+		    padding-left: 8rem;
+		    font-size: x-large;
+    	}
+	}
+}
+ @media (max-width: 992px) {
+	.covid19-consulta .banner-icon.banner-icon-question a {
+		&.title-ayudas-alquiler{
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+	}
+} 
+
+/*---- Banners bolsas de empleo ---*/
+
+.covid19-phone a{
+    color: #f75253;
+    text-decoration: none;
+    cursor: initial;
+}
+
+.banner-bolsa-empleo-sanidad,
+.banner-bolsa-empleo-atencion-residencial{
+	background-color: #ffffff;
+	border: solid 3px #01a09a;
+	font-family: "Signika",sans-serif;
+	padding: 23px;
+	background-image: url(https://www.aragon.es/documents/20127/43188952/sanitarios.jpg);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.banner-bolsa-empleo-atencion-residencial{
+	border: solid 3px #71879a;
+	background-image: url(https://www.aragon.es/documents/20127/43188952/atencion-residencial.jpg);
+	
+}
+
+.banner-bolsa-empleo-sanidad{
+	padding-bottom: 72px;
+}
+
+.banner-bolsa-empleo-sanidad h2,
+.banner-bolsa-empleo-atencion-residencial h2{
+    color: #585858;
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 3.2rem;
+    margin-bottom: 14px;
+    margin-left: 24px;
+    width: 77%;
+}
+
+.banner-bolsa-empleo-sanidad .naranja{
+	color: #D26802;
+}
+
+.banner-bolsa-empleo-sanidad .verde{
+	color: #01a09a;
+}
+
+.banner-bolsa-empleo-atencion-residencial .grisoscuro{
+	color: #777777;
+}
+
+.banner-bolsa-empleo-atencion-residencial .gris{
+	color: #617383;
+}
+
+.banner-bolsa-empleo-sanidad p.caja,
+.banner-bolsa-empleo-atencion-residencial p.caja{
+	background-color: #f0f0f0;
+    border-left: solid 10px #01a09a;
+    color: #585858;
+    font-size: 1.75rem;
+    line-height: 2.4rem;
+    padding: 15px 14px;
+    width: 75%;
+}
+
+.banner-bolsa-empleo-atencion-residencial p.caja{
+	border-left: solid 10px #617383;
+	margin-bottom: 17px;
+	width: 78%;
+}
+
+.banner-bolsa-empleo-sanidad p.nota{
+	color: #585858;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+	margin-left: 24px;
+	width: 76%;
+}
+.banner-bolsa-empleo-sanidad a{
+	color: #01a09a;
+	font-size: 2.3rem;
+	font-weight: bold;
+	margin-left: 24px;
+	margin-bottom: 2px;
+}
+
+.banner-bolsa-empleo-atencion-residencial a{
+	display: inline-block;
+	font-size: 1.45rem;
+	margin-left: 24px;
+	padding: 8px 20px;
+	text-decoration: none;
+}
+
+.banner-bolsa-empleo-atencion-residencial a:hover{
+	text-decoration: underline;
+}
+
+@media (min-width: 768px) and (max-width: 1050px){
+	.banner-bolsa-empleo-sanidad{
+		background-size: 34%;	
+	}
+
+	.banner-bolsa-empleo-atencion-residencial{
+		background-size: 50%;
+	}
+
+	.banner-bolsa-empleo-atencion-residencial a{
+		margin-left: 0;
+	}
+}
+
+@media (max-width: 767px){
+	.banner-bolsa-empleo-sanidad{
+	    margin-bottom: 20px;
+	    padding-bottom: 23px;
+	}
+}
+
+@media (max-width: 500px){
+	.banner-bolsa-empleo-sanidad{
+		background-size: 30%;
+	}
+
+	.banner-bolsa-empleo-atencion-residencial{
+		background-image: url(https://www.aragon.es/documents/20127/43188952/atencion-residencial2.jpg);
+	}
+
+}
+
+@media (max-width:  375px){
+	.banner-bolsa-empleo-atencion-residencial a{
+		margin-left: 0;
+	}
+
+}
+			
+
+/*Tabla de datos*/
+.dga-view .tabla-coronavirus {
+	overflow-x: auto;
+	table {
+		border: none;
+		th {
+			border: none;
+			background: transparent;
+			color: #333;
+			border-bottom: solid 1px #F05442;
+			text-align: center;
+			font-size: 1.6rem;
+			line-height: 2.2rem;
+
+		}
+		td {
+			border: none;
+			vertical-align: middle;
+			text-align: center;
+			border-bottom: solid 1px #595959;
+			font-size: 1.6rem;
+			line-height: 2.2rem;
+		}
+	}
+	table th p, table td p {
+		margin: 0;
+	}
+	table th a, table td a {
+		color: #333 !important;
+		text-decoration: none;
+		display: inline-block;
+	}
+
+	&.tabla-telefonos{
+		table th,
+		table td{
+			text-align: left;
+
+			&:nth-child(2) {
+				text-align: center;
+			}
+		}
+		
+		table td:nth-child(2){
+            font-size: 2.4rem;
+            line-height: 3rem;
+            font-weight: bold;
+        }
+
+	}
+
+	&.tabla-estadisticas {
+		h2{
+		color: #333;
+	    font-family: Signika;
+	    font-size: 34px;
+	    line-height: 40px;
+	    font-weight: bold;
+	    letter-spacing: 0;
+	    margin: 45px 0 45px;
+
+		}
+
+		table th,
+		table td{
+			text-align: left;
+		}
+
+		table th:nth-child(2) {
+			text-align: right;
+		}
+		table td:nth-child(2) {
+			text-align: right;
+			font-size: 1.6rem;
+			line-height: 2.2rem;
+			font-weight: normal;
+		}
+		table {
+			td.destacado-1 {
+				font-weight: bold;
+				background-color: #d1e6eb;
+   				border-bottom: solid 2px #0081a0;				
+			}
+			td.destacado-2 {
+				font-weight: bold;
+				background-color: #feebcc;
+    			border-bottom: solid 2px #b66808;
+			}
+		}
+	}
+}
+/*Listado de enlaces destacados de estadisticas*/
+.destacados-estadisticas-covid {
+	margin-top:30px;
+	
+	.introduccion {
+		color: #333;
+		font-family: Signika;
+		font-size: 34px;
+		line-height: 40px;
+		font-weight: bold;
+		letter-spacing: 0;
+		margin: 0 0 45px 0;
+		strong {
+			color: #9F2F31;
+		}
+	}
+	.contenedor-destacado {
+	    border: 3px solid #ffffff;
+	    background-color: #fff;
+	    box-shadow: 0 0 21px 0 rgba(0,0,0,0.2);
+	    padding: 15px;
+	    text-align: left;
+	    margin-bottom: 30px;
+	    img{
+			height: 9rem;
+		    margin-bottom: 20px;
+		}
+		.titulo {
+		    text-transform: uppercase;
+		    color: #565656;
+		    font-size: 18px;
+		    font-weight: normal;
+		    letter-spacing: 0;
+		    line-height: 25px;
+		    height: 50px;
+		    overflow: hidden;
+		    text-align: left;
+		    margin-bottom: 20px;
+		}
+		.cifra {
+		    color: #333333;
+		    font-size: 39px;
+		    font-weight: bold;
+		    letter-spacing: 0;
+		    line-height: 42px;
+		    text-align: left;
+		    margin-bottom: 20px;
+		}
+		.fuente {
+		    color: #005B7D;
+		    font-size: 16px;
+		    font-weight: bold;
+		    letter-spacing: 0;
+		    line-height: 24px;
+		    text-align: left;
+
+		    a{
+				color: #005B7D;
+				text-decoration: underline;
+
+			}
+		}
+	}
+}
+/* Indicadores con gráfica de lineas y barras*/
+.dga-view .indicadores-grafica-lineas,
+.dga-view .indicadores-grafica-barras-vertical,
+.dga-view .indicadores-grafica-barras-horizontal{
+	h2{
+	    color: #333;
+	    font-family: Signika;
+	    font-size: 34px;
+	    line-height: 40px;
+	    font-weight: bold;
+	    letter-spacing: 0;
+	    margin: 45px 0 45px;
+	}
+
+	.tabla-coronavirus{
+		overflow-x: initial;
+
+		table td:nth-child(2) {
+		    font-size: 1.6rem;
+		    font-weight: normal;
+		}
+		h2{
+			margin-bottom: 15px;
+		}
+		p{
+			font-size: 1.7rem;
+			padding: 0;
+			margin: 0;
+		}
+		table{
+		    min-width: 100%;
+		}
+		table tr:nth-child(even){
+				background-color: #fcfcfc;
+	    }
+	} 
+}
+	
+/* Destacados azules */
+.covid-destacados-azules {
+	margin: 5rem 0;
+	.introduccion {
+		color: #333;
+		font-family: Signika;
+		font-size: 3.4rem;
+		line-height: 4rem;
+		font-weight: bold;
+		letter-spacing: 0;
+		margin-bottom: 4.5rem;
+	}
+	.contenedor-entrada .entrada {
+		box-shadow: 0 0 21px 0 rgba(0,0,0,0.2);
+		border-bottom: solid 3px #146176;
+		padding: 2rem 3rem;
+		position: relative;
+		.enlace {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			width: 85%;
+			color: #000;
+			word-break: break-word;
+			padding-left: 9rem;
+			font-size: 1.6rem;
+			line-height: 2.4rem;
+			text-transform: uppercase;
+			font-weight: bold;
+		} 
+	}   
+	@media (max-width: 992px) {
+		.contenedor-entrada {
+			margin-bottom: 2rem;
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+
+/* --- ZOOM STYLES --- */
+
+.zoom-in{
+	.links-list-covid-home li a{
+		font-size: 1rem;
+	    line-height: 1.7rem;
+	    padding: 1rem;
+	}
+
+	.links-list-covid-home .icon-theme {
+	    height: 7rem;
+    	width: 3.2rem;
+	}
+
+	.links-list-covid-home li a .name {
+	    width: 99%;
+		padding-left: 5rem;
+	}
+
+
+	.carousel-enlaces-covid .swiper-slide {
+	    max-height: 15rem !important;
+	    font-size: 1.1rem;
+	    line-height: 2rem;
+	    padding: 1rem 1rem;
+	}
+	
+	.carousel-enlaces-covid .swiper-slide .icon-theme.icon-big {
+	    height: 6.5rem;
+	    width: 3.5rem;
+	}
+
+	.dga-view .gallery-module .swiper-container .swiper-slide .web {
+	    width: 99%;
+	}
+
+	.carousel-enlaces-covid .swiper-slide .web {
+	    padding-left: 5rem;
+	}
+
+	.dga-view .gallery-module .swiper-container .swiper-button-prev, 
+	.dga-view .gallery-module .swiper-container .swiper-button-next {
+	    margin-left: -0.5rem;
+    	margin-right: -0.5rem;
+	}
+
+	.carousel-enlaces-covid .container {
+	    padding-right: 1.1rem;
+	    padding-left: 1.1rem;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1310px){
+	.zoom-in{
+		.links-list-covid-home li a{
+			line-height: 1.3rem;
+		}
+
+		.links-list-covid-home .icon-theme {
+		    width: 2.2rem;
+		    margin: 0 auto;
+		    height: 3rem;
+		}
+
+		.links-list-covid-home li a .name {
+		    width: 99%;
+		    padding-left: 0;
+		    text-align: center;
+		    display: block;
+		    clear: both;
+		    position: inherit;
+		    top: 0;
+		    transform: none;
+		    left: 0;
+		}
+	}
+}

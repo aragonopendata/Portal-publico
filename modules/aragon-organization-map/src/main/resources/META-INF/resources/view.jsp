@@ -25,6 +25,8 @@ String email = GetterUtil.getString(renderRequest.getAttribute(AragonUtilitiesCo
 String provincia = GetterUtil.getString(renderRequest.getAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_PROVINCIA), StringPool.BLANK);
 String telefono = GetterUtil.getString(renderRequest.getAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_TELEFONO), StringPool.BLANK);
 String tituloMap = StringPool.BLANK;
+String webPage = GetterUtil.getString(renderRequest.getAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_WEB_PAGE), StringPool.BLANK);
+String webPageTitle = GetterUtil.getString(renderRequest.getAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_WEB_PAGE_TITLE), StringPool.BLANK);
 if (vocabulay.getName().equals(AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZATIONS_ES)) {
 	tituloMap = GetterUtil.getString(renderRequest.getAttribute(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_EDIFICIO), StringPool.BLANK);
 } else {
@@ -56,12 +58,17 @@ if (vocabulay.getName().equals(AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZAT
 						}
 						%>
 						<p>
-							<liferay-ui:message key="phone"/>: <a href="tel:+<%=telefono%>" class="data-place__tfno d-inline"><%=telefonoText%></a>
+							<liferay-ui:message key="map-phone"/>: <a href="tel:+<%=telefono%>" class="data-place__tfno d-inline"><%=telefonoText%></a>
 						</p>
 					</c:if>
 					<c:if test="<%=Validator.isNotNull(email)%>">
 						<p>
-							<liferay-ui:message key="email"/>: <a href="mailto:<%=email%>" class="data-place__mail"><%=email %></a>
+							<liferay-ui:message key="map-email"/>: <a href="mailto:<%=email%>" class="data-place__mail"><%=email %></a>
+						</p>
+					</c:if>
+					<c:if test="<%=Validator.isNotNull(webPage) && Validator.isNotNull(webPageTitle) %>">
+						<p>
+							<liferay-ui:message key="map-site"/>: <a href="<%=webPage%>" title="Se abre en un nuevo portal" class="data-place__mail"><%=webPageTitle %></a>
 						</p>
 					</c:if>
 				</div>
@@ -92,5 +99,7 @@ if (vocabulay.getName().equals(AragonUtilitiesConstant.VOCABULARY_NAME_ORGANIZAT
         attribution: '<a href="https://idearagon.aragon.es/" target="_blank">Datos servidos por IGEAR</a>',
     }).addTo(map1);
     L.marker([coorX, coorY]).addTo(map1);
-	
+   	var imgLeaflet = $( "img.leaflet-marker-shadow, img.leaflet-marker-icon" );
+   	imgLeaflet.attr("alt", "Ubicación del organismo en el mapa");
+   	
 </script>

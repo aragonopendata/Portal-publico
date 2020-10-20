@@ -129,6 +129,10 @@
         .portal-externo{
 			padding:1rem 0 3rem;
 			border-top:1px solid $dga_grayBorder;
+			.title-crowler{
+				display: flex;
+				align-items: center;
+			}
         }
         .calendar{
             .btn:focus,

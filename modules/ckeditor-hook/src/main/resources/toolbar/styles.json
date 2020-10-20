@@ -15,7 +15,21 @@
 		"name": "Párrafo destacado",
 		"element": "p",
 		"attributes": {
-			"class": "p-custom-class"
+			"class": "p-custom-class"		
+		}
+	},
+	{
+		"name": "Enmarcado naranja",
+		"element": "p",
+		"attributes": {
+			"class": "p-custom-class-orange"
+		}
+	},
+	{
+		"name": "Amarillo oscuro",
+		"element": "p",
+		"attributes": {
+			"class": "p-custom-class-ylldark"
 		}
 	}
 ]

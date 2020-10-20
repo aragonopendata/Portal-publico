@@ -107,9 +107,21 @@
                     }
                     &.p-custom-class{
                         padding: 1.5rem;
-                        display: table-cell;
+                        display: flow-root;
                         border-bottom: 2rem solid $dga_white;
                         background-color: $dga_lightGray;
+                    }
+                    &.p-custom-class-orange{
+                        padding: 1.5rem;
+                       	display: flow-root;
+                        border: 0.2rem solid #fa9902;
+                        border-radius: 1rem;
+                    }
+                    &.p-custom-class-ylldark{
+                        padding: 1.5rem;
+                        display: flow-root;
+                        border-bottom: 2rem solid $dga_white;
+                        background-color: #fdcb33;
                     }
                 }
                 blockquote{
@@ -207,7 +219,7 @@
             margin: 0 auto 5rem;
             .video-container{
                 position: relative;
-                padding-bottom: 56.25%;
+                padding-bottom: 66.25%;
                 height: 0;
                 iframe,
                 .image{
@@ -324,8 +336,45 @@
                 }
             }
         }
-        
-        
+        .aditional-info-card{
+	        padding: 1.5rem;
+			border: 0.1rem solid #979797;
+			font-family: "open_sans-semibold",sans-serif;
+			font-size: 1.6rem;
+			line-height: 2.24rem;
+			&__name{
+				font-size: 1.8rem;
+				line-height: 2.52rem;
+				margin-bottom: 2rem;
+				position: relative;
+				&::after{
+					content: "";
+					border-bottom: 0.2rem solid #F05442;
+					position: absolute;
+					bottom: -0.5rem;
+					height: 0.4rem;
+					width: 100%;
+					left: 0px;
+				}
+			}
+			&__paragraph{
+				margin-bottom: 2rem;
+				.strong{
+					font-family: "open_sans-bold",sans-serif;
+				}
+			}
+			&__underlined-link{
+				margin-bottom: 2rem;
+				color: #083D77;
+				display: block;
+				text-decoration: underline;
+			}
+			&__link{
+				margin-bottom: 2rem;
+			    color: #083D77;
+			    display: block;
+			}
+		}
     }
 }
 
@@ -365,6 +414,28 @@
             &__body-news{
                 &__description{
                     padding: 0;
+                    ol {
+					  list-style-type: none;
+					  counter-reset: item;
+					  margin: 0;
+					  padding: 0;
+					}
+					ol > li {
+					  display: table;
+					  counter-increment: item;
+					  margin-bottom: 0.6em;
+					}
+					ol > li:before {
+					  content: counters(item, ".") ". ";
+					  display: table-cell;
+					  padding-right: 0.6em;    
+					}
+					li ol > li {
+  						margin: 0;
+					}
+					li ol > li:before {
+  						content: counters(item, ".") " ";
+					}
                     blockquote{
                         padding-left: 9rem;
                         &::before{

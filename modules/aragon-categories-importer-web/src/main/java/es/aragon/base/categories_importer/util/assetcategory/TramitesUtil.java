@@ -8,11 +8,23 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.search.BooleanQuery;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.TimeZoneUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.BufferedReader;
@@ -33,6 +45,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import es.aragon.base.aragon_utilities.constants.AragonUtilitiesConstant;
 import es.aragon.base.categories_importer.dto.CategoryDTO;
+import es.aragon.enlinea.db.connection.dao.Procedure;
 
 /**
  * @author pfalcon
@@ -46,7 +59,7 @@ public class TramitesUtil {
 	 * @param userId User identifier
 	 * @param serviceContext Service context
 	 */
-	public static void importTramites(long groupId, long userId, ServiceContext serviceContext) {
+	public static void importTramites(long companyId, long groupId, long userId, ServiceContext serviceContext) {
 		//List to store the modified tramites in the process
 		List<Long> modifiedTramitesIds = new ArrayList<Long>();		
 		//Add vocabulary if does not exists
@@ -68,7 +81,7 @@ public class TramitesUtil {
 		//Delete previous import historic registry
 		CategoriesImporterUtil.cleanImportCategoryRegistry(tramitesVocabulary.getVocabularyId());
 		//Get all tramites from enlinea
-		List<CategoryDTO> fullEnlineaTramitesCategoryDTOList = getEnlineaTramitesCategoryDTOList();
+		List<CategoryDTO> fullEnlineaTramitesCategoryDTOList = getEnlineaTramitesCategoryDTOList(companyId,groupId, userId);
 		if (Validator.isNotNull(fullEnlineaTramitesCategoryDTOList)) {
 			//Load categories in the current group
 			for (CategoryDTO categoryDTO : fullEnlineaTramitesCategoryDTOList) {
@@ -85,10 +98,10 @@ public class TramitesUtil {
 	 * Gets a categorydto list with tramites loaded from Enlinea
 	 * @return CategoryDTO list with tramites loaded from Enlinea
 	 */
-	public static List<CategoryDTO> getEnlineaTramitesCategoryDTOList() {
+	public static List<CategoryDTO> getEnlineaTramitesCategoryDTOList(long companyId, long groupId, long userId) {
 		List<CategoryDTO> categoriesDTOList = new ArrayList<CategoryDTO>();
 		//Create JSON with data from enlinea
-		JSONArray tramitesJSONArray = getEnlineaTramitesJSONArray();
+		JSONArray tramitesJSONArray = getEnlineaTramitesJSONArray(companyId, groupId, userId);
 		if (tramitesJSONArray != null) {
 			for (int i = 0; i < tramitesJSONArray.length(); i++) {
 				JSONObject tramiteJSONObject = tramitesJSONArray.getJSONObject(i);
@@ -98,13 +111,13 @@ public class TramitesUtil {
 					String signatura = tramiteJSONObject.getString("signatura");
 					categoryDTO.addCustomProperty(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_SIGNATURA, signatura);
 					//Title
-					String title = tramiteJSONObject.getString("denominacion");
+					String title = tramiteJSONObject.getString("title");
 					Map<Locale, String> titleMap = new HashMap<Locale, String>();
 					titleMap.put(LocaleUtil.fromLanguageId("es_ES"), signatura + StringPool.UNDERLINE + title);
 					titleMap.put(LocaleUtil.fromLanguageId("en_EN"), signatura + StringPool.UNDERLINE + title);
 					categoryDTO.setTitleMap(titleMap);
 					//Alias
-					String alias = tramiteJSONObject.getString("alias");
+					String alias = tramiteJSONObject.getString("friendlyURL");
 					categoryDTO.addCustomProperty(AragonUtilitiesConstant.CATEGORY_CUSTOM_PROPERTY_ALIAS, alias);
 					//Name 
 					String name = CategoriesImporterUtil.getCategoryName(signatura, title);
@@ -121,21 +134,44 @@ public class TramitesUtil {
 	 * Returns a JSONArray with all tramites loaded from Enlinea
 	 * @return JSONArray with all tramites loaded from Enlinea
 	 */
-	private static JSONArray getEnlineaTramitesJSONArray() {
+	private static JSONArray getEnlineaTramitesJSONArray(long companyId, long groupId, long userId) {
 		JSONArray enlineaTramites = JSONFactoryUtil.createJSONArray();
 		try {
-			boolean isLastPage = Boolean.FALSE;
-			int start = 0;
-			while (!isLastPage) {
-				JSONArray enlineaPage = getEnlineaTramitesPageJSONArray(start);
-				for (int i = 0; i < enlineaPage.length(); i++) {
-					JSONObject tramiteJSON = enlineaPage.getJSONObject(i);
-					enlineaTramites.put(tramiteJSON);
+			SearchContext searchContext = SearchContextFactory.getInstance(
+					new long[0], new String[0], new HashMap<>(), 
+					companyId, StringPool.BLANK, null, LocaleUtil.getDefault(),
+					groupId, TimeZoneUtil.getDefault(), userId);
+			BooleanQuery booleanQuery = new BooleanQueryImpl();
+			booleanQuery.addRequiredTerm("entryClassName", Procedure.class.getName());
+			try {
+				Hits hits = IndexSearcherHelperUtil.search(searchContext, booleanQuery);
+				int totalResult = hits.getLength();
+				int numDocs = hits.getDocs().length;
+				int totalDocs = numDocs;
+				while(totalDocs < totalResult) {
+					for(Document doc : hits.getDocs()) {
+						JSONObject tramiteJSONObject = JSONFactoryUtil.createJSONObject();
+						tramiteJSONObject.put("title", doc.get("name"));
+						tramiteJSONObject.put("signatura", doc.get("procedureId"));
+						tramiteJSONObject.put("friendlyURL", doc.get("friendlyURL"));
+						enlineaTramites.put(tramiteJSONObject);
+					}
+					searchContext.setStart(totalDocs);
+					searchContext.setEnd(totalResult);
+					hits = IndexSearcherHelperUtil.search(searchContext, booleanQuery);
+					totalDocs += numDocs;
 				}
-				if (enlineaPage == null || enlineaPage.length() < 20) {
-					isLastPage = Boolean.TRUE;
+				if (totalDocs >= totalResult) {
+					for(Document doc : hits.getDocs()) {
+						JSONObject tramiteJSONObject = JSONFactoryUtil.createJSONObject();
+						tramiteJSONObject.put("title", doc.get("name"));
+						tramiteJSONObject.put("signatura", doc.get("procedureId"));
+						tramiteJSONObject.put("friendlyURL", doc.get("friendlyURL"));
+						enlineaTramites.put(tramiteJSONObject);
+					}
 				}
-				start = start + 20;
+			} catch(SearchException e) {
+				_log.error("Error searching procedures for delete");	
 			}
 		} catch (Exception e) {
 			_log.error("There was an error getting the enlinea procedures JSONArray: " + e.toString());
@@ -144,35 +180,6 @@ public class TramitesUtil {
 		return enlineaTramites;
 	}
 
-	/**
-	 * Returns a JSONArray with the tramites fount in one page of Enlinea
-	 * @param start Position of the first page tramite
-	 * @return JSONArray with the tramites fount in one page of Enlinea
-	 * @throws Exception Throwed when an error occurs
-	 */
-	private static JSONArray getEnlineaTramitesPageJSONArray(int start) throws Exception {
-		HttpClient client = HttpClientBuilder.create().build();
-		HttpPost post = new HttpPost("http://enlinea.aragon.es/web/sede/busqueda?p_p_id=buscador_WAR_sedeportlet&p_p_lifecycle=2&p_p_state=maximized&p_p_mode=view&p_p_resource_id=getMoreResults&p_p_cacheability=cacheLevelPage");
-		//Parameters
-		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-		urlParameters.add(new BasicNameValuePair("_buscador_WAR_sedeportlet_searchData", "{\"keywords\":\"\",\"filter-temas\":[],\"filter-tipos\":[],\"filter-departamentos\":[],\"filter-colectivos\":[],\"filter-plazos\":{\"opts\":[],\"start\":\"\",\"end\":\"\"}}"));
-		urlParameters.add(new BasicNameValuePair("_buscador_WAR_sedeportlet_searchOrder", ","));
-		urlParameters.add(new BasicNameValuePair("_buscador_WAR_sedeportlet_searchOrderChanged", "false"));
-		urlParameters.add(new BasicNameValuePair("_buscador_WAR_sedeportlet_searchType", "avanzado"));
-		urlParameters.add(new BasicNameValuePair("_buscador_WAR_sedeportlet_start", String.valueOf(start)));
-		post.setEntity(new UrlEncodedFormEntity(urlParameters));
-		//Request
-		HttpResponse response = client.execute(post);
-		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-		StringBuffer result = new StringBuffer();
-		String line = StringPool.BLANK;
-		while ((line = rd.readLine()) != null) {
-			result.append(line);
-		}
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(result.toString());
-		JSONArray procs = jsonObject.getJSONArray("procs");
-		return procs;
-	}
 	/**
 	 * Checks if the obtained tramite JsonArray is valid
 	 * @param tramiteJSONArray Tramite JsonArray
@@ -183,7 +190,7 @@ public class TramitesUtil {
 		List<String> errorCauseList = new ArrayList<String>();		
 		if (tramiteJSONObject != null && tramiteJSONObject.length() > 0) {
 			//TITLE is mandatory
-			String title = tramiteJSONObject.getString("denominacion");
+			String title = tramiteJSONObject.getString("title");
 			if (title == null || title.trim().isEmpty() || title.equals("null")) {
 				errorCauseList.add("FIELD TITLE IS MANDATORY IN POSITION 0");
 				result = Boolean.FALSE;

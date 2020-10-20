@@ -61,22 +61,44 @@ long classNameId = ClassNameLocalServiceUtil.getClassNameId(JournalArticle.class
 
 //Left structures list
 List<KeyValuePair> selectedStructuresList = new ArrayList<KeyValuePair>();
+List<DDMStructure> selectedDDMStructures = new ArrayList<>();
 for(String selectedStructure : selectedStructuresArray) {
 	DDMStructure ddmStructure = DDMStructureLocalServiceUtil.fetchStructure(themeDisplay.getLayout().getGroupId(), classNameId, selectedStructure);
 	if(Validator.isNotNull(ddmStructure)) {
+		selectedDDMStructures.add(ddmStructure);
 		selectedStructuresList.add(new KeyValuePair(ddmStructure.getStructureKey(), HtmlUtil.escape(ddmStructure.getName(themeDisplay.getLocale()))));
 	}
 }
-
 Arrays.sort(selectedStructuresArray);
 
-// Right vocabularies list
-
+// Right structures list
 List<DDMStructure> ddmStructures = DDMStructureLocalServiceUtil.getStructures(themeDisplay.getLayout().getGroupId(), classNameId);
 List<KeyValuePair> availableStructuresList = new ArrayList<KeyValuePair>();
 for(DDMStructure ddmStructure : ddmStructures) {
 	if(Arrays.binarySearch(selectedStructuresArray, ddmStructure.getStructureKey()) < 0) {
 		availableStructuresList.add(new KeyValuePair(ddmStructure.getStructureKey(), HtmlUtil.escape(ddmStructure.getName(themeDisplay.getLocale()))));
+	}
+}
+
+String[] selectedStructuresInPageArray = StringUtil.split(selectedStructuresInPage);
+
+//Left structures in page list
+List<KeyValuePair> selectedStructuresInPageList = new ArrayList<KeyValuePair>();
+for(String selectedStructureInPage : selectedStructuresInPageArray) {
+	if(Arrays.binarySearch(selectedStructuresArray, selectedStructureInPage) >= 0) {
+		DDMStructure ddmStructure = DDMStructureLocalServiceUtil.fetchStructure(themeDisplay.getLayout().getGroupId(), classNameId, selectedStructureInPage);
+		if(Validator.isNotNull(ddmStructure)) {
+			selectedStructuresInPageList.add(new KeyValuePair(ddmStructure.getStructureKey(), HtmlUtil.escape(ddmStructure.getName(themeDisplay.getLocale()))));
+		}
+	}
+}
+Arrays.sort(selectedStructuresInPageArray);
+
+//Right structures in page list
+List<KeyValuePair> availableStructuresInPageList = new ArrayList<KeyValuePair>();
+for(DDMStructure ddmStructure : selectedDDMStructures) {
+	if(Arrays.binarySearch(selectedStructuresInPageArray, ddmStructure.getStructureKey()) < 0) {
+		availableStructuresInPageList.add(new KeyValuePair(ddmStructure.getStructureKey(), HtmlUtil.escape(ddmStructure.getName(themeDisplay.getLocale()))));
 	}
 }
 
@@ -94,8 +116,6 @@ if(Validator.isNull(selectedVocabularies) || selectedVocabularies.isEmpty()) {
 		}
 	}
 }
-
-
 
 long[] selectedVocabulariesArray = StringUtil.split(selectedVocabularies, 0L);
 long[] facetedVocabulariesArray = StringUtil.split(facetedVocabularies, 0L);
@@ -182,7 +202,7 @@ for (AssetVocabulary vocabulary : vocabularies) {
 				<% 		
 				boolean checked = false;
 				if (!checkedAssetType.equals("false")){
-					checked =true;
+					checked = true;
 				}
 				%>
 				<aui:input type="checkbox" label="<%=LanguageUtil.get(request, "configuration.show-asset-type")%>" name="checkedAssetType" checked="<%=checked %>" />
@@ -198,6 +218,19 @@ for (AssetVocabulary vocabulary : vocabularies) {
 					rightBoxName="availableStructureIds"
 					rightList="<%= availableStructuresList %>"
 					rightTitle="available"
+				/>
+				
+				<label><strong><liferay-ui:message key="configuration.selected-structures-in-page" /></strong></label>
+				<aui:input name="selectedStructuresInPage" type="hidden" value="<%= selectedStructuresInPage %>" />
+				<liferay-ui:input-move-boxes
+					cssClass="autoHeight"
+					leftBoxName="currentStructureInPageIds"
+					leftList="<%= selectedStructuresInPageList %>"
+					leftTitle="configuration.shown-as-page"
+					leftReorder="true"
+					rightBoxName="availableStructureInPageIds"
+					rightList="<%= availableStructuresInPageList %>"
+					rightTitle="configuration.shown-as-content"
 				/>
    			</liferay-frontend:fieldset>
    		</liferay-frontend:fieldset-group>
@@ -233,6 +266,17 @@ for (AssetVocabulary vocabulary : vocabularies) {
 			}
 		}
 		$("#<portlet:namespace/>selectedStructures").val(selectedStructures);
+		
+		var currentStructureInPageIds = $("#<portlet:namespace />currentStructureInPageIds > option");
+		var selectedStructuresInPage = "";
+		for(var i = 0; i < currentStructureInPageIds.length; i++) {
+			if(selectedStructuresInPage == "") {
+				selectedStructuresInPage = currentStructureInPageIds[i].value;
+			} else {
+				selectedStructuresInPage = selectedStructuresInPage + "," + currentStructureInPageIds[i].value;
+			}
+		}
+		$("#<portlet:namespace/>selectedStructuresInPage").val(selectedStructuresInPage);
 		
 		var currentVocabularyIds = $("#<portlet:namespace />currentVocabularyIds > option");
 		var selectedVocabularies = "";

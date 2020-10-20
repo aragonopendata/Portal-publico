@@ -23,7 +23,9 @@ public class HitAdapter {
 	private String assetEntryId;
 	private String target;
 	private List<String> categories;
-	private String className;
+	private String className; 
+	private String contentType;
+	private List<String> documentType;
 	
 	public HitAdapter(String title, Date date, String url, long assetEntryId, String target, List<String> categories, String className) {
 		this.title = title;
@@ -71,6 +73,22 @@ public class HitAdapter {
 	
 	public void setClassName(String className) {
 		this.className = className;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public List <String> getDocumentType() {
+		return documentType;
+	}
+
+	public void setDocumentType(List <String> documentType) {
+		this.documentType = documentType;
 	}
 	
 }

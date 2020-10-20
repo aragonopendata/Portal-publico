@@ -1,0 +1,18 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.clay"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.string"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.xml"
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "jstl", name: "jstl"
+	compileOnly group: "org.osgi", name: "osgi.cmpn"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.service"
+	compileOnly group: "com.liferay", name:"com.liferay.dynamic.data.mapping.api"
+	compileOnly group: "com.liferay", name:"com.liferay.dynamic.data.lists.api"
+	compileOnly project(':modules:aragon-utilities')
+	compileOnly project(':modules:freemarker-utilities')
+}

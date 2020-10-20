@@ -1,11 +1,3 @@
-<!--
-Template Name: Listado de enlaces - Temas
-Template Description: Listado de temas
-Template Key: LISTADO_ENLACES_TEMAS
-Structure Key: LISTADO_ENLACES
-Cacheable: true
-Small Image: false
--->
 <h2 id="temasTitle" class="oculto">Temas</h2>
 <section role="region" aria-labelledby="temasTitle">
 	<div class="fast-access-module">

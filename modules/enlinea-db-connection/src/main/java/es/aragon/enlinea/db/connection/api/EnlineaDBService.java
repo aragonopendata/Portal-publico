@@ -1,6 +1,7 @@
 package es.aragon.enlinea.db.connection.api;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,4 +21,6 @@ public interface EnlineaDBService {
 	public Procedure getProcedure(HttpServletRequest httpRequest, String friendlyURL);
 	public List<Procedure> getProceduresByTopic(HttpServletRequest httpRequest, long topicCategoryId, int size);
 	public List<Procedure> getRelatedProcedures(HttpServletRequest httpRequest, long procedureId, String keywords);
+	public Map<Procedure, String> getProcedureReport();
+	
 }
